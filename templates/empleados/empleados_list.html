@@ -1,0 +1,97 @@
+<!-- 
+name: empleados-list
+Presenta un listado de todos los empleados de Bienestar Universitario
+!-->
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} Bienestar Universitario {%endblock%}
+{% block paneltitle %} Listado del personal {% endblock %}
+
+{% block panelcontent%}
+   <div class="table-responsive">
+       <a href="{% url 'empleados-new' %} " class="btn btn-success" style="float: right"><span class="glyphicon glyphicon-plus"></span> Nuevo</a>
+       <br />
+	   <h3 style="text-align:center">Personal de Bienestar Universitario</h3>
+	   {% if empleados %}    
+	   {% for i in datoCargo %}
+	       {% if i.0 == 'D' %}
+		       <h4 id="subtitulo">Doctor</h4>
+		   {% elif i.0 == 'E' %}
+		       <h4 id="subtitulo">Enfermera</h4>
+		   {% elif i.0 == 'A' %}
+		       <h4 id="subtitulo">Personal de Archivo</h4>
+		   {% elif i.0 == 'P' %}
+		       <h4 id="subtitulo">Personal Administrativo</h4>
+		   {% else %}
+		       <h4 id="subtitulo">Otro</h4>
+		   {% endif %}
+		   <table class="table table-hover" id="empleadoslist">
+             <tr class="success">
+               <th>Nombre</th>
+               <th>Apellido</th>
+               <th class="opciones">Ver</th>
+			   <th class="opciones">Modificar</th>
+             </tr>
+		   {% for empleado in empleados %}
+		      {% if i.0 == empleado.cargo %}
+			     <tr>
+                    <td>{{ empleado.nombrePrimero }}</td>
+                    <td>{{ empleado.apellidoPrimero }}</td>
+					<td class="opciones">
+                     <a href="{% url 'empleados-view' pk=empleado.codigoEmpleado %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-th-large"></span></a>
+				    </td>
+					<td class="opciones">
+                     <a href="{% url 'empleados-update' pk=empleado.codigoEmpleado %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span></a>
+				    </td>
+                 </tr>
+			  {% endif %}
+		   {% endfor %}	
+		     </table>
+	   {% endfor %}
+	   {% else %}
+		<h4 id="vacio1">NO HAY PERSONAL REGISTRADO</h4>
+	   {% endif %}
+	   <hr />
+	   <hr />
+	   <h3 style="text-align:center">Medicos de Bienestar Universitario</h3>
+	   {% if doctores %} 
+	   {% for i in datoEspecialidad %}
+	       <h4 id="subtitulo">Especialidad: {{ i.1 }}</h4>
+		   <table class="table table-hover" id="doctoreslist">
+             <tr class="success">
+               <th>Nombre</th>
+               <th>Apellido</th>
+               <th class="opciones">Ver</th>
+			   <th class="opciones">Mod.Empleado*</th>
+			   <th class="opciones">Mod.Doctor*</th>
+             </tr>
+			{% for doctor in doctores %}
+		      {% if i.0 == doctor.especialidad_id %}
+				<tr>
+                 <td>{{ doctor.codigoEmpleado.nombrePrimero }}</td>
+                 <td>{{ doctor.codigoEmpleado.apellidoPrimero }}</td>
+                 <td class="opciones">
+                     <a href="{% url 'doctor-view' pk=doctor.codigoDoctor %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-th-large"></span></a>
+				 </td>
+				 <td class="opciones">
+                     <a href="{% url 'empleados-update' pk=doctor.codigoEmpleado_id %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span></a>
+				 </td>
+				 <td class="opciones">
+                     <a href="{% url 'doctor-update' pk=doctor.codigoDoctor %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span></a>
+				 </td>
+                </tr>
+			  {% endif %}
+			{% endfor %}
+			</table>
+	   {% endfor %}
+	   {% else %}
+		<h4 id="vacio1">NO HAY MEDICOS REGISTRADOS</h4>
+	   {% endif %}
+	   <div style="float: right; color:red;">
+		 <ul>
+			<li> Mod.Empleado*: Para modificar los datos del empleado </li>
+			<li> Mod.Doctor*: Para modificar los datos del Doctor</li>
+		  </ul>
+		</div>
+   </div>
+{% endblock %}

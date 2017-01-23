@@ -1,0 +1,211 @@
+{% extends "layouts/beta.html" %}
+
+{% block content %}
+<form action="" method="post">
+    {% csrf_token %}
+    
+    {{ datospersonalesform.non_field_errors }}
+    {{ datospersonalesform.errors }}
+    
+    {{ signosvitalesform.non_field_errors }}
+    {{ signosvitalesform.errors }}
+    
+    <div class="container">
+        <h1 class="page-header text-center">Datos Personales<small>  <em>en proceso...</em></small></h1>
+    </div>
+    <div class="container">
+        <div class="panel panel-info">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            {{ datospersonalesform.num_expediente.label_tag }}
+                            <input class="form-control" id="id_num_expediente" name="num_expediente" type="text" value="{{ primero_en_cola.num_expediente }}">
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            {{ datospersonalesform.nombre_paciente.label_tag }}
+                            <input class="form-control" id="id_nombre_paciente" name="nombre_paciente" type="text" value="{{ primero_en_cola.nombre_paciente }}">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            {{ datospersonalesform.fecha_nacimiento_paciente.label_tag }}
+                            {{ datospersonalesform.fecha_nacimiento_paciente }}
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            {{ datospersonalesform.sexo_paciente.label_tag }}
+                            {{ datospersonalesform.sexo_paciente }}
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            {{ datospersonalesform.edad_paciente.label_tag }}
+                            {{ datospersonalesform.edad_paciente }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            {{ datospersonalesform.domicilio_paciente.label_tag }}
+                            {{ datospersonalesform.domicilio_paciente }}
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            {{ datospersonalesform.telefono_paciente.label_tag }}
+                            {{ datospersonalesform.telefono_paciente }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center">
+                    <button type="submit" class="btn btn-success">Enviar a Consulta General</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="panel panel-info">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {{ signosvitalesform.presion_arterial_paciente.label_tag }}
+                                    <div class="input-group">
+                                        {{ signosvitalesform.presion_arterial_paciente }}
+                                        <span class="input-group-addon" id="id_presion_arterial_paciente_addon">mmHg</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {{ signosvitalesform.frecuencia_cardiaca_paciente.label_tag }}
+                                    <div class="input-group">
+                                        {{ signosvitalesform.frecuencia_cardiaca_paciente }}
+                                        <span class="input-group-addon" id="id_frecuencia_cardiaca_paciente_addon">lat/min</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {{ signosvitalesform.frecuencia_respiratoria_paciente.label_tag }}
+                                    <div class="input-group">
+                                        {{ signosvitalesform.frecuencia_respiratoria_paciente }}
+                                        <span class="input-group-addon" id="id_frecuencia_respiratoria_paciente_addon">resp/min</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {{ signosvitalesform.temperatura_paciente.label_tag }}
+                                    <div class="input-group">
+                                        {{ signosvitalesform.temperatura_paciente }}
+                                        <span class="input-group-addon" id="id_temperatura_paciente_addon">°C</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {{ signosvitalesform.peso_paciente.label_tag }}
+                                    <div class="input-group">
+                                        {{ signosvitalesform.peso_paciente }}
+                                        <span class="input-group-addon" id="id_temperatura_paciente_addon">lb</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {{ signosvitalesform.talla_paciente.label_tag }}
+                                    <div class="input-group">
+                                        {{ signosvitalesform.talla_paciente }}
+                                        <span class="input-group-addon" id="id_temperatura_paciente_addon">m</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ signosvitalesform.prioridad_paciente.label_tag }}
+                            {{ signosvitalesform.prioridad_paciente }}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ signosvitalesform.num_doctor.label_tag }}
+                            {{ signosvitalesform.num_doctor }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h2 class="page-header text-center">Signos Vitales<small>  <em>pacientes pendientes...</em></small></h2>
+                <div class="panel panel-info">
+                    <div class="panel-body">
+                        {% if not pacientes_en_espera %}
+                            <div class="alert alert-success" role="alert">
+                                <p class="text-center">
+                                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                    <strong><em>Sin pacientes en espera por el momento...</em></strong>
+                                </p>
+                            </div>
+                        {% endif %}
+                        {% for paciente in pacientes_en_espera %}
+                            <div class="alert alert-info" role="alert">
+                                <p class="text-center">
+                                    <strong>Expediente: </strong>{{ paciente.num_expediente }}
+                                    <strong>Nombre: </strong>{{ paciente.nombre_paciente }}
+                                </p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h2 class="page-header text-center">Consulta General<small>  <em>pacientes pendientes...</em></small></h2>
+                <div class="panel panel-info">
+                    <div class="panel-body">
+                        {% if not cola_consulta_general %}
+                            <div class="alert alert-success" role="alert">
+                                <p class="text-center">
+                                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                    <strong><em>Sin pacientes en espera por el momento...</em></strong>
+                                </p>
+                            </div>
+                        {% endif %}
+                        {% for paciente in cola_consulta_general %}
+                            <div class="alert alert-info" role="alert">
+                                <p class="text-center">
+                                    <strong>Expediente: </strong>{{ paciente.num_expediente }}
+                                    <strong>Doctor: </strong>{{ paciente.num_doctor }}
+                                    <strong>Prioridad: </strong>{{ paciente.prioridad_paciente }}
+                                </p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}

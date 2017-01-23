@@ -1,0 +1,43 @@
+<!-- 
+name: datospersonales-eliminadoslist
+Presenta un listado de los expedientes eliminados/pasivos
+!-->
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} Archivo de Expedientes Pasivos {%endblock%}
+{% block paneltitle %} Pacientes de Bienestar Universitario {% endblock %}
+
+{% block panelcontent%}
+   {% if datoFacul %} 
+	{% for i in datoFacult %}
+	   <h4 id="subtitulo">{{ i.1 }}</h4>
+		<table class="table table-hover" id="pacienteInactivlist">
+				<tr class="success">
+					<th>codigo</th>
+					<th>Nombre</th>
+					<th>Apellido</th>
+					<th class="opciones">Ver</th>
+					<th class="opciones">Restaurar</th>
+				</tr>
+		   {% for paciente in personalpaciente %}
+		       {% if i.0 == paciente.facultadE_id %}
+				<tr>
+					<td>{{ paciente.codigoPaciente}}</td>
+					<td>{{ paciente.nombrePrimero}}</td>
+					<td>{{ paciente.apellidoPrimero}}</td>
+					<td class="opciones">
+					  <a href="{% url 'datospersonales-view' pk=paciente.codigoPaciente %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-th-large"></span></a>
+					</td>
+					<td class="opciones">
+					  <a href="{% url 'datospersonales-restaurar' pk=paciente.codigoPaciente %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-repeat"></span></a>
+					</td>
+				 </tr>
+			   {% endif %}
+		   {% endfor %}
+			</table>
+	{% endfor %}
+  {% else %}
+    <h3 id="vacio1">NO ARCHIVOS CON ESTADO INACTIVO</h3>
+  {% endif %}
+	<a href="{% url 'datospersonales-list' %}" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Volver a pacientes activos</a>
+{% endblock %}

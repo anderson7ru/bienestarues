@@ -1,0 +1,82 @@
+{% extends "layouts/beta.html" %}
+{% block content %}
+<form id="reporte_enfermeria_Form" action="" method="post">{% csrf_token %}
+<div class="container">
+    <div class="page-header">
+        <h1 class="text-center">Informe de Consultas Generales de Pacientes Clasificados Por Categoria</h1>
+    </div>
+    <div class="row">
+        <div class="col-md-offset-1 col-md-3" style="padding-top: 7px;">
+                <strong>Fecha de Inicio</strong>
+                <input type="date" name="fechaInicio" id="id_fechaInicio" class="form-control" value="{{ fechaInicio }}">
+        </div>
+        <div class="col-md-offset-1 col-md-3" style="padding-top: 7px;">
+                <strong>Fecha de Finalizacion</strong>
+                <input type="date" name="fechaFin" id="id_fechaFin" class="form-control" value="{{ fechaFin }}">
+        </div>
+        <div class="col-md-offset-1 col-md-3" style="padding-top: 27px;">
+                <button id="generar_reporte_enfermeria" type="submit" class="btn btn-success"><span class="glyphicon glyphicon glyphicon-stats"></span>&nbsp Generar Reporte</button>
+        </div>
+    </div>
+</div>
+<div class="container" style="padding-top: 7px;">
+    <div class="panel panel-info">
+        <div class="panel-body">
+            <div class="chartfix" id="piechart" style="width: 1100px; height: 600px;"></div>
+            <div class="col-md-offset-3 col-md-10" style="padding-top: 7px;">
+                		{% if consulta_list %}
+                		    <strong>Consultas Generales Segun Tipo de Paciente del {{fechaInicio}} al {{fechaFin}}</strong>
+				            <div class="row">
+				 	            <div class="col-md-3"><strong>Generar Archivo:</strong></div>
+				 	            <a href="{% url 'consultaTipoPacienteExcel-new' inicio=fechaInicio fin=fechaFin %}" class="btn btn-info" style="float: center"><span class="glyphicon glyphicon-list-alt"></span>&nbsp Excel</a>
+				            </div>
+		                {% else %}
+		                <strong><p>No hay registro para este rango de fechas</p></strong>
+		                {% endif %}
+           </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block googlecharts %}
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function () {
+    
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    
+    function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+            {% if consulta_list %}
+            ['Genero', 'Consultas'],
+                {% for consulta in consulta_list %}
+                     ['{{ consulta.0 }}', {{ consulta.1 }} ],
+                {% endfor %}
+            {% else %}
+                ['Sin Datos', 40]
+            {% endif %}
+        ]);
+
+        var options = {
+          title: 'Consulta General Por Tipo de Paciente',
+          is3D: true,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart.draw(data, options);
+    }
+    
+    $(window).resize(function(){
+        drawChart();
+    });
+});
+</script>
+{% endblock %}
+</form>

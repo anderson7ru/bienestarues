@@ -1,0 +1,98 @@
+{% extends "layouts/beta.html" %}
+
+{% block content %}
+<form action="" method="post">
+    {% csrf_token %}
+    
+    {{ datospersonalesform.non_field_errors }}
+    {{ datospersonalesform.errors }}
+
+    <div class="container">
+        <h1 class="page-header text-center">Datos Personales<small>  <em>en proceso...</em></small></h1>
+    </div>
+    <div class="container">
+        <div class="panel panel-info">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            {{ datospersonalesform.num_expediente.label_tag }}
+                            {{ datospersonalesform.num_expediente }}
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            {{ datospersonalesform.nombre_paciente.label_tag }}
+                            {{ datospersonalesform.nombre_paciente }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            {{ datospersonalesform.fecha_nacimiento_paciente.label_tag }}
+                            {{ datospersonalesform.fecha_nacimiento_paciente }}
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            {{ datospersonalesform.sexo_paciente.label_tag }}
+                            {{ datospersonalesform.sexo_paciente }}
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            {{ datospersonalesform.edad_paciente.label_tag }}
+                            {{ datospersonalesform.edad_paciente }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            {{ datospersonalesform.domicilio_paciente.label_tag }}
+                            {{ datospersonalesform.domicilio_paciente }}
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            {{ datospersonalesform.telefono_paciente.label_tag }}
+                            {{ datospersonalesform.telefono_paciente }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center">
+                    <button type="submit" class="btn btn-success">Enviar a Enfermer&iacute;a</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <h1 class="page-header text-center">Enfermer&iacute;a <small><em>en proceso...</em></small></h1>
+    </div>
+    <div class="container">
+        <div class="panel panel-info">
+            <div class="panel-body">
+                {% if not pacientes_en_espera %}
+                    <div class="alert alert-success" role="alert">
+                        <p class="text-center">
+                            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                            <strong><em>Sin pacientes en espera por el momento...</em></strong>
+                        </p>
+                    </div>
+                {% endif %}
+                {% for paciente in pacientes_en_espera %}
+                    <div class="alert alert-info" role="alert">
+                        <p class="text-center">
+                            <strong>No. de Expediente Cl&iacute;nico: </strong>{{ paciente.num_expediente }}
+                            <strong>Nombre: </strong>{{ paciente.nombre_paciente }}
+                            <strong>Ingreso: </strong>{{ paciente.created_at }}
+                        </p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}

@@ -1,0 +1,30 @@
+.navbar {
+    margin-bottom: 0px;
+}
+
+.carousel {
+    margin-bottom: 60px;
+}
+
+.footer {
+    margin-top: 60px;
+    color: #ffffff;
+    background-color: #009688;
+}
+
+.footer-wrapper {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.dropdown-menu {
+	background-color: #000;
+}
+
+.dropdown-header{
+	color:#BCDFE7;
+}
+
+.dropdown-menu > li > a {
+	color: #fff;
+}

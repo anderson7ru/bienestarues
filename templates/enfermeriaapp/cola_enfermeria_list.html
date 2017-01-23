@@ -1,0 +1,41 @@
+<!-- 
+name:cola_enfemeria-list
+Esta pagina presenta los pacientes en cola para toma de signos vitales
+!-->
+{% extends "layouts/master.html" %}
+
+{% block pageheader %}
+  Listado de Pacientes Para Toma de Signos Vitales
+{%endblock%}
+
+{% block paneltitle %}
+  Pacientes en Cola
+{% endblock %}
+
+{% block panelcontent%}
+   <div class="table-responsive">
+       <table class="table table-hover">
+           <tr class="success">
+
+               <th># Expediente</th>
+               <th>Nombre del Paciente</th>
+               <th>Hora de Ingreso</th>
+               <th>Enviar a Signos Vitales</th>
+               <th>Borrar de la Cola</th>
+           </tr>
+           {% for cola in cola %}
+             <tr>
+                 <td>{{ cola.idPaciente.codigoPaciente}}</td>
+                 <td>{{ cola.idPaciente.get_full_name}}</td>
+                 <td>{{ cola.hora}}</td>
+                 <td class="opciones">
+						<a href="{% url 'signosvitales-new' pk=cola.idPaciente.codigoPaciente %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-share-alt"></span></a>
+				 </td>
+				 <td class="opciones">
+						<a href="{% url 'cola_enfermeria-delete' pk=cola.idPaciente.codigoPaciente %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-trash"></span></a>
+				 </td>
+             </tr>
+           {% endfor %}
+       </table>
+   </div>
+{% endblock %}

@@ -1,0 +1,63 @@
+<!-- 
+name: registroavance-view
+Presenta el Registro de Avance de un proceso terapeutico determinado
+!-->
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} Registro de Avances Terapeuticos {%endblock%}
+{% block paneltitle %} <strong>Expediente: </strong>{{ paciente.codigoPaciente }} {%endblock%}
+
+{% block panelcontent %}
+<h3>Comentarios</h3>
+<br />
+<div class="row">
+    <div class="col-md-4">
+        Paciente:
+        <span class="subrayado">
+            {{paciente.nombrePrimero}} {{paciente.apellidoPrimero}}
+        </span>
+    </div>
+    <div class="col-md-4">
+        Psicologo:
+        <span class="subrayado"><!--Se requiere de la gestion de usuarios para jalar el nombre del psicologo-->
+            {{usuario.first_name}} {{usuario.last_name}}
+        </span>
+    </div>
+    <div class="col-md-4">
+        Proceso Terapeutico:
+        <span class="subrayado">
+            {{proc.codProcesoTerapeutico}}
+        </span>
+    </div>
+</div>
+<br />
+<div class="table-responsive">
+    <table border=1 class="table table-hover" border=1 style="border-collapse:collapse;">
+        <tr class="success">
+           <th style="text-align:center;">Fecha</th>
+           <th style="text-align:center;">Paciente</th>
+           <th style="text-align:center;">Psicologo</th>
+           <th style="text-align:center;">Modificar</th>
+        </tr>
+        {% for item in reg %}
+        <tr>
+            <td style="text-align:justify;">{{item.fechaRegistro|date:"SHORT_DATE_FORMAT"}}</td>
+            <td style="text-align:justify;">{{item.paciente}}</td>
+            <td style="text-align:justify;">{{item.psicologo}}</td>
+            <td style="text-align:center;"><a href="{% url 'registroavance-update' proceso=item.codProcesoTerapeutico_id %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-th-large"></span></a></td>
+        </tr>
+        {% empty %}
+        <tr style="text-align:center;">
+            <td colspan="4" style="font-size:16px;"><strong>No Hay Datos que mostrar....</strong></td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+<div class="col-md-offset-4 col-md-4 operaciones">
+    <a href="{% url 'psicologia-list' %}" class="btn btn-primary"><span class="glyphicon glyphicon-arrow-left"></span> Volver a la lista de Pacientes</a>
+    {% if reg %}
+    <a href="{% url 'registroavancepdf-create' proceso=proc.codProcesoTerapeutico %}" class="btn btn-info" target="blank"><span class="glyphicon glyphicon-print"></span> Generar Archivo PDF</a>
+    {%endif%}
+</div>
+
+{% endblock %}

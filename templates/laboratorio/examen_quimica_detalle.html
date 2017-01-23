@@ -1,0 +1,206 @@
+{% extends "layouts/master.html" %}
+
+{% block pageheader %}
+	EXAMEN DE QUIMICA SANGUINEA 
+{%endblock%}
+{% block paneltitle %}
+  Resultados del Examen de Quimica Sanguinea
+{% endblock %}
+{% block panelcontent %}
+    <div class="panel panel-info">
+    	<div class="panel-body">
+    	<h4><strong>RESULTADOS REGISTRADOS</strong></h4>
+    			<div class="row">
+				 	<div class="col-md-2"><strong>Paciente:</strong></div>
+				 	<div class="col-md-4">{{ examen_quimica.paciente.get_full_name}}</div>
+				</div>
+				<div class="row">
+					<div class="col-md-2"><strong>Edad:</strong></div>
+					<div class="col-md-4">{{ examen_quimica.edad}} Años</div>
+					<br>
+				</div>
+				<div class="row">
+					<br>
+					<div class="col-md-3"></div>
+					<div class="col-md-2"></div>
+					<div class="col-md-3"><strong><u>VALOR DE AJUSTE</u></strong></div>
+					<div class="col-md-4"><strong><u>RANGOS DE REFERENCIA</u></strong></div>
+				</div>
+				<br>
+		{% if examen_quimica.glucosa or examen_quimica.glucosaAjustada or examen_quimica.glucosaPospandrial or examen_quimica.pospandrialAjustada or examen_quimica.colesterol or examen_quimica.colesterolAjustada or examen_quimica.acidoUrico or examen_quimica.uricoAjustada or examen_quimica.creatinina or examen_quimica.creatininaAjustada or examen_quimica.hdl or examen_quimica.hdlAjustada or examen_quimica.ldl or examen_quimica.ldlAjustada or examen_quimica.tgo or examen_quimica.tgoAjustada or examen_quimica.tgp or examen_quimica.tgpAjustada or examen_quimica.bilirrubinaTotal or examen_quimica.bTotalAjustada or examen_quimica.bilirrubinaDirecta or examen_quimica.bDirectaAjustada or examen_quimica.bilirrubinaIndirecta or examen_quimica.bIndirectaAjustada or examen_quimica.tiempoProtrombina or examen_quimica.protrombinaAjustada or examen_quimica.tiempoTromboplastina or examen_quimica.tromboplastinaAjustada or examen_quimica.tiempoSangramiento or examen_quimica.sangramientoAjustada or examen_quimica.tiempoCoagulacion or examen_quimica.coagulacionAjustada or examen_quimica.eritrosedimentacion or examen_quimica.eritrosedimentacionAjustada  %}
+			{% if examen_quimica.glucosa or examen_quimica.glucosaAjustada %}
+				<div class="row">
+				  <div class="col-md-3"><strong>Glucosa:</strong></div>
+				  <div class="col-md-2">{{ examen_quimica.glucosa }} mg/dl</div>
+				  <div class="col-md-3">{{ examen_quimica.glucosaAjustada }}</div>
+				  <div class="col-md-3"><strong>VR 75-115 mg/dl</strong></div>
+				</div>
+			{% endif %}
+			{% if examen_quimica.glucosaPospandrial or examen_quimica.pospandrialAjustada %}
+				<div class="row">
+				  <div class="col-md-3"><strong>Glucosa Pospandrial:</strong></div>
+				  <div class="col-md-2">{{ examen_quimica.glucosaPospandrial }} mg/dl</div>
+				  <div class="col-md-3">{{ examen_quimica.pospandrialAjustada }}</div>
+				  <div class="col-md-3"><strong>VR Menor de 140 mg/dl</strong></div>
+				</div>
+			{% endif %}
+			{% if examen_quimica.colesterol or examen_quimica.colesterolAjustada %}
+				<div class="row">
+				  <div class="col-md-3"><strong>Colesterol:</strong></div>
+				  <div class="col-md-2">{{ examen_quimica.colesterol }} mg/dl</div>
+				  <div class="col-md-3">{{ examen_quimica.colesterolAjustada }}</div>
+				  <div class="col-md-3"><strong>VR Hasta 200 mg/dl</strong></div>
+				</div>
+			{% endif %}
+			{% if examen_quimica.trigliceridos or examen_quimica.trigliceridosAjustada %}
+				<div class="row">
+				  <div class="col-md-3"><strong>Triglicéridos:</strong></div>
+				  <div class="col-md-2">{{ examen_quimica.trigliceridos }} mg/dl</div>
+				  <div class="col-md-3">{{ examen_quimica.trigliceridosAjustada }}</div>
+				  <div class="col-md-3"><strong>VR Hasta 150 mg/dl</strong></div>
+				</div>
+			{% endif %}
+			{% if examen_quimica.acidoUrico or examen_quimica.uricoAjustada %}
+				<div class="row">
+				  <div class="col-md-3"><strong>Acido Úrico:</strong></div>
+				  <div class="col-md-2">{{ examen_quimica.acidoUrico }} mg/dl</div>
+				  <div class="col-md-3">{{ examen_quimica.uricoAjustada }}</div>
+				  <div class="col-md-3"><strong>VR 2.5-6.8 mg/dl; H 3.6-7.7 mg/dl</strong></div>
+				</div>
+			{% endif %}
+			{% if examen_quimica.creatinina or examen_quimica.creatininaAjustada %}
+				<div class="row">
+				  <div class="col-md-3"><strong>Creatinina:</strong></div>
+				  <div class="col-md-2">{{ examen_quimica.creatinina }} mg/dl</div>
+				  <div class="col-md-3">{{ examen_quimica.creatininaAjustada }}</div>
+				  <div class="col-md-3"><strong>VR M 0.6-1.2 mg/dl; H 0.7-1.4 mg/dl</strong></div>
+				</div>
+			{% endif %}
+			{% if examen_quimica.hdl or examen_quimica.hdlAjustada %}
+				<div class="row">
+				  <div class="col-md-3"><strong>HDL:</strong></div>
+				  <div class="col-md-2">{{ examen_quimica.hdl }} mg/dl</div>
+				  <div class="col-md-3">{{ examen_quimica.hdlAjustada }}</div>
+				  <div class="col-md-3"><strong>VR 30-80 mg/dl</strong></div>
+				</div>
+			{% endif %}
+			{% if examen_quimica.ldl or examen_quimica.ldlAjustada %}
+				<div class="row">
+				  <div class="col-md-3"><strong>LDL:</strong></div>
+				  <div class="col-md-2">{{ examen_quimica.ldl }} mg/dl</div>
+				  <div class="col-md-3">{{ examen_quimica.ldlAjustada }}</div>
+				  <div class="col-md-3"><strong> < 130 mg/dl</strong></div>
+				</div>
+			{% endif %}
+			{% if examen_quimica.tgo or examen_quimica.tgoAjustada %}
+				<div class="row">
+				  <div class="col-md-3"><strong>TGO:</strong></div>
+				  <div class="col-md-2">{{ examen_quimica.tgo }} U/L</div>
+				  <div class="col-md-3">{{ examen_quimica.tgoAjustada }}</div>
+				  <div class="col-md-3"><strong>M-9-25 U/L; H 10-40 U/L</strong></div>
+				</div>
+			{% endif %}
+			{% if examen_quimica.tgp or examen_quimica.tgpAjustada %}
+				<div class="row">
+				  <div class="col-md-3"><strong>TGP:</strong></div>
+				  <div class="col-md-2">{{ examen_quimica.tgp }} U/L</div>
+				  <div class="col-md-3">{{ examen_quimica.tgpAjustada }}</div>
+				  <div class="col-md-3"><strong>M-7-30 U/L; H 10-55 U/L</strong></div>
+				</div>
+			{% endif %}
+			{% if examen_quimica.bilirrubinaTotal or examen_quimica.bTotalAjustada %}
+				<div class="row">
+				  <div class="col-md-3"><strong>Bilirrubina Total:</strong></div>
+				  <div class="col-md-2">{{ examen_quimica.bilirrubinaTotal }} mg/dl</div>
+				  <div class="col-md-3">{{ examen_quimica.bTotalAjustada }}</div>
+				  <div class="col-md-3"><strong>0-1 - 1.25 mg/dl</strong></div>
+				</div>
+			{% endif %}
+			{% if examen_quimica.bilirrubinaDirecta or examen_quimica.bDirectaAjustada %}
+				<div class="row">
+				  <div class="col-md-3"><strong>Bilirrubina Directa:</strong></div>
+				  <div class="col-md-2">{{ examen_quimica.bilirrubinaDirecta }} mg/dl</div>
+				  <div class="col-md-3">{{ examen_quimica.bDirectaAjustada }}</div>
+				  <div class="col-md-3"><strong>0.0-0.25 mg/dl</strong></div>
+				</div>
+			{% endif %}
+			{% if examen_quimica.bilirrubinaIndirecta or examen_quimica.bIndirectaAjustada %}
+				<div class="row">
+				  <div class="col-md-3"><strong>Bilirrubina Indirecta:</strong></div>
+				  <div class="col-md-2">{{ examen_quimica.bilirrubinaIndirecta }} mg/dl</div>
+				  <div class="col-md-3">{{ examen_quimica.bIndirectaAjustada }}</div>
+				  <div class="col-md-3"><strong>0.1-1.0 mg/dl</strong></div>
+				</div>
+			{% endif %}
+			{% if examen_quimica.tiempoProtrombina or examen_quimica.protrombinaAjustada %}
+				<div class="row">
+				  <div class="col-md-3"><strong>Tiempo de Protrombina:</strong></div>
+				  <div class="col-md-2">{{ examen_quimica.tiempoProtrombina }} seg</div>
+				  <div class="col-md-3">{{ examen_quimica.protrombinaAjustada }}</div>
+				  <div class="col-md-3"><strong>9.9 - 11.8 seg</strong></div>
+				</div>
+			{% endif %}
+			{% if examen_quimica.tiempoTromboplastina or examen_quimica.tromboplastinaAjustada %}
+				<div class="row">
+				  <div class="col-md-3"><strong>Tiempo de Tromboplastina:</strong></div>
+				  <div class="col-md-2">{{ examen_quimica.tiempoTromboplastina }} seg</div>
+				  <div class="col-md-3">{{ examen_quimica.tromboplastinaAjustada }}</div>
+				  <div class="col-md-3"><strong>25 - 35 seg</strong></div>
+				</div>
+			{% endif %}
+			{% if examen_quimica.tiempoSangramiento or examen_quimica.sangramientoAjustada %}
+				<div class="row">
+				  <div class="col-md-3"><strong>Tiempo de Sangramiento:</strong></div>
+				  <div class="col-md-2">{{ examen_quimica.tiempoSangramiento }} min</div>
+				  <div class="col-md-3">{{ examen_quimica.sangramientoAjustada }}</div>
+				  <div class="col-md-3"><strong>2-5 minutos</strong></div>
+				</div>
+			{% endif %}
+			{% if examen_quimica.tiempoCoagulacion or examen_quimica.coagulacionAjustada %}
+				<div class="row">
+				  <div class="col-md-3"><strong>Tiempo de Coagulación:</strong></div>
+				  <div class="col-md-2">{{ examen_quimica.tiempoCoagulacion }} min</div>
+				  <div class="col-md-3">{{ examen_quimica.coagulacionAjustada }}</div>
+				  <div class="col-md-3"><strong>5-10 minutos</strong></div>
+				</div>
+			{% endif %}
+			{% if examen_quimica.eritrosedimentacion or examen_quimica.eritrosedimentacionAjustada %}
+				<div class="row">
+				  <div class="col-md-3"><strong>Eritrosedimentacion:</strong></div>
+				  <div class="col-md-2">{{ examen_quimica.eritrosedimentacion }} Mm/h</div>
+				  <div class="col-md-3">{{ examen_quimica.eritrosedimentacionAjustada }}</div>
+				  <div class="col-md-3"><strong>VR M 0-15 mm/h; H 0-7 mm/h</strong></div>
+				</div>
+			{% endif %}
+		{% else %}
+			<p>No se registraron resultados para este examen</p>
+		{% endif %}
+		</div>
+	</div>
+	<div class="panel panel-info">
+		<div class="panel-body" > 
+		<h4><strong>RESULTADOS ESCANEADOS</strong></h4>
+		{% if examen_quimica.archivo %}
+			{% if examen_quimica.archivo %}
+				<div class="row">
+				 	<div class="col-md-2"><strong>Archivo Escaneado:</strong></div>
+				 	<div class="col-md-8">{{ examen_quimica.archivo }} <a href="{% url 'laboratorioapp.views.abrir_archivo_quimica' pk=examen_quimica.codExamen_Quimica %}" class="btn btn-info btn-md "><span class="glyphicon glyphicon-download-alt"></span>&nbspDescargar</a></div>
+				</div>
+				
+			{% endif %}
+		{% else %}
+			<p>No se escaneo archivo para este examen</p>
+		{% endif %}
+		</div>
+	</div>
+	<div style="clear:both; margin-left:10px; ">
+		<hr/>
+		<div class="row">
+		  <div class="col-md-7"><strong>Información Ingresada Por:</strong> {{ examen_quimica.nombreRecibido }}</div>
+		  <div class="col-md-5"><strong>Fecha:</strong> {{ examen_quimica.fechaIngreso|date:"SHORT_DATE_FORMAT" }}</div>
+		</div>
+	</div>
+	<div class="col-md-offset-10 col-md-10">
+        <a href="{% url 'laboratorioapp.views.examen_quimica_list' %}" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span>&nbspVolver a la lista</a>
+    </div>
+{%endblock%}

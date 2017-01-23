@@ -1,0 +1,67 @@
+{% extends "layouts/master.html" %}
+
+{% block pageheader %}
+	EXAMEN ESPECIAL 
+{%endblock%}
+{% block paneltitle %}
+  Resultados de Examen Especial
+{% endblock %}
+{% block panelcontent %}
+    <div class="panel panel-info">
+    	<div class="panel-body">
+    	<h4><strong>RESULTADOS REGISTRADOS</strong></h4>
+    			<div class="row">
+				 	<div class="col-md-2"><strong>Paciente:</strong></div>
+				 	<div class="col-md-4">{{ examen_especiales.paciente.get_full_name}}</div>
+				</div>
+				<div class="row">
+					<div class="col-md-2"><strong>Edad:</strong></div>
+					<div class="col-md-4">{{ examen_especiales.edad}} Años</div>
+					<br>
+					<br>
+				</div>
+		{% if examen_especiales.tipoExamen or examen_especiales.tipoExamen %}
+			{% if examen_especiales.tipoExamen %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Tipo de Examen:</strong></div>
+				  <div class="col-md-6">{{ examen_especiales.tipoExamen }} </div>
+				</div>
+			{% endif %}
+			{% if examen_especiales.resultado %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Resultado:</strong></div>
+				  <div class="col-md-6">{{ examen_especiales.resultado }} </div>
+				</div>
+			{% endif %}
+		{% else %}
+			<p>No se registraron resultados para este examen</p>
+		{% endif %}
+		</div>
+	</div>
+	<div class="panel panel-info">
+		<div class="panel-body" >
+		<h4><strong>RESULTADOS ESCANEADOS</strong></h4>
+		{% if examen_especiales.archivo %}
+			{% if examen_especiales.archivo %}
+				<div class="row">
+				 	<div class="col-md-2"><strong>Archivo Escaneado:</strong></div>
+				 	<div class="col-md-8">{{ examen_especiales.archivo }} <a href="{% url 'laboratorioapp.views.abrir_archivo_especiales' pk=examen_especiales.codExamen_Especiales %}" class="btn btn-info btn-md "><span class="glyphicon glyphicon-download-alt"></span>&nbspDescargar</a></div>
+				</div>
+				
+			{% endif %}
+		{% else %}
+			<p>No se escaneo archivo para este examen</p>
+		{% endif %}
+		</div>
+	</div>
+	<div style="clear:both; margin-left:10px; ">
+		<hr/>
+		<div class="row">
+		  <div class="col-md-7"><strong>Información Ingresada Por:</strong> {{ examen_especiales.nombreRecibido }}</div>
+		  <div class="col-md-5"><strong>Fecha:</strong> {{ examen_especiales.fechaIngreso|date:"SHORT_DATE_FORMAT" }}</div>
+		</div>
+	</div>
+	<div class="col-md-offset-10 col-md-10">
+        <a href="{% url 'laboratorioapp.views.examen_especiales_list' %}" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span>&nbspVolver a la lista</a>
+    </div>
+{%endblock%}

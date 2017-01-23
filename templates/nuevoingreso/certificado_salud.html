@@ -1,0 +1,184 @@
+{% extends "layouts/master.html" %}
+
+{% block pageheader %}
+	CERTIFICACIÓN DE SALUD 
+{%endblock%}
+{% block paneltitle %}
+  Certificado Médico
+{% endblock %}
+{% block panelcontent %}
+<form id="nvi_certificadoSaludForm" action="" method="post">{% csrf_token %}
+    <div class="ayuda" style="text-align:right">
+			<p>(*) campos requeridos </p>
+	</div>
+    <div class="panel panel-info">
+	    <div class="panel-body" style="padding-left: 50px; padding-top: 0px;">
+	    	<div class="row">
+			  <div class="col-md-12">Por este medio el infrascrito médico Dr.(a):<strong> {{ paciente.nombreRecibido }}</strong>, hace constar
+			  que ha realizado examen general y tenido a la vista los examenes de laboratorio del Sr.(a)(ita):<strong> {{ paciente.get_full_name }}</strong> 
+			  y en los siguientes aspectos detallados a continuación se declara que: </div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col-md-6">I- ¿Ha padecido de enfermedades infectocontagiosas en los ultimos dos años?
+				<div class="form-group has-feedback">
+				<label class="radio-inline"><input type="radio" name="enfermedadIC" value="Si"><strong>Si</strong></label>
+				<label class="radio-inline"><input type="radio" name="enfermedadIC" value="No"><strong>No</strong></label>
+				</div>
+				</div>
+				
+				<div class="col-md-6">IV- ¿Ha encontrado evidencias de alguna enfermedad en el examen físico?
+				<div class="form-group has-feedback">
+				<label class="radio-inline"><input type="radio" name="enfermedadEF" value="Si"><strong>Si</strong></label>
+				<label class="radio-inline"><input type="radio" name="enfermedadEF" value="No"><strong>No</strong></label>
+				</div>
+				</div>
+			</div>
+			<br>	
+			<div class="row">
+				<div class="col-md-6">&nbsp&nbsp&nbsp&nbspSi ha padecido, especifique cuáles:</div>
+				<div class="col-md-6">&nbsp&nbsp&nbsp&nbspSi ha padecido, especifique cuáles:</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+                	<table id="id_enfermedadIC">
+						<tr>
+							<td style="width:600px"><textarea class="form-control" rows="5" name="enfermedadICDetalle" ></textarea></td>
+						</tr>
+					</table>
+             	</div>
+             	<div class="col-md-6">
+                	<table id="id_enfermedadEF">
+						<tr>
+							<td style="width:600px"><textarea class="form-control" rows="5" name="enfermedadEFDetalle" ></textarea></td>
+						</tr>
+					</table>
+             	</div>   
+			</div>
+			<br>
+			<div class="row">
+				<div class="col-md-6">II- ¿Ha padecido de enfermedades del Sistema Nervioso y Neuropsiquiátricas en los 2 últimos años?
+				<br>
+				<div class="form-group has-feedback">
+				<label class="radio-inline"><input type="radio" name="enfermedadSN" value="Si"><strong>Si</strong></label>
+				<label class="radio-inline"><input type="radio" name="enfermedadSN" value="No"><strong>No</strong></label>
+				</div>
+				<br>
+				<br>
+				<div class="col-md-8">Si ha padecido, especifique cuáles:</div>
+				<br>
+					<table id="id_enfermedadSN">
+						<tr>
+							<td style="width:600px"><textarea class="form-control" rows="5" name="enfermedadSNDetalle" ></textarea></td>
+						</tr>
+					</table>
+				</div>
+				<div class="col-md-6">V- ¿Cuál es el resultado de los exámenes de gabinete y laboratorio?
+							<div class="col-md-4" style="padding-top: 15px;">
+			    				<label for="id_resultadoHIV"><strong>H.I.V:</strong></label>
+			    				<span class="ayuda"> (*) </span>
+						    </div>
+						    <div class="form-group has-feedback">
+						    <div class="col-md-8" style="padding-top: 15px;">
+						    	<input type="text" class="form-control" id="id_resultadoHIV" name="resultadoHIV" />
+						    </div>
+						    </div>
+						    <div class="col-md-4" style="padding-top: 15px;">
+			    				<label for="id_resultadoHECES"><strong>HECES:</strong></label>
+			    				<span class="ayuda"> (*) </span>
+						    </div>
+						    <div class="form-group has-feedback">
+						    <div class="col-md-8" style="padding-top: 15px;">
+						    	<input type="text" class="form-control" id="id_resultadoHECES" name="resultadoHECES" />
+						    </div>
+						    </div>
+						    <div class="col-md-4" style="padding-top: 15px;">
+			    				<label for="id_resultadoVDRL"><strong>VDRL:</strong></label>
+			    				<span class="ayuda"> (*) </span>
+						    </div>
+						    <div class="form-group has-feedback">
+						    <div class="col-md-8" style="padding-top: 15px;">
+						    	<input type="text" class="form-control" id="id_resultadoVDRL" name="resultadoVDRL" />
+						    </div>
+						    </div>
+						    <div class="col-md-4" style="padding-top: 15px;">
+			    				<label for="id_resultadoHemograma"><strong>HEMOGRAMA:</strong></label>
+			    				<span class="ayuda"> (*) </span>
+						    </div>
+						    <div class="form-group has-feedback">
+						    <div class="col-md-8" style="padding-top: 15px;">
+						    	<input type="text" class="form-control" id="id_resultadoHemograma" name="resultadoHemograma" />
+						    </div>
+						    </div>
+						    <div class="col-md-4" style="padding-top: 15px;">
+			    				<label for="id_resultadoOrina"><strong>ORINA:</strong></label>
+			    				<span class="ayuda"> (*) </span>
+						    </div>
+						    <div class="form-group has-feedback">
+						    <div class="col-md-8" style="padding-top: 15px;">
+						    	<input type="text" class="form-control" id="id_resultadoOrina" name="resultadoOrina" />
+						    </div>
+						    </div>
+						    <div class="col-md-4" style="padding-top: 15px;">
+			    				<label for="id_resultadoRX"><strong>RX DE TORAX:</strong></label>
+			    				<span class="ayuda"> (*) </span>
+						    </div>
+						    <div class="form-group has-feedback">
+						    <div class="col-md-8" style="padding-top: 15px;">
+						    	<input type="text" class="form-control" id="id_resultadoRX" name="resultadoRX" />
+						    </div>
+						    </div>
+				</div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col-md-6">III- ¿Presenta impedimentos o defectos que le dificulten sus estudios?&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+				<div class="form-group has-feedback">
+				<label class="radio-inline"><input type="radio" name="presentaImpedimentos" value="Si"><strong>Si</strong></label>
+				<label class="radio-inline"><input type="radio" name="presentaImpedimentos" value="No"><strong>No</strong></label>
+				</div>
+				</div>
+				
+				<div class="col-md-6">VI- Por todo lo anterior, declaro al paciente, apto para seguir Estudios Superiores.
+				<div class="form-group has-feedback">
+				<label class="radio-inline"><input type="radio" name="aptoAprobado" value="Si"><strong>Si</strong></label>
+				<label class="radio-inline"><input type="radio" name="aptoAprobado" value="No"><strong>No</strong></label>
+				</div>
+				</div>
+			</div>
+			<br>	
+			<div class="row">
+				<div class="col-md-6">&nbsp&nbsp&nbsp&nbspSi los hay, especifique cuáles:</div>
+				<div class="col-md-6">&nbsp&nbsp&nbsp&nbspSi es no, especifique:</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+                	<table id="id_presentaImpedimentos">
+						<tr>
+							<td style="width:600px"><textarea class="form-control" rows="5" name="presentaImpedimentosDetalle" ></textarea></td>
+						</tr>
+					</table>
+             	</div>
+             	<div class="col-md-6">
+                	<table id="id_aptoAprobado">
+						<tr>
+							<td style="width:600px"><textarea class="form-control" rows="5" name="aptoAprobadoDetalle" ></textarea></td>
+						</tr>
+					</table>
+             	</div>   
+			</div>
+		</div>
+	</div>
+	<div style="clear:both; margin-left:10px; ">
+		<hr/>
+		<div class="row">
+		  <div class="col-md-7"><strong>Recibio:</strong> {{ paciente.nombreRecibido }}</div>
+		  <div class="col-md-5"><strong>Fecha:</strong> {{ paciente.fechaIngreso|date:"SHORT_DATE_FORMAT" }}</div>
+		</div>
+	</div>
+	<div class="col-md-offset-9 col-md-10">
+		<button id="save_certificadosalud" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
+        <a href="{% url 'nuevoingresoapp.views.Expediente_Provisional_list' %}" class="btn btn-primary" style="float: center"><span class="glyphicon glyphicon-list-alt"></span>Volver a la lista</a>
+    </div>
+</form>
+{%endblock%}

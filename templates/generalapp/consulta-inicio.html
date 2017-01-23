@@ -1,0 +1,469 @@
+{% extends "layouts/beta.html" %}
+
+{% block content %}
+
+<div class="container">
+    <div class="page-header">
+        <h1 class="text-center">Consulta General</h1>
+    </div>
+</div>
+
+<div class="container">
+    <div class="panel panel-info">
+        <div class="panel-heading text-center">Datos Personales del Paciente</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {{ dpform.expediente.label_tag }}
+                        {{ dpform.expediente }}
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="form-group">
+                        {{ dpform.nombre.label_tag }}
+                        {{ dpform.nombre }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {{ dpform.fecha_nacimiento.label_tag }}
+                        {{ dpform.fecha_nacimiento }}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {{ dpform.sexo.label_tag }}
+                        {{ dpform.sexo }}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {{ dpform.edad.label_tag }}
+                        <div class="input-group">
+                            {{ dpform.edad }}
+                            <span class="input-group-addon" id="id_edad_addon">Años</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="form-group">
+                        {{ dpform.domicilio.label_tag }}
+                        {{ dpform.domicilio }}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {{ dpform.telefono.label_tag }}
+                        {{ dpform.telefono }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <!-- consulta -->
+        <div class="col-md-4">
+            <div class="panel panel-info">
+                <div class="panel-heading text-center">Consulta</div>
+                <div class="panel-body">
+                    <!-- habilitamos solo cuando exista una consulta activa -->
+                    {% if capk %}
+                        <button class="btn btn-default btn-lg btn-block" type="button" disabled="disabled">Crear Consulta...</button>
+                        <a href="{% url 'consulta-editar' %}" class="btn btn-default btn-lg btn-block" role="button">Editar Consulta...</a>
+                    {% else %}
+                        <a href="{% url 'consulta-crear' %}" class="btn btn-default btn-lg btn-block" role="button">Crear Consulta...</a>
+                        <button class="btn btn-default btn-lg btn-block" type="button" disabled="disabled">Editar Consulta...</button>
+                    {% endif %}
+                    <a href="{% url 'consulta-todas' %}" class="btn btn-default btn-lg btn-block" role="button">Historial de Consultas...</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- receta -->
+        <div class="col-md-4">
+            <div class="panel panel-info">
+                <div class="panel-heading text-center">Receta</div>
+                <div class="panel-body">
+                    <!-- habilitamos solo cuando exista una consulta activa -->
+                    {% if capk %}
+                        <a href="{% url 'receta' %}" class="btn btn-default btn-lg btn-block" role="button">Gestionar Recetas...</a>
+                    {% else %}
+                        <button class="btn btn-default btn-lg btn-block" type="button" disabled="disabled">Gestionar Recetas...</button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+        <div class="col-md-4">
+            <div class="panel panel-info">
+                <div class="panel-heading text-center">Laboratorio</div>
+                <div class="panel-body">
+                    {% if capk %}
+                        <a href="{% url 'orden-laboratorio' %}" class="btn btn-default btn-lg btn-block" role="button">Gestionar &Oacute;rdenes...</a>
+                    {% else %}
+                        <button class="btn btn-default btn-lg btn-block" type="button" disabled="disabled">Gestionar &Oacute;rdenes...</button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- referencia interna -->
+        <div class="col-md-4">
+            <div class="panel panel-info">
+                <div class="panel-heading text-center">Referencia Interna</div>
+                <div class="panel-body">
+                    <!-- habilitamos solo cuando exista una consulta activa -->
+                    {% if capk %}
+                        <a href="{% url 'referencia-interna' %}" class="btn btn-default btn-lg btn-block" role="button">Gestionar Referencias...</a>
+                    {% else %}
+                        <button class="btn btn-default btn-lg btn-block" type="button" disabled="disabled">Gestionar Referencias...</button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- referencia externa -->
+        <div class="col-md-4">
+            <div class="panel panel-info">
+                <div class="panel-heading text-center">Referencia Externa</div>
+                <div class="panel-body">
+                    <!-- habilitamos solo cuando exista una consulta activa y signos vitales -->
+                    {% if capk and svform %}
+                        <a href="{% url 'referencia-externa' %}" class="btn btn-default btn-lg btn-block" role="button">Gestionar Referencias...</a>
+                    {% else %}
+                        <button class="btn btn-default btn-lg btn-block" type="button" disabled="disabled">Gestionar Referencias...</button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="panel panel-info">
+        <div class="panel-heading text-center">Signos Vitales del Paciente</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {{ svform.presion_arterial.label_tag }}
+                        <div class="input-group">
+                            {{ svform.presion_arterial }}
+                            <span class="input-group-addon" id="id_presion_arterial_addon">mmHg</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {{ svform.frecuencia_cardiaca.label_tag }}
+                        <div class="input-group">
+                            {{ svform.frecuencia_cardiaca }}
+                            <span class="input-group-addon" id="id_frecuencia_cardiaca_addon">lat/min</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {{ svform.frecuencia_respiratoria.label_tag }}
+                        <div class="input-group">
+                            {{ svform.frecuencia_respiratoria }}
+                            <span class="input-group-addon" id="id_frecuencia_respiratoria_addon">resp/min</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {{ svform.temperatura.label_tag }}
+                        <div class="input-group">
+                            {{ svform.temperatura }}
+                            <span class="input-group-addon" id="id_temperatura_addon">°C</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {{ svform.peso.label_tag }}
+                        <div class="input-group">
+                            {{ svform.peso }}
+                            <span class="input-group-addon" id="id_peso_addon">lb</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {{ svform.talla.label_tag }}
+                        <div class="input-group">
+                            {{ svform.talla }}
+                            <span class="input-group-addon" id="id_talla_addon">m</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {{ svform.imc.label_tag }}
+                        <div class="input-group">
+                            {{ svform.imc }}
+                            <span class="input-group-addon" id="id_imc_addon">kg/m²</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="panel panel-info">
+        <div class="panel-body text-center">
+            <a href="{% url 'cola_consulta-list' %}" class="btn btn-primary" role="button" aria-label="Back">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Volver a la Cola
+            </a>
+            <a href="{% url 'consulta-cerrar' %}" class="btn btn-success" role="button" aria-label="Send">
+                <span class="glyphicon glyphicon-send" aria-hidden="true"></span> Finalizar Consulta
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="panel panel-info">
+        <div class="panel-body">
+            <div class="chartfix" id="chart0"></div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="panel panel-info">
+        <div class="panel-body">
+            <div class="chartfix" id="chart1"></div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="panel panel-info">
+        <div class="panel-body">
+            <div class="chartfix" id="chart2"></div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="panel panel-info">
+        <div class="panel-body">
+            <div class="chartfix" id="chart3"></div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="panel panel-info">
+        <div class="panel-body">
+            <div class="chartfix" id="chart5"></div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="panel panel-info">
+        <div class="panel-body">
+            <div class="chartfix" id="chart4"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block googlecharts %}
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function () {
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    
+    function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Fecha');
+        data.addColumn('number', 'Sistólica');
+        {% if signos_list %}data.addColumn({type:'string', role:'style'});{% endif %}
+        
+        data.addColumn('number', 'Diastólica');
+        {% if signos_list %}data.addColumn({type:'string', role:'style'});{% endif %}
+        
+        data.addRows([
+            {% if signos_list %}
+                {% for sig in signos_list %}
+                    ['{{ sig.chartdateformat }}', {{ sig.sist_as_list }}, 'color: #316395', {{ sig.diast_as_list }}, 'color: #b82e2e'],
+                {% endfor %}
+            {% else %}
+                ['Sin Datos !', 40, 200],
+                ['Sin Datos !', 40, 300]
+            {% endif %}
+        ]);
+        
+        var options = {
+            legend: 'none',
+            title: 'Presión Arterial',
+            vAxis: {title: 'Milímetros de mercurio (mmHg)'},
+            hAxis: {title: 'Fecha'},
+        };
+        
+        
+        var dataB = new google.visualization.DataTable();
+        dataB.addColumn('string', 'Fecha');
+        dataB.addColumn('number', 'Frecuencia Cardiaca');
+        {% if signos_list %}dataB.addColumn({type:'string', role:'style'});{% endif %}
+        
+        dataB.addRows([
+            {% if signos_list %}
+                {% for sig in signos_list %}
+                    ['{{ sig.chartdateformat }}', {{ sig.frecuenciaCardiaca }}, 'color: #dd4477'],
+                {% endfor %}
+            {% else %}
+                ['Sin Datos !', 40],
+                ['Sin Datos !', 150]
+            {% endif %}
+        ]);
+        
+        var optionsB = {
+            legend: 'none',
+            title: 'Frecuencia Cardiaca',
+            vAxis: {title: 'Latidos por minuto (lat/min)'},
+            hAxis: {title: 'Fecha'},
+        };
+        
+        var dataC = new google.visualization.DataTable();
+        dataC.addColumn('string', 'Fecha');
+        dataC.addColumn('number', 'Frecuencia Respiratoria');
+        {% if signos_list %}dataC.addColumn({type:'string', role:'style'});{% endif %}
+        
+        dataC.addRows([
+            {% if signos_list %}
+                {% for sig in signos_list %}
+                    ['{{ sig.chartdateformat }}', {{ sig.frecuenciaRespiratoria }}, 'color: #6633cc'],
+                {% endfor %}
+            {% else %}
+                ['Sin Datos !', 16],
+                ['Sin Datos !', 28]
+            {% endif %}
+        ]);
+        
+        var optionsC = {
+            legend: 'none',
+            title: 'Frecuencia Respiratoria',
+            vAxis: {title: 'Respiraciones por minuto (resp/min)'},
+            hAxis: {title: 'Fecha'},
+        };
+        
+        var dataD = new google.visualization.DataTable();
+        dataD.addColumn('string', 'Fecha');
+        dataD.addColumn('number', 'Temperatura');
+        {% if signos_list %}dataD.addColumn({type:'string', role:'style'});{% endif %}
+        
+        dataD.addRows([
+            {% if signos_list %}
+                {% for sig in signos_list %}
+                    ['{{ sig.chartdateformat }}', {{ sig.temperatura|stringformat:"d" }}, 'color: #0099c6'],
+                {% endfor %}
+            {% else %}
+                ['Sin Datos !', 30],
+                ['Sin Datos !', 40]
+            {% endif %}
+        ]);
+        
+        var optionsD = {
+            legend: 'none',
+            title: 'Temperatura',
+            vAxis: {title: 'Grados Celsius (°C)'},
+            hAxis: {title: 'Fecha'},
+        };
+        
+        var dataE = new google.visualization.DataTable();
+        dataE.addColumn('string', 'Fecha');
+        dataE.addColumn('number', 'Indice Masa Corporal');
+        {% if signos_list %}dataE.addColumn({type:'string', role:'style'});{% endif %}
+        
+        dataE.addRows([
+            {% if signos_list %}
+                {% for sig in signos_list %}
+                    ['{{ sig.chartdateformat }}', {{ sig.imc_paciente|stringformat:"d" }}, 'color: #ff9900'],
+                {% endfor %}
+            {% else %}
+                ['Sin Datos !', 50],
+                ['Sin Datos !', 50]
+            {% endif %}
+        ]);
+        
+        var optionsE = {
+            legend: 'none',
+            title: 'Indice Masa Corporal',
+            vAxis: {title: 'IMC (kg/m²)'},
+            hAxis: {title: 'Fecha'},
+        };
+        
+        var dataF = new google.visualization.DataTable();
+        dataF.addColumn('string', 'Fecha');
+        dataF.addColumn('number', 'Peso');
+        {% if signos_list %}dataF.addColumn({type:'string', role:'style'});{% endif %}
+        
+        dataF.addRows([
+            {% if signos_list %}
+                {% for sig in signos_list %}
+                    ['{{ sig.chartdateformat }}', {{ sig.peso|stringformat:"d" }}, 'color: #109618'],
+                {% endfor %}
+            {% else %}
+                ['Sin Datos !', 50],
+                ['Sin Datos !', 50]
+            {% endif %}
+        ]);
+        
+        var optionsF = {
+            legend: 'none',
+            title: 'Peso',
+            vAxis: {title: 'Libras (lb)'},
+            hAxis: {title: 'Fecha'},
+        };
+        
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart0'));
+        var chartB = new google.visualization.ColumnChart(document.getElementById('chart1'));
+        var chartC = new google.visualization.ColumnChart(document.getElementById('chart2'));
+        var chartD = new google.visualization.ColumnChart(document.getElementById('chart3'));
+        var chartE = new google.visualization.ColumnChart(document.getElementById('chart4'));
+        var chartF = new google.visualization.ColumnChart(document.getElementById('chart5'));
+        
+        chart.draw(data, options);
+        chartB.draw(dataB, optionsB);
+        chartC.draw(dataC, optionsC);
+        chartD.draw(dataD, optionsD);
+        chartE.draw(dataE, optionsE);
+        chartF.draw(dataF, optionsF);
+    }
+    
+    $(window).resize(function(){
+        drawChart();
+    });
+});
+</script>
+{% endblock %}

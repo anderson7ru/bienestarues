@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Iniciar Sesi&oacute;n</title>
+	</head>
+	<body>
+		<form action="" method='POST' enctype='multipart/form-data'>{% csrf_token %}
+			<label for="username">Usuario: </label>
+			{{form.username}}
+			<label for="password">Contrase&nacute;a: </label>
+			{{form.password}}
+			<input type="submit" value="Guardar" />
+		</form>
+	</body>
+</html>

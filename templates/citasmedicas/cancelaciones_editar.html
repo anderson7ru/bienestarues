@@ -1,0 +1,100 @@
+<!-- 
+name: cancelaciones-new 
+Vista para la creacion de cancelaciones
+!-->
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} Citas Medicas {% endblock %}
+{% block paneltitle %} Edici&oacute;n de Cancelacion {% endblock %}
+
+{% block panelcontent %}
+<form id="cma_cancelacionEditarForm" action="" method="post">{% csrf_token %}
+    <div class="ayuda" style="text-align:right">
+			<p>(*) campos requeridos </p>
+	</div>
+	<div class="panel panel-info" style="margin-top: 20px;">
+        <div class="panel-body"  style="padding-left: 50px; padding-top: 0px;">
+            <h3 class="page-header text-left">Datos Generales del Doctor</h3>
+			<div class="row">
+				<div class="col-md-6" >
+					Nombre:
+					<span class="subrayado">
+						<strong>{{datos.nombrePrimero}} {{datos.nombreSegundo}} {{datos.apellidoPrimero}} {{datos.apellidoSegundo}}</strong>
+					</span>
+				</div>
+				<div class="col-md-4" >
+					Especialidad:
+					<span class="subrayado">
+						<strong>{{especialidad.especialidad}}</strong>
+					</span>
+				</div>
+			</div>
+			<h4 style="padding-top: 17px; padding-left: 200px;">Horarios de Atencion</h4>
+			<div class="row">
+				<div class="col-md-10">
+					Dias de atencion:
+					<span class="subrayado">
+						{% for j in horarios.dia.all %}
+						<strong>{{ j.dias}}</strong>
+						{% endfor %}
+					</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4" style="padding-top: 17px;">
+					Hora de Inicio de la consulta:
+					<span class="subrayado">
+						<strong>{{horarios.horaInicio}}</strong>
+					</span>
+				</div>
+				<div class="col-md-5" style="padding-top: 17px;">
+					Hora de Finalizacion de la consulta:
+					<span class="subrayado">
+						<strong>{{horarios.horaFinal}}</strong>
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="panel panel-info">
+        <div class="panel-body" style="padding-left: 20px; padding-top: 0px;">
+            <h3 class="page-header text-left">Cancelaciones</h3>
+			<div class="row">
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.fechaInicio.label_tag }} 
+						<span class="ayuda"> {{ form.fechaInicio.help_text }} </span>
+						{{ form.fechaInicio }} 
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.fechaFinal.label_tag }} 
+						<span class="ayuda"> {{ form.fechaFinal.help_text }} </span>
+						{{ form.fechaFinal }} 
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.horaInicio.label_tag }} 
+						<span class="ayuda"> {{ form.horaInicio.help_text }} </span>
+						{{ form.horaInicio }} 
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.horaFinal.label_tag }} 
+						<span class="ayuda"> {{ form.horaFinal.help_text }} </span>
+						{{ form.horaFinal }} 
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="col-md-offset-2 col-md-10">
+      <button id="save_cancelacion" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
+	  <a href="{% url 'doctorcancel_list' pk=doctor.codigoDoctor %}" class="btn btn-primary" style="float: right"><span class="glyphicon glyphicon-list-alt"></span> Volver al listado anterior</a>
+    </div>
+</form>
+{% endblock %}

@@ -1,0 +1,101 @@
+{% extends "layouts/beta.html" %}
+
+{% block content %}
+
+<div class="container">
+    <div class="page-header">
+        <h1 class="text-center">Historial de Consultas</h1>
+    </div>
+</div>
+
+<div class="container">
+    <div class="panel panel-info">
+        <div class="panel-body text-center">
+            <a href="{% url 'consulta-inicio' nkey=request.session.pacientenit dkey=request.session.doctorpk %}" class="btn btn-primary" role="button" aria-label="Back">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Volver
+            </a>
+            {% if consultas_list %}
+                <a href="{% url 'consulta-file' %}" class="btn btn-info" aria-label="Print">
+                    <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Generar PDF
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% if consultas_list %}
+    <div class="container">
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            {% for consulta in consultas_list %}
+                <div class="panel panel-info">
+                    <div class="panel-heading" role="tab" id="heading_{{consulta.id}}">
+                        <h4 class="panel-title">
+                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse_{{consulta.id}}" aria-expanded="false" aria-controls="collapse_{{consulta.id}}">
+                                {{ consulta.fecha|date:"l d F Y" }} {{ consulta.fecha|time:"H:i a" }}
+                            </a>
+                            <span class="pull-right">{{ consulta.diagnostico_principal }}</span>
+                        </h4>
+                    </div>
+                    
+                    <div id="collapse_{{consulta.id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_{{consulta.id}}">
+                        <div class="panel-body">
+                            <label for="id_consulta_por_{{consulta.id}}">Consulta por:</label>
+                            <div class="well well-sm">
+                                {{ consulta.consulta_por }}
+                            </div>
+                            
+                            <label for="id_presenta_enfermedad_{{consulta.id}}">Presenta enfermedad:</label>
+                            <div class="well well-sm">
+                                {{ consulta.presenta_enfermedad }}
+                            </div>
+                            
+                            <label for="id_antecedentes_personales_{{consulta.id}}">Antecedentes personales:</label>
+                            <div class="well well-sm">
+                                {{ consulta.antecedentes_personales }}
+                            </div>
+                            
+                            <label for="id_antecedentes_familiares_{{consulta.id}}">Antecedentes familiares:</label>
+                            <div class="well well-sm">
+                                {{ consulta.antecedentes_familiares }}
+                            </div>
+                            
+                            <label for="id_exploracion_clinica_{{consulta.id}}">Exploracion clinica:</label>
+                            <div class="well well-sm">
+                                {{ consulta.exploracion_clinica }}
+                            </div>
+                            
+                            <label for="id_diagnostico_principal_{{consulta.id}}">Diagnostico principal:</label>
+                            <div class="well well-sm">
+                                {{ consulta.diagnostico_principal }}
+                            </div>
+                            
+                            <label for="id_otros_diagnosticos_{{consulta.id}}">Otros diagnosticos:</label>
+                            <div class="well well-sm">
+                                {{ consulta.otros_diagnosticos }}
+                            </div>
+                            
+                            <label for="id_tratamiento_{{consulta.id}}">Tratamiento:</label>
+                            <div class="well well-sm">
+                                {{ consulta.tratamiento }}
+                            </div>
+                            
+                            <label for="id_observaciones_{{consulta.id}}">Observaciones:</label>
+                            <div class="well well-sm">
+                                {{ consulta.observaciones }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% else %}
+    <div class="container">
+        <div class="alert alert-warning text-center" role="alert">
+            <span class="glyphicon glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Message:</span>
+            No se han encontrado consultas para el paciente !
+        </div>
+    </div>
+{% endif %}
+{% endblock %}

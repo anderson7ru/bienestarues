@@ -1,0 +1,32 @@
+<!-- 
+name: actividades de enfemeria-list
+Esta pagina presenta el listado de las actividades de enfermeria
+!-->
+{% extends "layouts/master.html" %}
+
+{% block pageheader %}
+  Listado de Actividades de Enfermeria
+{%endblock%}
+
+{% block paneltitle %}
+  Actividades de Enfermeria
+{% endblock %}
+
+{% block panelcontent%}
+   <div class="table-responsive">
+       <a href="{% url 'actividad-new' %} " class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Nuevo</a>
+       <table class="table table-hover">
+           <tr class="success">
+
+               <th>Codigo</th>
+               <th>Nombre de la Actividad</th>
+           </tr>
+           {% for actividad in actividad %}
+             <tr>
+                 <td>{{ actividad.codActividad}}</td>
+                 <td>{{ actividad.nombreActividad}}</td>
+             </tr>
+           {% endfor %}
+       </table>
+   </div>
+{% endblock %}

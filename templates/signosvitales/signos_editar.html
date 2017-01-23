@@ -1,0 +1,150 @@
+<!-- 
+name: signosvitales-new
+Presenta el formulario de signos vitales
+!-->
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} Signos Vitales {%endblock%}
+{% block paneltitle %} Agregar Signos Vitales {% endblock %}
+
+{% block panelcontent %}
+<form id="signosEditarForm" action="" method="post">{% csrf_token %}
+    <div class="ayuda" style="text-align:right">
+			<p>(*) campos requeridos </p>
+	</div>
+		<div class="panel panel-info">
+        <div class="panel-body" style="padding-left: 20px; padding-top: 0px;">
+        	<br>
+        	<table border="0" cellspacing="0" cellpadding="0" align="right">
+        			<tr>
+			    		<td style="padding-right: 20px; padding-top: 0px;"><strong>N° EXPEDIENTE:</strong></td>
+			    		<td style="padding-right: 20px; padding-top: 0px;"><input type="text" class="form-control" id="id_paciente" name="cod_paciente" value="{{ paciente.codigoPaciente }}"READONLY/></td>
+			    	</tr>
+			    	<tr>
+			    		<td style="padding-right: 20px; padding-top: 20px;"><strong>FECHA:</strong></td>
+			    		<td style="padding-right: 20px; padding-top: 20px;"><input class="form-control" id="id_fechaIngreso" name="fechaIngresoPaciente" type="text" value="{% now 'SHORT_DATETIME_FORMAT' %}" READONLY/></td>
+			    	</tr>
+			</table>
+			<br>
+            <h3 class="page-header text-left"><strong>DATOS DEL PACIENTE</strong></h3>
+			<div class="row">
+				<table border="0" cellspacing="0" cellpadding="0">
+					<tr>
+			    		<td style="width:110px"><strong>&nbsp&nbsp&nbsp&nbspPACIENTE:</strong></td>
+			    		<td style="width:628px"><input type="text" class="form-control" id="id_nombrePaciente" name="nombrePaciente" value="{{ paciente.get_full_name }}" required="True" READONLY/></td>
+			    	
+			    		
+			    		<td style="width:134px"><strong>EDAD:</strong></td>
+			    		<td style="width:196px">
+			    			<div class="input-group">
+			    			<input type="number" class="form-control" id="id_edad" name="edadPaciente" value="{{ paciente.edad_paciente }}" required="True" READONLY/>
+			    		    <span class="input-group-addon">Años</span>
+			    		    </div>
+			    		</td>
+					</tr>
+				</table>
+            </div>
+        </div>
+	</div>
+	</form>
+	<form id="sva_signosEditarForm" action="" method="post">{% csrf_token %}
+	<div class="panel panel-info">
+        <div class="panel-body" style="padding-left: 20px; padding-top: 0px;">
+            <h3 class="page-header text-left"><strong>SIGNOS VITALES</strong></h3>
+			<div class="row" style="padding-top: 7px;" >
+				<div class="col-md-4">
+                    <div class="form-group has-feedback">
+                        {{ form.presionArterial.label_tag }}
+						<span class="ayuda"> {{ form.presionArterial.help_text }} </span>
+                        <div class="input-group">
+                            {{ form.presionArterial }}
+                            <span class="input-group-addon">mmHg</span>
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group has-feedback">
+                        {{ form.frecuenciaCardiaca.label_tag }}
+						<span class="ayuda"> {{ form.frecuenciaCardiaca.help_text }} </span>
+						<div class="input-group">
+                            {{ form.frecuenciaCardiaca }}
+                            <span class="input-group-addon">lat/min</span>
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group has-feedback">
+                        {{ form.temperatura.label_tag }}
+						<span class="ayuda"> {{ form.temperatura.help_text }} </span>
+                        <div class="input-group">
+                            {{ form.temperatura }}
+							<span class="input-group-addon">&ordm;C</span>
+							<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+			<div class="row" style="padding-top: 7px;" >
+                <div class="col-md-4">
+                    <div class="form-group has-feedback">
+                        {{ form.peso.label_tag }}
+						<span class="ayuda"> {{ form.peso.help_text }} </span>
+                        <div class="input-group">
+                            {{ form.peso }}
+                            <span class="input-group-addon">Lb</span>
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group has-feedback">
+                        {{ form.talla.label_tag }}
+						<span class="ayuda"> {{ form.talla.help_text }} </span>
+                        <div class="input-group">
+                            {{ form.talla }}
+							<span class="input-group-addon">m</span>
+							<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+						</div>
+					</div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group has-feedback">
+                        {{ form.frecuenciaRespiratoria.label_tag }}
+						<span class="ayuda"> {{ form.frecuenciaRespiratoria.help_text }} </span>
+                        <div class="input-group">
+                            {{ form.frecuenciaRespiratoria }}
+                            <span class="input-group-addon">resp/min</span>
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row" style="padding-top: 7px;" >
+                <div class="col-md-4">
+                    <div class="form-group has-feedback">
+                        <label for="doctores"><strong>Doctor Asignado:</strong></label>
+                        <select class="form-control" name="doctor" required>
+                                 <option value=""></option>
+                          
+                              {% for doctores in doctores %}
+			               
+			                     <option value="{{ doctores.codigoDoctor}}">{{ doctores.codigoEmpleado.get_full_name}}</option>
+			         
+		                      {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+		</div>
+	</div>
+
+    <div class="col-md-offset-2 col-md-10">
+       <button id="save_signosvitales" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
+       <a href="{% url 'signosvitales-list' %}" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Volver a la lista</a>
+       <a href="{% url 'cola_enfermeria-list' %}" class="btn btn-default"><span class="glyphicon glyphicon-list-alt"></span> Volver a la Cola</a>
+    </div>
+    </form>
+{% endblock %}

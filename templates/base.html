@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <meta name="viewport" content="width+device-width,user-acalable=no,inicial-scale=1.0, maximun-scale=1.0, minimun-scale=1.0" />
+        <title>Expedientes</title>
+        <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/static/css/estilopersonalizado.css">
+        <!-- Para datepicker !-->
+        <link rel="stylesheet" href="/static/css/jquery-ui.css">
+        
+        <script src="/static/js/jquery.js"></script>
+        <script src="/static/js/jquery.min.js"></script>
+        <script src="/static/js/bootstrap.min.js"></script>
+        <!-- Para datepicker !-->
+        <script src="/static/js/jquery-ui.js"></script>
+        <!-- Para mascaras !-->
+        <script src="/static/js/jquery.maskedinput.js"></script>
+        <script src="/static/js/mascarasPersonalizadas.js"></script>
+        
+    </head>
+    <body>
+        <!-- Por ahorita esta definido: Menu, Titulo de Area, Contenido, Pie de Pagina!-->
+        {% block menu %}
+        <header>
+           <nav class="navbar navbar-inverse navbar-static-top navbar-header-background" role="navigation">
+           <div class="container">
+              <div class="navbar-header">
+    		      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#miNavegacion">
+    		        <span class="sr-only">Desplegar/ocultar</span>
+    				<span class="icon-bar"></span>
+    				<span class="icon-bar"></span>
+    			    <span class="icon-bar"></span>
+    			  </button>
+    		      <a href="" class="navbar-brand">Bienestar Universitario</a>
+			  </div>
+			  <!-- aca inicia el menu -->
+    		   <div class="collapse navbar-collapse" id="miNavegacion">
+    		        <ul class="nav navbar-nav">
+    		            <li class="dropdown">
+        				    <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button">
+        					  Opciones <span class="caret"></span>
+        					</a> 
+    					</li>
+    				</ul>
+    			</div>
+    		</div>
+			</nav>
+        </header>
+        {% endblock %}
+        
+        <!-- aca se define el titulo de las paginas, se sobreescribe -->
+        <div class="jumbotron">
+           {% block titulo %}
+           <h3>Administracion de Expedientes</h3>
+	       <p>Bienvenidos a la administracion de Expedientes de Bienestar Universitario</p>
+	       {% endblock %}
+	    </div>
+	    
+	    <!-- Aqui esta el contenido !-->
+	    <div class="container">
+            <div class="row">
+                <section class="col-md-9">
+                    {% block content %}
+                    <h4>Aqui va todo!</h4>
+                    {% endblock %}
+                </section>
+            </div>
+        </div>
+        
+        <!-- Pie de pagina !-->
+        <footer>
+             <div class="container">
+	            <div class="row">
+	                {% block footer %}
+	                <div class="col-xs-9">
+                        <p>"La Salud es un Derecho que todos debemos Cuidar y Exigir"</p>
+                        <p>Bienestar Universitario. Grupo#15 </p>
+                    </div>
+                    {% endblock %}
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>

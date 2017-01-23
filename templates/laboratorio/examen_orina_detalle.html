@@ -1,0 +1,149 @@
+{% extends "layouts/master.html" %}
+
+{% block pageheader %}
+	EXAMEN DE ORINA 
+{%endblock%}
+{% block paneltitle %}
+  Resultados del Examen de Orina
+{% endblock %}
+{% block panelcontent %}
+    <div class="panel panel-info">
+    	<div class="panel-body">
+    	<h4><strong>RESULTADOS REGISTRADOS</strong></h4>
+    			<div class="row">
+				 	<div class="col-md-2"><strong>Paciente:</strong></div>
+				 	<div class="col-md-4">{{ examen_orina.paciente.get_full_name}}</div>
+				</div>
+				<div class="row">
+					<div class="col-md-2"><strong>Edad:</strong></div>
+					<div class="col-md-4">{{ examen_orina.edad}} Años</div>
+					<br>
+					<br>
+				</div>
+				<div class="row">
+					<br>
+					<div class="col-md-1"></div>
+					<div class="col-md-1"></div>
+					<div class="col-md-3"><strong><u>EXAMEN FÍSICO QUÍMICO</u></strong></div>
+					<div class="col-md-4"><strong><u>EXAMEN MICROSCÓPICO DEL SEDIMENTO</u></strong></div>
+				</div>
+				<br>
+		{% if examen_orina.color or examen_orina.leucocitos or examen_orina.aspecto or examen_orina.hematies or examen_orina.ph or examen_orina.epiteliales or examen_orina.densidad or examen_orina.cristales or examen_orina.nitritos or examen_orina.cilindros or examen_orina.proteinas or examen_orina.bacterias or examen_orina.cetonicos or examen_orina.observaciones or examen_orina.glucosa or examen_orina.bilirrubina or examen_orina.urobilinigeno or examen_orina.sangre or examen_orina.esterasaLeucocitaria %}
+			{% if examen_orina.color or examen_orina.leucocitos %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Color:</strong></div>
+				  <div class="col-md-2">{{ examen_orina.color }} </div>
+				  <div class="col-md-2"><strong>Leucocitos:</strong></div>
+				  <div class="col-md-2">{{ examen_orina.leucocitos }} /c</div>
+				</div>
+			{% endif %}
+			{% if examen_orina.aspecto or examen_orina.hematies %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Aspecto:</strong></div>
+				  <div class="col-md-2">{{ examen_orina.aspecto }} </div>
+				  <div class="col-md-2"><strong>Hematies:</strong></div>
+				  <div class="col-md-2">{{ examen_orina.hematies }} /c</div>
+				</div>
+			{% endif %}
+			{% if examen_orina.ph or examen_orina.epiteliales %}
+				<div class="row">
+				  <div class="col-md-2"><strong>PH:</strong></div>
+				  <div class="col-md-2">{{ examen_orina.ph }} </div>
+				  <div class="col-md-2"><strong>Células Epiteliales:</strong></div>
+				  <div class="col-md-2">{{ examen_orina.epiteliales }} </div>
+				</div>
+			{% endif %}
+			{% if examen_orina.densidad or examen_orina.cristales %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Densidad:</strong></div>
+				  <div class="col-md-2">{{ examen_orina.densidad }} </div>
+				  <div class="col-md-2"><strong>Cristales:</strong></div>
+				  <div class="col-md-2">{{ examen_orina.cristales }} </div>
+				</div>
+			{% endif %}
+			{% if examen_orina.nitritos or examen_orina.cilindros %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Nitritos:</strong></div>
+				  <div class="col-md-2">{{ examen_orina.nitritos }}</div>
+				  <div class="col-md-2"><strong>Cilindros:</strong></div>
+				  <div class="col-md-2">{{ examen_orina.cilindros }} </div>
+				</div>
+			{% endif %}
+			{% if examen_orina.proteinas or examen_orina.bacterias %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Proteínas:</strong></div>
+				  <div class="col-md-2">{{ examen_orina.proteinas }} mg/dl</div>
+				  <div class="col-md-2"><strong>Bacterias:</strong></div>
+				  <div class="col-md-2">{{ examen_orina.bacterias }}</div>
+				</div>
+			{% endif %}
+			{% if examen_orina.cetonicos or examen_orina.observaciones %}
+				<div class="row">
+				  <div class="col-md-2"><strong>C. Cetónicos:</strong></div>
+				  <div class="col-md-2">{{ examen_orina.cetonicos }} mg/dl</div>
+				  <div class="col-md-2"><strong>Observaciones:</strong></div>
+				  <div class="col-md-6">{{ examen_orina.observaciones }}</div>
+				</div>
+			{% endif %}
+			{% if examen_orina.glucosa %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Glucosa:</strong></div>
+				  <div class="col-md-2">{{ examen_orina.glucosa }} mg/dl</div>
+				</div>
+			{% endif %}
+			{% if examen_orina.bilirrubina %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Bilirrubina:</strong></div>
+				  <div class="col-md-2">{{ examen_orina.bilirrubina }} mg/dl</div>
+				</div>
+			{% endif %}
+			{% if examen_orina.urobilinigeno %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Urobilinigeno:</strong></div>
+				  <div class="col-md-2">{{ examen_orina.urobilinigeno }} mg/dl</div>
+				</div>
+			{% endif %}
+			{% if examen_orina.sangre %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Sangre:</strong></div>
+				  <div class="col-md-2">{{ examen_orina.sangre }} ery/ul</div>
+				</div>
+			{% endif %}
+			{% if examen_orina.esterasaLeucocitaria %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Esterasa Leucocitaria:</strong></div>
+				  <div class="col-md-2">{{ examen_orina.esterasaLeucocitaria }} Leuc/ul</div>
+				</div>
+			{% endif %}
+		{% else %}
+			<p>No se registraron resultados para este examen</p>
+		{% endif %}
+		</div>
+	</div>
+	<div class="panel panel-info">
+		<div class="panel-body" > 
+		<h4><strong>RESULTADOS ESCANEADOS</strong></h4>
+		{% if examen_orina.archivo %}
+			{% if examen_orina.archivo %}
+				<div class="row">
+				 	<div class="col-md-2"><strong>Archivo Escaneado:</strong></div>
+				 	<div class="col-md-8">{{ examen_orina.archivo }} <a href="{% url 'laboratorioapp.views.abrir_archivo_orina' pk=examen_orina.codExamen_Orina %}" class="btn btn-info btn-md "><span class="glyphicon glyphicon-download-alt"></span>&nbspDescargar</a></div>
+				</div>
+				
+			{% endif %}
+		{% else %}
+			<p>No se escaneo archivo para este examen</p>
+		{% endif %}
+		</div>
+	</div>
+	<div style="clear:both; margin-left:10px; ">
+		<hr/>
+		<div class="row">
+		  <div class="col-md-7"><strong>Información Ingresada Por:</strong> {{ examen_orina.nombreRecibido }}</div>
+		  <div class="col-md-5"><strong>Fecha:</strong> {{ examen_orina.fechaIngreso|date:"SHORT_DATE_FORMAT" }}</div>
+		</div>
+	</div>
+	<div class="col-md-offset-10 col-md-10">
+        <a href="{% url 'laboratorioapp.views.examen_orina_list' %}" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span>&nbspVolver a la lista</a>
+    </div>
+{%endblock%}

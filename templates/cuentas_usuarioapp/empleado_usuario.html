@@ -1,0 +1,59 @@
+<!-- 
+name: 
+Vista para la creacion de usuarios
+!-->
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} Empleados de Bienestar Universitario {% endblock %}
+{% block paneltitle %} Edici&oacute;n de Usuario {% endblock %}
+
+{% block panelcontent %}
+{{forms.errors}}
+<form id="eea_usuarioEditarForm" action="" method="post">{% csrf_token %}
+    <div class="ayuda" style="text-align:right">
+			<p>(*) campos requeridos </p>
+	</div>
+	<div class="panel panel-info">
+        <div class="panel-body" style="padding-left: 20px; padding-top: 0px;">
+            <div class="row">
+				<div class="col-md-4" >
+					<br />
+					<div class="form-group">
+						{{ form.codigoEmpleado.label_tag }} 
+						<span class="ayuda"> {{ form.codigoEmpleado.help_text }} </span>
+						{{ form.codigoEmpleado }} 
+					</div>
+				</div>
+				<div class="col-md-3" >
+					<div class="form-group">
+						{{ form.email.label_tag }} 
+						<span class="ayuda"> {{ form.email.help_text }} </span>
+						{{ form.email }} 
+					</div>
+				</div>
+				<div class="col-md-3" >
+					<div class="form-group">
+						<label for="password">Password</label>
+						<span class="ayuda"> (*) </span>
+						<input type="password" class="form-control" value="{{pass}}" name="password"> 
+					</div>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				
+	    		<div class="panel-heading">Seleccione el tipo de usuario que sera (puede ser mas de 1)</div>
+	    		<div class="panel-body">
+	    			<h4>Grupos de usuario</h4>
+	    			<div id="panel2" class="row">
+				    		{{form.grupos}}    	
+			    	</div>
+	    		</div>
+	    	</div>
+		</div>
+	</div>
+	
+	<div class="col-md-offset-2 col-md-10">
+      <button id="save_user" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
+    </div>
+</form>
+{% endblock %}

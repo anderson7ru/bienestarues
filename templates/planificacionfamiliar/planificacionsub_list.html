@@ -1,0 +1,109 @@
+<!-- 
+name: planificacionfamiliar-listsub
+Presenta un listado de las consultas subsecuentes de una determinada paciente
+!-->
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} Planificaci&oacute;n Familiar {%endblock%}
+{% block paneltitle %} Consulta subsecuente {% endblock %}
+
+{% block panelcontent%}
+   <a href="{% url 'planificacionfamiliar-subnew' pk=pacienteI.pk %} " class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Nueva consulta</a>
+   <div class="panel panel-info" style="margin-top: 20px;">
+        <div class="panel-body"  style="padding-left: 50px; padding-top: 0px;">
+            <h3 class="page-header text-left">Datos Generales del paciente</h3>
+			<div class="row">
+				<div class="col-md-4" >
+					Paciente: 
+					<span class="subrayado">
+						<strong>{{ datos.codigoPaciente }}</strong>
+					</span>
+				</div>
+				<div class="col-md-6" >
+					Fecha de Inscripci&oacute;n:
+					<span class="subrayado">
+						<strong>{{ pacienteI.fechaIngreso }}</strong>
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-10" >
+					Nombre:
+					<span class="subrayado">
+						<strong>{{ datos.get_full_name }}</strong>
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-3" >
+					Edad: 
+					<span class="subrayado">
+						<strong>{{ datos.edad_paciente }}</strong>
+					</span>
+					A&ntilde;os
+				</div>
+				<div class="col-md-3" >
+					Estado Civil:
+					<span class="subrayado">
+						{% if datos.sexo == 'F' %}
+    						{% if datos.estadoCivil == 'CASADO' %}
+    						<strong>CASADA</strong>
+    						{% elif datos.estadoCivil == 'DIVORCIADO' %}
+    						<strong>DIVORCIADA</strong>
+    						{% elif datos.estadoCivil == 'ACOMPANADO' %}
+    						<strong>ACOMPANADA</strong>
+    						{% elif datos.estadoCivil == 'VIUDO' %}
+    						<strong>VIUDA</strong>
+    						{% else %}
+    						<strong>SOLTERA</strong>
+    						{% endif %}
+						{% else %}
+						<strong>{{ datos.estadoCivil }}</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-4" >
+					Ocupacion:
+					<span class="subrayado">
+						{% if datos.estadoUes == 'EST' %}
+						<strong>Estudiante</strong>
+						{% elif datos.estadoUes == 'DOC' %}
+						<strong>Docente</strong>
+						{% elif datos.estadoUes == 'PAD' %}
+						<strong>Pers.Administrativo</strong>
+						{% else %}
+						<strong>Otro</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+   <div class="table-responsive" style="margin-bottom: 25px">
+       <h3 class="page-header text-left">Consultas Subsecuentes</h3>
+       {% if pacientesub %}
+	   <table class="table table-hover">
+           <tr class="success">
+               <th>Fecha de la consulta</th>
+               <th>Fecha proxima consulta</th>
+               <th>Ver</th>
+           </tr>
+           {% for pacientes in pacientesub %}
+             <tr>
+                 <td>{{ pacientes.fechaIngreso}}</td>
+                 <td>{{ pacientes.fechaProximaConsulta}}</td>
+                 <td>
+                     <a href="{% url 'planificacionfamiliar-subview' pk=pacientes.pacienteInscrito_id pacientesubsecuentepf_id=pacientes.id %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-th-large"></span></a>
+				 </td>
+             </tr>
+           {% endfor %}
+       </table>
+       {% else %}
+		<h3 id="vacio1"> La paciente no tiene consultas subsecuentes </h3>
+	   {% endif %}
+   </div>
+   <div class="col-md-offset-2 col-md-10">
+        <a href="{% url 'planificacionfamiliar-list' %}" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Volver al listado</a>
+        </div>
+{% endblock %}

@@ -1,0 +1,281 @@
+<!-- 
+name: datospersonales-view
+Presenta en detalle la ficha de identificacion de un expediente permanente
+!-->
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} Ficha de identificaci&oacute;n del expediente cl&iacute;nico {%endblock%}
+{% block paneltitle %} <strong>Expediente: </strong>{{ paciente.codigoPaciente }} {%endblock%}
+
+{% block panelcontent %}
+    <div class="panel panel-info">
+        <div class="panel-body" style="padding-left: 50px; padding-top: 0px;">
+            <a href="{% url 'datospersonales-file' pk=paciente.codigoPaciente %}" class="btn btn-info" style="float: right; margin-top: 20px;"><span class="glyphicon glyphicon-print"></span> Imprimir</a>
+			<h3 class="page-header text-left">A) DEL PACIENTE</h3>
+			<div class="row">
+				<div class="col-md-2" style="padding-top: 17px;">
+					<span class="subrayado">
+						<strong>{{ paciente.apellidoPrimero }}</strong>
+					</span><br>
+					Primer Apellido
+				</div>
+				<div class="col-md-2" style="padding-top: 17px;">
+					<span class="subrayado">
+						{% if paciente.apellidoSegundo %}
+						<strong>{{ paciente.apellidoSegundo }}</strong>
+						{% else %}
+						<strong>-----</strong>
+						{% endif %}
+					</span><br>
+					Segundo Apellido
+				</div>
+				<div class="col-md-6" style="padding-top: 17px;">
+					<span class="subrayado">
+						<strong>{{ paciente.nombrePrimero }} {{ paciente.nombreSegundo }}</strong>
+					</span><br>
+					Nombres
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-3" style="padding-top: 17px;">
+					Sexo:
+					<span class="subrayado">
+						{% if paciente.sexo == 'F' %}
+						<strong>Femenino</strong>
+						{% else %}
+						<strong>Masculino</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-5" style="padding-top: 17px;">
+					Fecha de Nacimiento:
+					<span class="subrayado">
+						<strong>{{ paciente.fechaNacimiento|date:"SHORT_DATE_FORMAT" }}</strong>
+					</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-3" style="padding-top: 17px;">
+					Edad:
+					<span class="subrayado">
+						<strong>{{ paciente.edad_paciente }}</strong>
+					</span>
+				</div>
+				<div class="col-md-5" style="padding-top: 17px;">
+					Estado Civil:
+					<span class="subrayado">
+						{% if paciente.sexo == 'F' %}
+    						{% if paciente.estadoCivil == 'CASADO' %}
+    						<strong>CASADA</strong>
+    						{% elif paciente.estadoCivil == 'DIVORCIADO' %}
+    						<strong>DIVORCIADA</strong>
+    						{% elif paciente.estadoCivil == 'ACOMPANADO' %}
+    						<strong>ACOMPANADA</strong>
+    						{% elif paciente.estadoCivil == 'VIUDO' %}
+    						<strong>VIUDA</strong>
+    						{% else %}
+    						<strong>SOLTERA</strong>
+    						{% endif %}
+						{% else %}
+						<strong>{{ paciente.estadoCivil }}</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4" style="padding-top: 17px;">
+					NIT:
+					<span class="subrayado">
+						<strong>{{ paciente.nit }}</strong>
+					</span>
+				</div>
+				{% if paciente.dui  %}
+				<div class="col-md-3" style="padding-top: 17px;">
+					DUI:
+					<span class="subrayado">
+						<strong>{{ paciente.dui }}</strong>
+					</span>
+				</div>
+				{% endif %}
+				{% if paciente.due  %}
+				<div class="col-md-3" style="padding-top: 17px;">
+					DUE:
+					<span class="subrayado">
+						<strong>{{ paciente.due }}</strong>
+					</span>
+				</div>
+				{% endif %}
+			</div>
+			<div class="row">
+				<div class="col-md-4" style="padding-top: 17px;">
+					Estado UES:
+					<span class="subrayado">
+						{% if paciente.estadoUes == 'EST' %}
+						<strong>Estudiante</strong>
+						{% elif paciente.estadoUes == 'DOC' %}
+						<strong>Docente</strong>
+						{% elif paciente.estadoUes == 'PAD' %}
+						<strong>Pers.Administrativo</strong>
+						{% else %}
+						<strong>Otro</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-6" style="padding-top: 17px;">
+					Facultad:
+					<span class="subrayado">
+						<strong>{{ paciente.facultadE }}</strong>
+					</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-10" style="padding-top: 17px;">
+					Direcci&oacute;n:
+					<span class="subrayado">
+						<strong>{{ paciente.direccion }}</strong>
+					</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4" style="padding-top: 17px;">
+					Departamento:
+					<span class="subrayado">
+						<strong>{{ paciente.codDepartamento }}</strong>
+					</span>
+				</div>
+				<div class="col-md-6" style="padding-top: 17px;">
+					Municipio:
+					<span class="subrayado">
+						<strong>{{ paciente.codMunicipio }}</strong>
+					</span>
+				</div>
+			</div>
+			{% if paciente.telefono or paciente.correo %}
+			<div class="row">
+				{% if paciente.telefono %}
+				<div class="col-md-3" style="padding-top: 17px;">
+					Tel&eacute;fono:
+					<span class="subrayado">
+						<strong>{{ paciente.telefono }}</strong>
+					</span>
+				</div>
+				{% endif %}
+				{% if paciente.correo %}
+				<div class="col-md-5" style="padding-top: 17px;">
+					Correo:
+					<span class="subrayado">
+						<strong>{{ paciente.correo }}</strong>
+					</span>
+				</div>
+				{% endif %}
+			</div>
+			{% endif %}
+		</div>
+	</div>
+	
+	<div class="panel panel-info">
+        <div class="panel-body"  style="padding-left: 50px; padding-top: 0px;">
+            <h3 class="page-header text-left">B) DE LA FAMILIA</h3>
+			{% if paciente.nombrePadre %}
+			<div class="row">
+				<div class="col-md-10" style="padding-top: 17px;">
+					Nombre del Padre: 
+					<span class="subrayado">
+						<strong>{{ paciente.nombrePadre }}</strong>
+					</span>
+				</div>
+			</div>
+			{% endif %}
+			{% if paciente.nombreMadre %}
+			<div class="row">
+				<div class="col-md-10" style="padding-top: 17px;">
+					Nombre de la Madre:
+					<span class="subrayado">
+						<strong>{{ paciente.nombreMadre }}</strong>
+					</span>
+				</div>
+			</div>
+			{% endif %}
+			{% if paciente.nombrePareja %}
+			<div class="row">
+				<div class="col-md-10" style="padding-top: 17px;">
+					Nombre del Conyuge:
+					<span class="subrayado">
+						<strong>{{ paciente.nombrePareja }}</strong>
+					</span>
+				</div>
+			</div>
+			{% endif %}
+			<div class="row">
+				<div class="col-md-10" style="padding-top: 17px;">
+					Responsable del paciente:
+					<span class="subrayado">
+						<strong>{{ paciente.emergencia }}</strong>
+					</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4" style="padding-top: 17px;">
+					Tel&eacute;fono:
+					<span class="subrayado">
+						<strong>{{ paciente.telefonoEmergencia }}</strong>
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="panel panel-info">
+        <div class="panel-body"  style="padding-left: 50px; padding-top: 0px;">
+            <h3 class="page-header text-left">C) DE LA INFORMACION</h3>
+			<div class="row">
+				<div class="col-md-3" style="padding-top: 17px;">
+					Tomo informaci&oacute;n: 
+					<span class="subrayado">
+						<strong>{{ paciente.nombreRecibido }}</strong>
+					</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-10" style="padding-top: 17px;">
+					Fecha de inscripci&oacute;n:
+					<span class="subrayado">
+						<strong>{{ paciente.fechaIngreso }}</strong>
+					</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-10" style="padding-top: 17px;">
+					Ultima modificaci&oacute;n:
+					<span class="subrayado">
+						<strong>{{ paciente.fechaModificacion }}</strong>
+					</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4" style="padding-top: 17px;">
+					Estado del Expediente:
+					<span class="subrayado">
+						{% if paciente.estadoExpediente == 'A' %}
+						<strong>Activo</strong>
+						{% else %}
+						<strong>Inactivo</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<hr />
+	<div class="col-md-offset-2 col-md-10">
+        <a href="{% url 'datospersonales-list' %}" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Volver a la lista</a>
+		<a href="{% url 'datospersonales-update' pk=paciente.codigoPaciente %}" class="btn btn-warning"><span class="glyphicon glyphicon-list-alt"></span> Modificar</a>
+		{% if paciente.estadoExpediente == 'A' %}
+		<a href="{% url 'datospersonales-delete' pk=paciente.codigoPaciente %}" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Eliminar</a>
+		{% endif %}
+		{% if paciente.estadoExpediente == 'P' %}
+		<a href="{% url 'datospersonales-restaurar' pk=paciente.codigoPaciente %}" class="btn btn-success"><span class="glyphicon glyphicon-repeat"></span> Restaurar</a>
+		{% endif %}
+		
+        </div>
+{%endblock%}

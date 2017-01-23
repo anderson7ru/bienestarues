@@ -1,0 +1,71 @@
+<!-- 
+url name: doctorcancel_list
+Presenta un listado de todas las citas canceladas por doctor
+!-->
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} Citas Medicas {%endblock%}
+{% block paneltitle %} Listado de cancelaciones del Doctor: {{ dp.apellidoPrimero }} {% endblock %}
+
+{% block panelcontent%}
+   <a href="{% url 'cancelacion_new' pk=doctor.codigoDoctor %}" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Nueva cancelacion</a>
+   <div class="panel panel-info" style="margin-top: 20px;">
+        <div class="panel-body"  style="padding-left: 50px; padding-top: 0px;">
+            <h3 class="page-header text-left">Datos Generales del Doctor</h3>
+			<div class="row">
+				<div class="col-md-4" >
+					Nombre:
+					<span class="subrayado">
+						<strong>{{dp.nombrePrimero}} {{ dp.apellidoPrimero }}</strong>
+					</span>
+				</div>
+				<div class="col-md-3" >
+					Sexo: 
+					<span class="subrayado">
+						{% if dp.sexo == 'F' %}
+						<strong>Femenino</strong>
+						{% else %}
+						<strong>Masculino</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-4" >
+					Especialidad:
+					<span class="subrayado">
+						<strong>{{ esp.especialidad }}</strong>
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+   <div class="table-responsive">
+    {% if doctorcancel %}
+       <table class="table table-hover" id="citasDoctor">
+           <tr class="success">
+               <th>Fecha Inicio</th>
+               <th>Fecha Final</th>
+               <th>Hora Inicio</th>
+               <th>Hora Final</th>
+           </tr>
+           {% for doctorcancel in doctorcancel %}
+             <tr>
+                 <td>{{ doctorcancel.fechaInicio }}</td>
+                 <td>
+                 {% if doctorcancel.fechaFinal %}
+                 	{{ doctorcancel.fechaFinal  }}
+                 {% else %}
+                 	<span>----</span>
+                 {% endif %}
+                 </td>
+                 <td>{{ doctorcancel.horaInicio }}</td>
+                 <td>{{ doctorcancel.horaFinal }}</td>
+                 
+             </tr>
+           {% endfor %}
+       </table>
+   {% else %}
+	<h3 id="vacio1"> NO HAY CANCELACIONES REGISTRADAS </h3>
+   {% endif %}
+       <a href="{% url 'doctor-list' %}" class="btn btn-primary" style="float: right"><span class="glyphicon glyphicon-list-alt"></span> Ver Lista de Doctores en Citas Medicas</a>
+   </div>
+{% endblock %}

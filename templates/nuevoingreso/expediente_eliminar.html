@@ -1,0 +1,186 @@
+<!-- 
+name: delete expediente_provisional
+Este es la pagina/formulario donde se eliminan el registro de un expediente provisional
+
+!-->
+
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} Expediente Provisional: Eliminar Expediente {% endblock %}
+{% block paneltitle %} Ficha de Identificaci&oacute;n del Expediente Cl&iacute;nico Provisional {% endblock %}
+
+{% block panelcontent %}
+<form id="dpa_pacienteEditarForm" action="" method="post">{% csrf_token %}
+    <div class="ayuda" style="text-align:right">
+			<p>(*) campos requeridos </p>
+	</div>
+	<div class="panel panel-info">
+        <div class="panel-body" style="padding-left: 20px; padding-top: 0px;">
+            <h3 class="page-header text-left">A) DEL PACIENTE</h3>
+			<div class="row">
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.nombrePrimero.label_tag }} 
+						<span class="ayuda"> {{ form.nombrePrimero.help_text }} </span>
+						{{ form.nombrePrimero }} 
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.nombreSegundo.label_tag }}
+						<span class="ayuda"> {{ form.nombreSegundo.help_text }} </span>
+						{{ form.nombreSegundo }}
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.apellidoPrimero.label_tag }} 
+						<span class="ayuda"> {{ form.apellidoPrimero.help_text }} </span>
+						{{ form.apellidoPrimero }} 
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.apellidoSegundo.label_tag }}
+						<span class="ayuda"> {{ form.apellidoSegundo.help_text }} </span>
+						{{ form.apellidoSegundo }}
+					</div>
+				</div>
+            </div>
+			<div class="row">
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.fechaNacimiento.label_tag }}
+						<span class="ayuda"> {{ form.fechaNacimiento.help_text }} </span>
+						{{ form.fechaNacimiento }}
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.sexo.label_tag }}
+						<span class="ayuda"> {{ form.sexo.help_text }} </span>
+						{{ form.sexo }}
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.nit.label_tag }}
+						<span class="ayuda"> {{ form.nit.help_text }} </span>
+						{{ form.nit }}
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.facultad.label_tag }}
+						<span class="ayuda"> {{ form.facultad.help_text }} </span>
+						{{ form.facultad }}
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.telefono.label_tag }} 
+						<span class="ayuda"> {{ form.telefono.help_text }} </span>
+						{{ form.telefono }} 
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.correo.label_tag }}
+						<span class="ayuda"> {{ form.correo.help_text }} </span>
+						{{ form.correo }}
+					</div>
+				</div>
+            </div>
+		</div>
+	</div>
+	<div class="panel panel-info">
+        <div class="panel-body" style="padding-left: 20px; padding-top: 0px;">
+            <h3 class="page-header text-left">B) SIGNOS VITALES</h3>
+			<div class="row" style="padding-top: 7px;" >
+				<div class="col-md-4">
+                    <div class="form-group has-feedback">
+                        {{ form.presionArterial.label_tag }}
+						<span class="ayuda"> {{ form.presionArterial.help_text }} </span>
+                        <div class="input-group">
+                            {{ form.presionArterial }}
+                            <span class="input-group-addon">mmHg</span>
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group has-feedback">
+                        {{ form.frecuenciaCardiaca.label_tag }}
+						<span class="ayuda"> {{ form.frecuenciaCardiaca.help_text }} </span>
+						<div class="input-group">
+                            {{ form.frecuenciaCardiaca }}
+                            <span class="input-group-addon">lat/min</span>
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group has-feedback">
+                        {{ form.temperatura.label_tag }}
+						<span class="ayuda"> {{ form.temperatura.help_text }} </span>
+                        <div class="input-group">
+                            {{ form.temperatura }}
+							<span class="input-group-addon">&ordm;C</span>
+							<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+			<div class="row" style="padding-top: 7px;" >
+                <div class="col-md-4">
+                    <div class="form-group has-feedback">
+                        {{ form.peso.label_tag }}
+						<span class="ayuda"> {{ form.peso.help_text }} </span>
+                        <div class="input-group">
+                            {{ form.peso }}
+                            <span class="input-group-addon">Lb</span>
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group has-feedback">
+                        {{ form.talla.label_tag }}
+						<span class="ayuda"> {{ form.talla.help_text }} </span>
+                        <div class="input-group">
+                            {{ form.talla }}
+							<span class="input-group-addon">m</span>
+							<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+						</div>
+					</div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group has-feedback">
+                        {{ form.frecuenciaRespiratoria.label_tag }}
+						<span class="ayuda"> {{ form.frecuenciaRespiratoria.help_text }} </span>
+                        <div class="input-group">
+                            {{ form.frecuenciaRespiratoria }}
+                            <span class="input-group-addon">resp/min</span>
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+				 <table id="observacion" class="table table-responsive">
+			<tr>
+			    <td style="width:169px"><strong>Observaciones</strong></td>
+				<td style="width:798px"><textarea class="form-control" rows="2" name="Observaciones">{{ expediente.Observaciones }}</textarea></td>
+				
+			</tr>
+		</table>
+			</div>
+		</div>
+	</div>
+    
+    <div class="col-md-offset-9 col-md-10">
+        <button id="delete_expedienteprovisional" type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>Eliminar Expediente</button>
+           <a href="{% url 'expedienteprovisonal-list' %}" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span>Volver a la lista</a>
+    </div>
+</form>
+{% endblock %}

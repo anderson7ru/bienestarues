@@ -1,0 +1,139 @@
+<!-- 
+name: psicologia-new y psicologia-update
+Vista para la creacion y modificacion de expedientes de psicologia
+!-->
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} Nutricion {% endblock %}
+{% block paneltitle %} Ficha de identificaci&oacute;n del expediente cl&iacute;nico de Nutrici&oacute;n {% endblock %}
+
+{% block panelcontent %}
+{{form.errors}}
+<form id="nutricionForm" method="post" role="form">{% csrf_token %}
+    
+    <div class="ayuda" style="text-align:right">
+			<p>(*) campos requeridos </p>
+	</div>
+	
+	<div class="panel panel-info">
+	    <div class="panel-heading">Datos Generales</div>
+	    <div class="panel-body">
+	        
+	        <div id="expediente" class="row">
+	            <div class="col-md-3">
+	        		<label for="expediente">Nª Expediente</label>
+	        		<span class="ayuda">(*)</span>
+	        		<input type="text" name="expediente" id="expediente" class="form-control" value="{{datos.codigoPaciente}}" readonly />
+	        	</div>
+	        	<div class="col-md-4 col-md-offset-1">
+	                <div class="form-group">
+	                    <label for="nombre">Nombre: </label>
+	                    <span class="ayuda">(*)</span>
+	                    <input type="text" name="nombre" value="{{datos.get_full_name}}" class="form-control" readonly />
+	                </div>
+	            </div>
+	        	<div class="col-md-3">
+	        		<label for="fecha">Fecha de Ingreso</label>
+	        		<span class="ayuda">(*)</span>
+	                <input type="text" name="fecha" class="form-control" value="{% now 'SHORT_DATE_FORMAT' %}" readonly />
+	        	</div>
+	        </div>
+	        
+	        <div class="row" id="direccion">
+	            <div class="col-md-7">
+	                <div class="form-group">
+	                    <label for="direccion">Direccion: </label>
+	                    <span class="ayuda"></span>
+	                    {% if datos.direccion and datos.codMunicipio and datos.codDepartamento %}
+	                    <input type="text" id="direccion" class="form-control" style="max-width:624px" value="{{datos.direccion}}, {{datos.codMunicipio}}, {{datos.codDepartamento}}" readonly />
+	                    {% else %}
+	                    <input type="text" id="direccion" class="form-control" value="No Proporcionada Por el Paciente" readonly />
+	                    {% endif %}
+	                </div>
+	            </div>
+	            <div class="col-md-4 col-md-offset-1">
+	                <div class="form-group">
+	                    <label for="telefono">Telefono: </label>
+	                    <span class="ayuda"></span>
+	                    {% if datos.telefono %}
+	                    <input type="text" id="telefono" class="form-control" value="{{datos.telefono}}" readonly />
+	                    {% else %}
+	                    <input type="text" id="telefono" class="form-control" value="No Proporcionada Por el Paciente" readonly />
+	                    {% endif %} 
+	                </div>
+	            </div>
+	        </div>
+	        
+	        <div class="row" id="fecha">
+	             <div class="col-md-3">
+	                <div class="form-group">
+	                    <label for="fechaNacimiento">Fecha de Nacimiento: </label>
+	                    <span class="ayuda"></span>
+	                    <input type="text" name="fechaNacimiento" id="fechaNacimiento" class="form-control" value="{{datos.fechaNacimiento|date:'SHORT_DATE_FORMAT'}}" readonly />
+	                </div>
+	             </div>
+	             <div class="col-md-2">
+	                <div class="form-group">
+	                    <label for="edad">Edad: </label>
+	                    <span class="ayuda">(*)</span>
+	                    <input type="text" name="edad" value="{{edad}}" class="form-control" readonly />
+	                </div>
+	            </div>
+	            <div class="col-md-3">
+	                <div class="form-group">
+	                    <label for="sexo">Sexo: </label>
+	                    <span class="ayuda">(*)</span>
+	                    {% if sexo == 'M' %}
+	                    <input type="text" name="sexo" value="Masculino" class="form-control" readonly />
+	                    {% else %}
+	                    <input type="text" name="sexo" value="Femenino" class="form-control" readonly />
+	                    {% endif %}
+	                </div>
+	            </div>
+	            <div class="col-md-4">
+	                    <label for="estructura">Estructura Osea</label>
+	                    <span class="ayuda">(*)</span>
+	                    {{form.estructuraOsea}}
+	            </div>
+	        </div>
+	        
+	        <div class="row" id="talla">
+	            <div class="col-md-2 ">
+	                <label for="talla">Talla</label>
+	                <span class="ayuda">(*)</span>
+	                <input type="text" class="form-control" name="talla" value="{{signos.talla}}" readonly/>
+	            </div>
+	            <div class="col-md-3">
+	                <label for="extension">Extenci&oacute;n de brazada</label>
+	                <span class="ayuda">(*)</span>
+	                <div class="input-group">
+	                	{{form.extensionBrazada}}
+	                	<span class="input-group-addon">m</span>
+	                </div>
+	            </div>
+	            <div class="col-md-4">
+	                <label for="circunferencia">Circunferencia del Cuerpo</label>
+	                <span class="ayuda">(*)</span>
+	                <div class="input-group">
+	                	{{form.circunferenciaCuerpo}}
+	                	<span class="input-group-addon">cm</span>
+	                </div>
+	            </div>
+	            <div class="col-md-3">
+	                <label for="pesoD">Peso Deseable</label>
+	                <span class="ayuda">(*)</span>
+	               <div class="input-group">
+	               		{{form.pesoDeseable}}
+	               		<span class="input-group-addon">Lb</span>
+	               </div>
+	            </div>
+	        </div>
+	    
+	    </div>
+	</div>
+	<div class="col-md-offset-2 col-md-10">
+       <button id="guardaNutricion" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
+       <a href="{% url 'nutricion-list' %}" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Volver a la lista</a>
+    </div>
+</form>
+{%endblock%}

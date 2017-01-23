@@ -1,0 +1,688 @@
+<!-- 
+name: quimica_sanguinea-new y quimica_sanguinea-update
+Vista para la creacion y modificacion de examen de laboratorio de quimica sanguinea
+!-->
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} LABORATORIO CLINICO {% endblock %}
+{% block paneltitle %} EXAMEN DE QUIMICA SANGUINEA {% endblock %}
+
+{% block panelcontent %}
+<form id="quimica_sanguinea" action="" enctype="multipart/form-data" method="post">{% csrf_token %}
+
+	<div class="row" >
+		<div class="col-md-3" style="padding-top: 0px;">
+			<div class="form-group">
+				<div class="input-group">
+						<label for="l_eleccion" ><strong>&nbsp&nbspSUBIR ARCHIVO:&nbsp&nbsp</strong></label>
+	    				<input type="checkbox" id="l_eleccion" value="cargarArchivo"  name="eleccion" onclick="glucosa.disabled=!glucosa.disabled; glucosaAjustada.disabled=!glucosaAjustada.disabled;
+	    				glucosaPospandrial.disabled=!glucosaPospandrial.disabled; pospandrialAjustada.disabled=!pospandrialAjustada.disabled; colesterol.disabled=!colesterol.disabled;
+	    				colesterolAjustada.disabled=!colesterolAjustada.disabled; trigliceridos.disabled=!trigliceridosAjustada.disabled; trigliceridosAjustada.disabled=!trigliceridosAjustada.disabled; 
+	    				acidoUrico.disabled=!acidoUrico.disabled; uricoAjustada.disabled=!uricoAjustada.disabled; creatinina.disabled=!creatininaAjustada.disabled;creatininaAjustada.disabled=!creatininaAjustada.disabled;
+	    				archivo.disabled=!archivo.disabled; hdl.disabled=!hdl.disabled; hdlAjustada.disabled=!hdlAjustada.disabled; ldl.disabled=!ldl.disabled; ldlAjustada.disabled=!ldlAjustada.disabled;
+	    				tgo.disabled=!tgo.disabled; tgoAjustada.disabled=!tgoAjustada.disabled; tgp.disabled=!tgp.disabled; tgpAjustada.disabled=!tgpAjustada.disabled;
+	    				bilirrubinaTotal.disabled=!bilirrubinaTotal.disabled; bTotalAjustada.disabled=!bTotalAjustada.disabled;
+	    				bilirrubinaDirecta.disabled=!bilirrubinaDirecta.disabled;bDirectaAjustada.disabled=!bDirectaAjustada.disabled;
+	    				bilirrubinaIndirecta.disabled=!bilirrubinaIndirecta.disabled; bIndirectaAjustada.disabled=!bIndirectaAjustada.disabled;
+	    				tiempoProtrombina.disabled=!tiempoProtrombina.disabled; protrombinaAjustada.disabled=!protrombinaAjustada.disabled;
+	    				tiempoTromboplastina.disabled=!tiempoTromboplastina.disabled; tromboplastinaAjustada.disabled=!tromboplastinaAjustada.disabled;
+	    				tiempoSangramiento.disabled=!tiempoSangramiento.disabled; sangramientoAjustada.disabled=!sangramientoAjustada.disabled;
+	    				tiempoCoagulacion.disabled=!tiempoCoagulacion.disabled; coagulacionAjustada.disabled=!coagulacionAjustada.disabled;
+	    				eritrosedimentacion.disabled=!eritrosedimentacion.disabled; eritrosedimentacionAjustada.disabled=!eritrosedimentacionAjustada.disabled;"> <br>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-7" style="padding-top: 0px;">
+				<div class="form-group">
+					<div class="input-group">
+			    		<label for="l_archivo"><strong>SELECCIONAR UN ARCHIVO</strong></label>
+						<span class="ayuda"> (*) </span>
+					</div>
+					<div class="input-group">
+						<span class="btn btn-primary btn-file">
+    			        <strong>CARGAR ARCHIVO</strong><input type="file" name="archivo" disabled>
+			           	</span>
+					</div>
+				</div>
+		</div>
+	</div>
+
+    <div class="ayuda" style="text-align:right">
+			<p>(*) campos requeridos </p>
+	</div>
+	<div class="panel panel-info">
+        <div class="panel-body" style="padding-left: 20px; padding-top: 0px;">
+        	<br>
+        	<table border="0" cellspacing="0" cellpadding="0" align="right">
+        			<tr>
+			    		<td style="padding-right: 20px; padding-top: 0px;"><strong>N° EXPEDIENTE:</strong></td>
+			    		<td style="padding-right: 20px; padding-top: 0px;"><input type="text" class="form-control" id="id_codigoPaciente" name="codigoPaciente" value="{{ paciente.codigoPaciente }}" READONLY/></td>
+			    	</tr>
+			    	<tr>
+			    		<td style="padding-right: 20px; padding-top: 20px;"><strong>FECHA:</strong></td>
+			    		<td style="padding-right: 20px; padding-top: 20px;"><input class="form-control" id="id_fechaIngreso" name="fechaIngreso" type="text" value="{% now 'SHORT_DATETIME_FORMAT' %}" READONLY/></td>
+			    	</tr>
+			</table>
+			<br>
+            <h3 class="page-header text-left"><strong>DATOS DEL PACIENTE</strong></h3>
+			<div class="row">
+				<table border="0" cellspacing="0" cellpadding="0">
+					<tr>
+			    		<td style="width:110px"><strong>&nbsp&nbsp&nbsp&nbspPACIENTE:</strong></td>
+			    		<td style="width:628px"><input type="text" class="form-control" id="id_paciente" name="paciente" value="{{ paciente.get_full_name }}" required="True"READONLY/></td>
+			    	
+			    		
+			    		<td style="width:134px"><strong>EDAD:</strong></td>
+			    		<td style="width:196px">
+			    			<div class="input-group">
+			    			<input type="number" class="form-control" id="id_edad" name="edad" value="{{ paciente.edad_paciente }}" required="True"READONLY/>
+			    		    <span class="input-group-addon">Años</span>
+			    		    </div>
+			    		</td>
+					</tr>
+				</table>
+            </div>
+        </div>
+	</div>
+	<div class="panel panel-info">
+        <div class="panel-body" style="padding-left: 20px; padding-top: 0px;">
+            <h3 class="page-header text-left"><strong>RESULTADOS DEL EXAMEN</strong></h3>
+			<div class="row">
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id"><strong></strong></label>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_rangos"><u><strong>RANGOS DE REFERENCIA</strong></u></label>
+						</div>
+					</div>
+				</div>
+            </div>
+
+			<div class="row">
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_glucosa"><strong>GLUCOSA:</strong></label>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="number" class="form-control" id="id_glucosa" name="glucosa" />
+			    		<span class="input-group-addon">mg/dl</span>
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="text" class="form-control" id="id_glucosaAjustada" name="glucosaAjustada"/>
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_glucosaAjustada"><strong>VR 75-115 mg/dl</strong></label>
+						</div>
+					</div>
+				</div>
+            </div>
+			<div class="row">
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_glucosaPospandrial"><strong>GLUCOSA POSPANDRIAL:</strong></label>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="number" class="form-control" id="id_glucosaPospandrial" name="glucosaPospandrial" />
+			    		<span class="input-group-addon">mg/dl</span>
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="text" class="form-control" id="id_pospandrialAjustada" name="pospandrialAjustada" />
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_glucosaAjustada"><strong>VR menor de 140 mg/dl</strong></label>
+						</div>
+					</div>
+				</div>
+            </div>
+			<div class="row">
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_colesterol"><strong>COLESTEROL:</strong></label>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="number" class="form-control" id="id_colesterol" name="colesterol" />
+			    		<span class="input-group-addon">mg/dl</span>
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="text" class="form-control" id="id_colesterolAjustada" name="colesterolAjustada" />
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_colesterolAjustada"><strong>VR hasta 200 mg/dl</strong></label>
+						</div>
+					</div>
+				</div>
+            </div>
+			<div class="row">
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_trigliceridos"><strong>TRIGLICERIDOS:</strong></label>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="number" class="form-control" id="id_trigliceridos" name="trigliceridos" />
+			    		<span class="input-group-addon">mg/dl</span>
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="text" class="form-control" id="id_trigliridosAjustada" name="trigliceridosAjustada" />
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_trigliridosAjustada"><strong>VR hasta 150 mg/dl</strong></label>
+						</div>
+					</div>
+				</div>
+            </div>
+			<div class="row">
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_acidoUrico"><strong>ACIDO URICO:</strong></label>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="number" step="0.01" class="form-control" id="id_acidoUrico" name="acidoUrico" />
+			    		<span class="input-group-addon">mg/dl</span>
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="text" class="form-control" id="id_uricoAjustada" name="uricoAjustada" />
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_uricoAjustada"><strong>VR M 2.5-6.8 mg/dl; H 3.6-7.7 mg/dl</strong></label>
+						</div>
+					</div>
+				</div>
+            </div>
+			<div class="row">
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_creatinina"><strong>CREATININA:</strong></label>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="number" step="0.01" class="form-control" id="id_creatinina" name="creatinina" />
+			    		<span class="input-group-addon">mg/dl</span>
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="text" class="form-control" id="id_creatininaAjustada" name="creatininaAjustada" />
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_creatininaAjustada"><strong>VR M 0.6-1.2 mg/dl; H 0.7-1.4 mg/dl</strong></label>
+						</div>
+					</div>
+				</div>
+            </div>
+			<div class="row">
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_hdl"><strong>HDL:</strong></label>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="number" class="form-control" id="id_hdl" name="hdl" />
+			    		<span class="input-group-addon">mg/dl</span>
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="text" class="form-control" id="id_hdllAjustada" name="hdlAjustada" />
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_hdlAjustada"><strong>VR 30-80 mg/dl</strong></label>
+						</div>
+					</div>
+				</div>
+            </div>
+			<div class="row">
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_ldl"><strong>LDL:</strong></label>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="number" class="form-control" id="id_ldl" name="ldl" />
+			    		<span class="input-group-addon">mg/dl</span>
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="text" class="form-control" id="id_ldlAjustada" name="ldlAjustada" />
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_ldlAjustada"><strong>< 130 mg/dl</strong></label>
+						</div>
+					</div>
+				</div>
+            </div>
+			<div class="row">
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_tgo"><strong>TGO:</strong></label>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="number" class="form-control" id="id_tgo" name="tgo" />
+			    		<span class="input-group-addon">U/L</span>
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="text" class="form-control" id="id_tgoAjustada" name="tgoAjustada" />
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_tgoAjustada"><strong>M-9-25 U/L; H 10-40 U/L</strong></label>
+						</div>
+					</div>
+				</div>
+            </div>
+			<div class="row">
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_tgp"><strong>TGP:</strong></label>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="number" class="form-control" id="id_tgp" name="tgp" />
+			    		<span class="input-group-addon">U/L</span>
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="text" class="form-control" id="id_tgpAjustada" name="tgpAjustada" />
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_tgpAjustada"><strong>M-7-30 U/L; H 10-55 U/L</strong></label>
+						</div>
+					</div>
+				</div>
+            </div>
+			<div class="row">
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_bilirrubinaTotal"><strong>BILIRRUBINA TOTAL:</strong></label>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="number" step="0.01" class="form-control" id="id_bilirrubinaTotal" name="bilirrubinaTotal" />
+			    		<span class="input-group-addon">mg/dl</span>
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="text" class="form-control" id="id_bTotalAjustada" name="bTotalAjustada" />
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_bTotalAjustada"><strong>0-1 - 1.25 mg/dl</strong></label>
+						</div>
+					</div>
+				</div>
+            </div>
+			<div class="row">
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_bilirrubinaDirecta"><strong>BILIRRUBINA DIRECTA:</strong></label>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="number" step="0.01" class="form-control" id="id_bilirrubinaDirecta" name="bilirrubinaDirecta" />
+			    		<span class="input-group-addon">mg/dl</span>
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="text" class="form-control" id="id_bDirectaAjustada" name="bDirectaAjustada" />
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_bDirectaAjustada"><strong>0.0 - 0.25 mg/dl</strong></label>
+						</div>
+					</div>
+				</div>
+            </div>
+			<div class="row">
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_bilirrubinaIndirecta"><strong>BILIRRUBINA INDIRECTA:</strong></label>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="number" step="0.01" class="form-control" id="id_bilirrubinaIndirecta" name="bilirrubinaIndirecta" />
+			    		<span class="input-group-addon">mg/dl</span>
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="text" class="form-control" id="id_bIndirectaAjustada" name="bIndirectaAjustada" />
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_bIndirectaAjustada"><strong>0.1 - 1.0 mg/dl</strong></label>
+						</div>
+					</div>
+				</div>
+            </div>
+			<div class="row">
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_tiempoProtrombina"><strong>TIEMPO DE PROTROMBINA:</strong></label>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="number" class="form-control" id="id_tiempoProtrombina" name="tiempoProtrombina" />
+			    		<span class="input-group-addon">seg</span>
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="text" class="form-control" id="id_protrombinaAjustada" name="protrombinaAjustada" />
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_protrombinaAjustada"><strong>9.9 - 11.8 seg</strong></label>
+						</div>
+					</div>
+				</div>
+            </div>
+			<div class="row">
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_tiempoTromboplastina"><strong>TIEMPO DE TROMBOPLASTINA:</strong></label>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="number" class="form-control" id="id_tiempoTromboplastina" name="tiempoTromboplastina" />
+			    		<span class="input-group-addon">seg</span>
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="text" class="form-control" id="id_tromboplastinaAjustada" name="tromboplastinaAjustada" />
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_tromboplastinaAjustada"><strong>25 - 35 seg</strong></label>
+						</div>
+					</div>
+				</div>
+            </div>
+			<div class="row">
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_tiempoSangramiento"><strong>TIEMPO DE SANGRAMIENTO:</strong></label>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="number" class="form-control" id="id_tiempoSangramiento" name="tiempoSangramiento" />
+			    		<span class="input-group-addon">min</span>
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="text" class="form-control" id="id_sangramientoAjustada" name="sangramientoAjustada" />
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_sangramientoAjustada"><strong>2-5 minutos</strong></label>
+						</div>
+					</div>
+				</div>
+            </div>
+			<div class="row">
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_tiempoCoagulacion"><strong>TIEMPO DE COAGULACION:</strong></label>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="number" class="form-control" id="id_tiempoCoagulacion" name="tiempoCoagulacion" />
+			    		<span class="input-group-addon">min</span>
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="text" class="form-control" id="id_coagulacionAjustada" name="coagulacionAjustada" />
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_coagulacionAjustada"><strong>5-10 minutos</strong></label>
+						</div>
+					</div>
+				</div>
+            </div>
+			<div class="row">
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_eritrosedimentacion"><strong>ERITROSEDIMENTACION:</strong></label>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="number" class="form-control" id="id_eritrosedimentacion" name="eritrosedimentacion" />
+			    		<span class="input-group-addon">Mm/h</span>
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="text" class="form-control" id="id_eritrosedimentacionAjustada" name="eritrosedimentacionAjustada" />
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_eritrosedimentacionAjustada"><strong>VR M 0-15 mm/h; H 0-7 mm/h</strong></label>
+						</div>
+					</div>
+				</div>
+            </div>
+
+
+		</div>
+	</div>
+    
+    <div class="col-md-offset-2 col-md-10">
+      <button id="save_personalpaciente" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
+      <a href="{% url 'laboratorio-list' %}" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Volver a la lista</a>
+    </div>
+</form>
+{{informacion}}
+{% endblock %}
