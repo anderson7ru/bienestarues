@@ -20,8 +20,8 @@ Presenta el formulario de inscripcion de una paciente a planificacion familiar
 					{{ form.paciente.label_tag }}
 					<span class="ayuda"> {{ form.paciente.help_text }} </span>
 				</div>
-				<div class="col-md-3">
-					<div class="form-group">
+				<div class="col-md-4">
+					<div class="form-group seleccion1">
 						{% if form.paciente.value %}
 						<input class="form-control" id="id_codigoPaciente" maxlength="7" name="paciente" placeholder="####-##" type="text" value='{{ form.paciente.value }}' READONLY/>
 						{% else %}
@@ -33,12 +33,12 @@ Presenta el formulario de inscripcion de una paciente a planificacion familiar
 					<label>Fecha</label>
 				</div>
 				<div class="col-md-3">
-					<input class="form-control" type="text" value="{% now 'SHORT_DATE_FORMAT' %}" READONLY/>
+					<input class="form-control" type="text" value="{% now 'SHORT_DATE_FORMAT' %}" readonly />
 				</div>
 			</div>
 			<div class="row" style="padding-top: 7px;">
-				<div class="col-md-3" style="padding-top: 20px;">
-					{{ form.aniosEscolaridad.label_tag }}
+				<div class="col-md-2" style="padding-top: 20px; padding-right: 0px;">
+					<b>A&ntilde;os </b>{{ form.aniosEscolaridad.label_tag }}
 					<span class="ayuda"> {{ form.aniosEscolaridad.help_text }} </span>
 				</div>
 				<div class="col-md-2" style="padding-top: 20px;">
@@ -46,10 +46,11 @@ Presenta el formulario de inscripcion de una paciente a planificacion familiar
 						{{ form.aniosEscolaridad }}
 					</div>
 				</div>
-				<div class="col-md-7">
+				<div class="col-md-2" style=""></div>
+				<div class="col-md-6">
 					<div style = "padding-left: 25px"><label>INSCRIPCION</label></div>
 					<div>
-						<div class="col-md-4" style="padding-left: 0px;">
+						<div class="col-md-5" style="padding-left: 0px;">
 							{{ form.primeraVida.label_tag }}
 							<span class="ayuda"> {{ form.primeraVida.help_text }} </span>
 						</div>
@@ -60,7 +61,7 @@ Presenta el formulario de inscripcion de una paciente a planificacion familiar
 						</div>
 					</div>
 					<div>
-						<div class="col-md-4" style="padding-left: 0px;">
+						<div class="col-md-5" style="padding-left: 0px;">
 							{{ form.primeraInstitucion.label_tag }}
 							<span class="ayuda"> {{ form.primeraInstitucion.help_text }} </span>
 						</div>
@@ -165,7 +166,7 @@ Presenta el formulario de inscripcion de una paciente a planificacion familiar
 			</div>
 			<div class="row"  style="padding-top: 7px;">
 				<div  style="padding-left:10px; padding-top: 7px;"><label> TERMINACION DEL ULTIMO EMBARAZO:</label></div>
-				<div class="col-md-4" >
+				<div class="col-md-3" >
 					{{ form.ueProductoVivo.label_tag }}
 					<span class="ayuda"> {{ form.ueProductoVivo.help_text }} </span>
 					{% for radio in form.ueProductoVivo %}
@@ -224,8 +225,8 @@ Presenta el formulario de inscripcion de una paciente a planificacion familiar
 					<div class="form-group">
 						{{ form.dismenorrea.label_tag }}
 						<span class="ayuda"> {{ form.dismenorrea.help_text }} </span>
-						{% for radio in form.dismenorrea %}
-						<span> {{ radio }} </span>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{% for radio in form.dismenorrea %}
+						<span> {{ radio }} &nbsp;&nbsp;</span>
 						{% endfor %}
 					</div>
 				</div>
@@ -252,12 +253,12 @@ Presenta el formulario de inscripcion de una paciente a planificacion familiar
 				</div>
 			</div>
 			<div class="row"  style="padding-top: 7px;">
-				<div class="col-md-5" >
+				<div class="col-md-6" >
 					<div class="form-group">
 						{{ form.sangramientos.label_tag }}
 						<span class="ayuda"> {{ form.sangramientos.help_text }} </span>
-						{% for radio in form.sangramientos %}
-						<span> {{ radio }} </span>
+						&nbsp;&nbsp;&nbsp;{% for radio in form.sangramientos %}
+						<span> {{ radio }} &nbsp;&nbsp;</span>
 						{% endfor %}
 					</div>
 				</div>
@@ -444,7 +445,7 @@ Presenta el formulario de inscripcion de una paciente a planificacion familiar
 					</div>
 				</div>
 			</div>
-			<div class="row"  style="padding-top: 7px;">
+			<div class="row"  style="padding: 10px auto ;">
 				<div class="col-md-4" >
 					{{ form.metAnticonceptivos.label_tag }}
 					<span class="ayuda"> {{ form.metAnticonceptivos.help_text }} </span>
@@ -474,8 +475,10 @@ Presenta el formulario de inscripcion de una paciente a planificacion familiar
 						{{ form.metTiempo }}
 					</div>
 				</div>
-				<div class="col-md-1" style="padding-left:0px;">
-					semanas
+				<div class="col-md-2" style="padding-left:0px;">
+					<div class="form-group">
+						{{ form.metLapso }}
+					</div>
 				</div>
 			</div>
 			<div class="row"  style="padding-top: 7px;">
@@ -483,7 +486,7 @@ Presenta el formulario de inscripcion de una paciente a planificacion familiar
 					{{ form.metJustificar.label_tag }}
 					<span class="ayuda"> {{ form.metJustificar.help_text }} </span>
 				</div>
-				<div class="col-md-4" >
+				<div class="col-md-3" >
 					<div class="form-group">
 						{{ form.metJustificar }}
 					</div>
@@ -551,7 +554,7 @@ Presenta el formulario de inscripcion de una paciente a planificacion familiar
 						{% endfor %}
 					</div>
 				</div>
-				<div class="col-md-7" >
+				<div class="col-md-3" >
 					<div class="form-group">
 						{{ form.cabeza }}
 					</div>
@@ -569,7 +572,7 @@ Presenta el formulario de inscripcion de una paciente a planificacion familiar
 						{% endfor %}
 					</div>
 				</div>
-				<div class="col-md-7" >
+				<div class="col-md-3" >
 					<div class="form-group">
 						{{ form.cuello }}
 					</div>
@@ -587,7 +590,7 @@ Presenta el formulario de inscripcion de una paciente a planificacion familiar
 						{% endfor %}
 					</div>
 				</div>
-				<div class="col-md-7" >
+				<div class="col-md-3" >
 					<div class="form-group">
 						{{ form.mamas }}
 					</div>
@@ -605,7 +608,7 @@ Presenta el formulario de inscripcion de una paciente a planificacion familiar
 						{% endfor %}
 					</div>
 				</div>
-				<div class="col-md-7" >
+				<div class="col-md-3" >
 					<div class="form-group">
 						{{ form.torax }}
 					</div>
@@ -623,7 +626,7 @@ Presenta el formulario de inscripcion de una paciente a planificacion familiar
 						{% endfor %}
 					</div>
 				</div>
-				<div class="col-md-7" >
+				<div class="col-md-3" >
 					<div class="form-group">
 						{{ form.abdomen }}
 					</div>
@@ -641,7 +644,7 @@ Presenta el formulario de inscripcion de una paciente a planificacion familiar
 						{% endfor %}
 					</div>
 				</div>
-				<div class="col-md-7" >
+				<div class="col-md-3" >
 					<div class="form-group">
 						{{ form.miembros }}
 					</div>
@@ -742,7 +745,7 @@ Presenta el formulario de inscripcion de una paciente a planificacion familiar
 				</div>
 			</div>
 			<div class="row"  style="padding-top: 7px;">
-				<div  style="padding-left:15px;" ><label> CUELLO UTERINO:</label></div>
+				<div  style="padding-left: 10px; padding-bottom: 17px;" ><label> CUELLO UTERINO:</label></div>
 				<div class="col-md-1" >
 					{{ form.cuPalpacion.label_tag }}
 					<span class="ayuda"> {{ form.cuPalpacion.help_text }} </span>
@@ -803,7 +806,7 @@ Presenta el formulario de inscripcion de una paciente a planificacion familiar
 						{{ form.tomaPap.label_tag }}
 						<span class="ayuda"> {{ form.tomaPap.help_text }} </span>
 						{% for radio in form.tomaPap %}
-						<span> {{ radio }} </span>
+						<span> &nbsp;&nbsp;&nbsp;{{ radio }} </span>
 						{% endfor %}
 					</div>
 				</div>
@@ -820,7 +823,7 @@ Presenta el formulario de inscripcion de una paciente a planificacion familiar
 				</div>
 			</div>
 			<div class="row"  style="padding-top: 7px;">
-				<div  style="padding-left:15px;" ><label>UTERO:</label></div>
+				<div  style="padding-left: 10px; padding-bottom: 17px;" ><label>UTERO:</label></div>
 				<div class="col-md-1" >
 					{{ form.uteroPosicion.label_tag }}
 					<span class="ayuda"> {{ form.uteroPosicion.help_text }} </span>
@@ -974,99 +977,75 @@ Presenta el formulario de inscripcion de una paciente a planificacion familiar
 						{{ form.anticonceptivo.label_tag }}
 						<span class="ayuda"> {{ form.anticonceptivo.help_text }} </span>
 						{% for radio in form.anticonceptivo %}
-						<span> {{ radio }}    </span>
+						&nbsp;&nbsp;&nbsp;<span> {{ radio }}    </span>
 						{% endfor %}
 					</div>
 				</div>
 			</div>
 			<div class="row"  style="padding-top: 7px;">
-				<div class="col-md-1" >
+				<div class="col-md-2" >
 					{{ form.miONombre.label_tag }}
 					<span class="ayuda"> {{ form.miONombre.help_text }} </span>
 				</div>
-				<div class="col-md-2" >
+				<div class="col-md-3" >
 					<div class="form-group">
 						{{ form.miONombre }}
 					</div>
 				</div>
-				<div class="col-md-1" ></div>
 				<div class="col-md-1" >
 					{{ form.miOtros.label_tag }}
 					<span class="ayuda"> {{ form.miOtros.help_text }} </span>
 				</div>
-				<div class="col-md-2" >
+				<div class="col-md-3" >
 					<div class="form-group">
 						{{ form.miOtros }}
 					</div>
 				</div>
 			</div>
 			<div class="row"  style="padding-top: 7px;">
-				<div class="col-md-1" >
+				<div class="col-md-2" >
 					{{ form.diagnostico.label_tag }}
 					<span class="ayuda"> {{ form.diagnostico.help_text }} </span>
 				</div>
-				<div class="col-md-6" style="padding-left: 25px;">
+				<div class="col-md-3">
 					<div class="form-group">
 						{{ form.diagnostico }}
 					</div>
 				</div>
 			</div>
 			<div class="row"  style="padding-top: 7px;">
-				<div class="col-md-1" >
+				<div class="col-md-2" >
 					{{ form.indicaciones.label_tag }}
 					<span class="ayuda"> {{ form.indicaciones.help_text }} </span>
 				</div>
-				<div class="col-md-6" style="padding-left: 25px;">
+				<div class="col-md-3">
 					<div class="form-group">
 						{{ form.indicaciones }}
 					</div>
 				</div>
 			</div>
-		</div>
-	</div>
-	
-	<div class="panel panel-info">
-        <div class="panel-body" style="padding-left: 20px; padding-top: 0px;">
-            <h3 class="page-header text-left">RESPONSABLE </h3>
 			<div class="row"  style="padding-top: 7px;">
-				<div class="col-md-3" >
-					{{ form.fechaProximaConsulta.label_tag }}
-					<span class="ayuda"> {{ form.fechaProximaConsulta.help_text }} </span>
+				<div class="col-md-2" >
+					{{ form.proximaConsulta.label_tag }}
+					<span class="ayuda"> {{ form.proximaConsulta.help_text }} </span>
 				</div>
-				<div class="col-md-4" >
+				<div class="col-md-2">
 					<div class="form-group">
-						{{ form.fechaProximaConsulta }}
+						{{ form.proximaConsulta }}
 					</div>
 				</div>
-			</div>
-			<div class="row"  style="padding-top: 7px;">
-				<div class="col-md-3" >
-					{{ form.nombreResponsable.label_tag }}
-					<span class="ayuda"> {{ form.nombreResponsable.help_text }} </span>
-				</div>
-				<div class="col-md-4" >
+				<div class="col-md-3" style="padding-left: 25px;">
 					<div class="form-group">
-						{{ form.nombreResponsable }}
-					</div>
-				</div>
-			</div>
-			<div class="row"  style="padding-top: 7px;">
-				<div class="col-md-3" >
-					{{ form.cargo.label_tag }}
-					<span class="ayuda"> {{ form.cargo.help_text }} </span>
-				</div>
-				<div class="col-md-4" >
-					<div class="form-group">
-						{{ form.cargo }}
+						{{ form.proximaConsultaLapso }}
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 		
-    <div class="col-md-offset-2 col-md-10">
+    <div class="col-md-offset-4 col-md-4 operaciones">
        <button id="save_inscripcionplanificacion" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
-       <a href="{% url 'planificacionfamiliar-list' %}" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Volver a la lista</a>
+	   <a href="{% url 'planificacionfamiliar-list' %}" class="btn btn-danger" title="Volver al Listado"><span class="glyphicon glyphicon-ban-circle"></span> Cancelar</a>
     </div>
     </form>
 {%endblock%}

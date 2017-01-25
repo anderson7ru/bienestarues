@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404,render
 from django.core.urlresolvers import reverse
 from django.conf import settings
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required,user_passes_test
 from io import BytesIO
 from django.http import HttpResponse
 from reportlab.pdfgen import canvas
@@ -14,47 +14,56 @@ import datetime
 from django.utils.dateparse import parse_date
 import os, sys, subprocess
 import webbrowser
+from bienestarhome.admin import is_laboratorio
 from datospersonalesapp.models import Paciente
 from laboratorioapp.models import Examen_Hematologia, Examen_Heces, Examen_Orina, Examen_General, Examen_Quimica_Sanguinea, Examen_Especiales
 from laboratorioapp.forms import HematologiaForm, archivoForm, orinaForm, hecesForm, generalForm, especialesForm, quimicaForm, archivoOrinaForm, archivoHecesForm, archivoQuimicaForm, archivoEspecialesForm, archivoNuevoIngresoForm
 
 # Estas son las vistas que se utilizan para el modulo de laboratorio clinico.
 @login_required(login_url='logins')
+@user_passes_test(is_laboratorio)
 def laboratorio_list(request):
     pacientes=Paciente.objects.filter(estadoExpediente='A')
     return render(request,"laboratorio/laboratorio_list.html",{'personalpaciente':pacientes})
 
 @login_required(login_url='logins')
+@user_passes_test(is_laboratorio)
 def hematologia_list(request):
     hematologia=Examen_Hematologia.objects.all()
     return render(request,"laboratorio/hematologia_list.html",{'hematologia':hematologia})
 
 @login_required(login_url='logins')
+@user_passes_test(is_laboratorio)
 def examen_heces_list(request):
     examen_heces=Examen_Heces.objects.all()
     return render(request,"laboratorio/examen_heces_list.html",{'examen_heces':examen_heces})
 
 @login_required(login_url='logins')
+@user_passes_test(is_laboratorio)
 def examen_orina_list(request):
     examen_orina=Examen_Orina.objects.all()
     return render(request,"laboratorio/examen_orina_list.html",{'examen_orina':examen_orina})
 
 @login_required(login_url='logins')
+@user_passes_test(is_laboratorio)
 def examen_general_list(request):
     examen_general=Examen_General.objects.all()
     return render(request,"laboratorio/examen_general_list.html",{'examen_general':examen_general})
 
 @login_required(login_url='logins')
+@user_passes_test(is_laboratorio)
 def examen_quimica_list(request):
     examen_quimica=Examen_Quimica_Sanguinea.objects.all()
     return render(request,"laboratorio/examen_quimica_list.html",{'examen_quimica':examen_quimica})
 
 @login_required(login_url='logins')
+@user_passes_test(is_laboratorio)
 def examen_especiales_list(request):
     examen_especiales=Examen_Especiales.objects.all()
     return render(request,"laboratorio/examen_especiales_list.html",{'examen_especiales':examen_especiales})
 
 @login_required(login_url='logins')
+@user_passes_test(is_laboratorio)
 def hematologia_nuevo(request,pk):
     paciente = Paciente.objects.get(pk=pk)
     info = ""
@@ -101,11 +110,13 @@ def hematologia_nuevo(request,pk):
     return render(request,"laboratorio/hematologia_editar.html",{'form':form,'informacion':info,'paciente':paciente})
 
 @login_required(login_url='logins')
+@user_passes_test(is_laboratorio)
 def paciente_detalle(request, pk):
     paciente = Paciente.objects.get(pk=pk) 
     return render(request, "laboratorio/hematologia_editar.html", {'paciente':paciente})
 
 @login_required(login_url='logins')
+@user_passes_test(is_laboratorio)
 def examen_heces_nuevo(request, pk):
     paciente = Paciente.objects.get(pk=pk)
     info = ""
@@ -149,6 +160,7 @@ def examen_heces_nuevo(request, pk):
     return render(request, "laboratorio/examen_heces_editar.html", {'paciente':paciente,'form':form,'informacion':info})
 
 @login_required(login_url='logins')
+@user_passes_test(is_laboratorio)
 def examen_orina_nuevo(request, pk):
     paciente = Paciente.objects.get(pk=pk)
     info = ""
@@ -198,6 +210,7 @@ def examen_orina_nuevo(request, pk):
     return render(request, "laboratorio/examen_orina_editar.html", {'paciente':paciente,'form':form, 'informacion':info})
 
 @login_required(login_url='logins')
+@user_passes_test(is_laboratorio)
 def examen_nuevo_ingreso_nuevo(request, pk):
     paciente = Paciente.objects.get(pk=pk)
     info = ""
@@ -250,6 +263,7 @@ def examen_nuevo_ingreso_nuevo(request, pk):
     return render(request, "laboratorio/examen_nuevo_ingreso_editar.html", {'paciente':paciente,'form':form, 'informacion':info})
 
 @login_required(login_url='logins')
+@user_passes_test(is_laboratorio)
 def quimica_sanguinea_nuevo(request, pk):
     paciente = Paciente.objects.get(pk=pk)
     info = ""
@@ -304,6 +318,7 @@ def quimica_sanguinea_nuevo(request, pk):
     return render(request, "laboratorio/quimica_sanguinea_editar.html", {'paciente':paciente,'form':form, 'informacion':info})
 
 @login_required(login_url='logins')
+@user_passes_test(is_laboratorio)
 def pruebas_especiales_nuevo(request, pk):
     paciente = Paciente.objects.get(pk=pk)
     info = ""
@@ -344,6 +359,7 @@ def pruebas_especiales_nuevo(request, pk):
     return render(request, "laboratorio/pruebas_especiales_editar.html", {'paciente':paciente,'form':form, 'informacion':info})
 
 @login_required(login_url='logins')
+@user_passes_test(is_laboratorio)
 def hematologia_detalle(request,pk):
     hematologia = Examen_Hematologia.objects.get(pk=pk)
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -351,6 +367,7 @@ def hematologia_detalle(request,pk):
     return render(request, "laboratorio/examen_hematologia_detalle.html", {'hematologia':hematologia,'path':MEDIA_ROOT})
 
 @login_required(login_url='logins')
+@user_passes_test(is_laboratorio)
 def examen_heces_detalle(request,pk):
     examen_heces = Examen_Heces.objects.get(pk=pk)
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -358,6 +375,7 @@ def examen_heces_detalle(request,pk):
     return render(request, "laboratorio/examen_heces_detalle.html", {'examen_heces':examen_heces,'path':MEDIA_ROOT})
 
 @login_required(login_url='logins')
+@user_passes_test(is_laboratorio)
 def examen_general_detalle(request,pk):
     examen_general = Examen_General.objects.get(pk=pk)
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -365,6 +383,7 @@ def examen_general_detalle(request,pk):
     return render(request, "laboratorio/examen_general_detalle.html", {'examen_general':examen_general,'path':MEDIA_ROOT})
 
 @login_required(login_url='logins')
+@user_passes_test(is_laboratorio)
 def examen_orina_detalle(request,pk):
     examen_orina = Examen_Orina.objects.get(pk=pk)
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -372,6 +391,7 @@ def examen_orina_detalle(request,pk):
     return render(request, "laboratorio/examen_orina_detalle.html", {'examen_orina':examen_orina,'path':MEDIA_ROOT})
 
 @login_required(login_url='logins')
+@user_passes_test(is_laboratorio)
 def examen_quimica_detalle(request,pk):
     examen_quimica = Examen_Quimica_Sanguinea.objects.get(pk=pk)
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -379,6 +399,7 @@ def examen_quimica_detalle(request,pk):
     return render(request, "laboratorio/examen_quimica_detalle.html", {'examen_quimica':examen_quimica,'path':MEDIA_ROOT})
 
 @login_required(login_url='logins')
+@user_passes_test(is_laboratorio)
 def examen_especiales_detalle(request,pk):
     examen_especiales = Examen_Especiales.objects.get(pk=pk)
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -386,6 +407,7 @@ def examen_especiales_detalle(request,pk):
     return render(request, "laboratorio/examen_especiales_detalle.html", {'examen_especiales':examen_especiales,'path':MEDIA_ROOT})
 
 @login_required(login_url='logins')
+@user_passes_test(is_laboratorio)
 def abrir_archivo_heces(request,pk):
     examen_heces = Examen_Heces.objects.get(pk=pk)
     pathAux=str(examen_heces.archivo)
@@ -396,6 +418,7 @@ def abrir_archivo_heces(request,pk):
     return render(request, "laboratorio/examen_heces_detalle.html", {'examen_heces':examen_heces,'path':MEDIA_ROOT})
 
 @login_required(login_url='logins')
+@user_passes_test(is_laboratorio)
 def abrir_archivo_hematologia(request,pk):
     hematologia = Examen_Hematologia.objects.get(pk=pk)
     pathAux=str(hematologia.archivo)
@@ -411,6 +434,7 @@ def abrir_archivo_hematologia(request,pk):
     return render(request, "laboratorio/examen_hematologia_detalle.html", {'hematologia':hematologia,'path':MEDIA_ROOT})
 
 @login_required(login_url='logins')
+@user_passes_test(is_laboratorio)
 def abrir_archivo_orina(request,pk):
     examen_orina = Examen_Orina.objects.get(pk=pk)
     pathAux=str(examen_orina.archivo)
@@ -420,6 +444,7 @@ def abrir_archivo_orina(request,pk):
     return render(request, "laboratorio/examen_orina_detalle.html", {'examen_orina':examen_orina,'path':MEDIA_ROOT})
 
 @login_required(login_url='logins')
+@user_passes_test(is_laboratorio)
 def abrir_archivo_general(request,pk):
     examen_general = Examen_General.objects.get(pk=pk)
     pathAux=str(examen_general.archivo)
@@ -429,6 +454,7 @@ def abrir_archivo_general(request,pk):
     return render(request, "laboratorio/examen_general_detalle.html", {'examen_general':examen_general,'path':MEDIA_ROOT})
 
 @login_required(login_url='logins')
+@user_passes_test(is_laboratorio)
 def abrir_archivo_quimica(request,pk):
     examen_quimica = Examen_Quimica_Sanguinea.objects.get(pk=pk)
     pathAux=str(examen_quimica.archivo)
@@ -438,6 +464,7 @@ def abrir_archivo_quimica(request,pk):
     return render(request, "laboratorio/examen_quimica_detalle.html", {'examen_quimica':examen_quimica,'path':MEDIA_ROOT})
 
 @login_required(login_url='logins')
+@user_passes_test(is_laboratorio)
 def abrir_archivo_especiales(request,pk):
     examen_especiales = Examen_Especiales.objects.get(pk=pk)
     pathAux=str(examen_especiales.archivo)
@@ -448,6 +475,7 @@ def abrir_archivo_especiales(request,pk):
 
 #Imprimir examen de hematologia
 @login_required(login_url='logins')
+@user_passes_test(is_laboratorio)
 def hematologiaPDF(request,pk):
     hematologia = Examen_Hematologia.objects.get(pk=pk)
     # Create the HttpResponse object with the appropriate PDF headers.

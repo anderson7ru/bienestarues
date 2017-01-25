@@ -7,11 +7,11 @@ from smart_selects.db_fields import ChainedForeignKey
 
 # Elecciones para modelos: --se utilizan en /admin
 ESTADOCIVIL_ELECCIONES = (
-    ('SOLTERO','Soltero(a)'),
-    ('CASADO','Casado(a)'),
-    ('DIVORCIADO','Divorciado(a)'),
-    ('ACOMPANADO','Acompanado(a)'),
-    ('VIUDO','Viudo(a)'),
+    ('SOLTER','Soltero(a)'),
+    ('CASAD','Casado(a)'),
+    ('DIVORCIAD','Divorciado(a)'),
+    ('ACOMPANAD','Acompanado(a)'),
+    ('VIUD','Viudo(a)'),
     )
 
 ESTADOUES_ELECCIONES = (
@@ -34,25 +34,25 @@ ESTADO_ELECCIONES = (
 #Primeras clases para generar datos basicos del expediente
 #clases Padre
 class Facultad(models.Model):
-    codigoFacultad = models.PositiveIntegerField("Codigo", primary_key=True)#models.CharField("Codigo", max_length=3, primary_key=True)
+    codigoFacultad = models.PositiveIntegerField("Codigo", primary_key=True)
     nombreFacultad = models.CharField("Facultad", max_length=50)
-    
+	
     def __str__(self):
         return self.nombreFacultad
     
 class Departamento(models.Model):
     codigoDepartamento = models.AutoField(primary_key=True)
     nombreDepartamento = models.CharField("Departamento", max_length=30)
-    
+	
     def __str__(self):
         return self.nombreDepartamento
         
 #clase hija de Departamento
 class Municipio(models.Model):
     codigoMunicipio = models.AutoField(primary_key=True)
-    codDepartamento = models.ForeignKey(Departamento, on_delete=models.CASCADE, verbose_name="Departamento",)
+    codDepartamento = models.ForeignKey(Departamento, on_delete=models.CASCADE, verbose_name="Departamento")
     nombreMunicipio = models.CharField("Municipio", max_length=80)
-    
+	
     def __str__(self):
         return self.nombreMunicipio
     
@@ -75,9 +75,9 @@ class Paciente(models.Model):
 	nombreSegundo = models.CharField("Segundo Nombre", max_length=15, null=True, blank=True) #OP-SA-NP
 	sexo = models.CharField(max_length=1,choices=SEXO_ELECCIONES, default='M') #OB-SA-NP
 	fechaNacimiento = models.DateField("Fecha de Nacimiento",help_text="DD/MM/YYYY") #OB-SA-NP
-	estadoCivil = models.CharField("Estado Civil",max_length=12, choices=ESTADOCIVIL_ELECCIONES, default='SOLTERO') #OB-SA-SP
-	nit = models.CharField("NIT", max_length=17, unique=True) #Este es el mio (Luis) para modificacion de BD
-	dui = models.CharField("DUI", max_length=10, null=True, blank=True) #OP-SA-NP 
+	estadoCivil = models.CharField("Estado Civil",max_length=12, choices=ESTADOCIVIL_ELECCIONES, default='SOLTER') #OB-SA-SP
+	nit = models.CharField("NIT", max_length=17, unique=True) #OB-SA-NP
+	dui = models.CharField("DUI", max_length=10, null=True, blank=True) #OP-SA-NP
 	#Datos Universitarios
 	due = models.CharField("DUE", max_length=7, null=True, blank=True) #OP-SA-NP
 	estadoUes = models.CharField("Estado UES", max_length=3, choices=ESTADOUES_ELECCIONES, default='EST') #OB-SA-NP
@@ -115,7 +115,7 @@ class Paciente(models.Model):
 	#Devuelve el nombre completo del paciente
 	def get_full_name(self):
 		return '%s %s %s %s' % (self.nombrePrimero , self.nombreSegundo , self.apellidoPrimero , self.apellidoSegundo )
-		
+	
 	#Devuelva la edad del paciente
 	def edad_paciente(self):
 		fecha_actual = timezone.now()
@@ -130,10 +130,10 @@ class Paciente(models.Model):
 			edad = fecha_actual.year - self.fechaNacimiento.year
 		return edad
 	
-	#Cuando llamen a este modelo, se presentaran el codigo del paciente y nombre
+	#Al llamar a Paciente, se visualiza: el codigo del paciente y nombre
 	def __str__(self):
-		return '%s %s %s %s' % (self.codigoPaciente, self.nombrePrimero, self.apellidoPrimero, self.apellidoSegundo)
-		
+		return '%s %s %s %s' % (self.codigoPaciente, self.nombrePrimero, self.apellidoPrimero, self.due)
+
 class Busqueda(models.Model):
 	codigoBusqueda = models.AutoField(primary_key=True)
 	consulta = models.CharField(max_length=150,null=True,blank=True)

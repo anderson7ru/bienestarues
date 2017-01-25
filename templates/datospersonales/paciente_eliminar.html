@@ -8,8 +8,7 @@ Presenta algunos datos del expediente para confirmar eliminacion
 {% block paneltitle %} <strong>Expediente: </strong>{{ paciente.codigoPaciente }} {%endblock%}
 
 {% block panelcontent %}
-    <hr/>
-	<h3 id="vacio1"> Esta seguro que desea eliminar el expediente: {{ paciente.codigoPaciente }} ? </h3>
+    <h3 class="msjEliminar"> Esta seguro que desea eliminar el expediente: {{ paciente.codigoPaciente }} ? </h3>
 	<div class="panel panel-info">
         <div class="panel-body" style="padding-left: 50px; padding-top: 0px;">
             <div class="row">
@@ -65,19 +64,9 @@ Presenta algunos datos del expediente para confirmar eliminacion
 					Estado Civil:
 					<span class="subrayado">
 						{% if paciente.sexo == 'F' %}
-    						{% if paciente.estadoCivil == 'CASADO' %}
-    						<strong>CASADA</strong>
-    						{% elif paciente.estadoCivil == 'DIVORCIADO' %}
-    						<strong>DIVORCIADA</strong>
-    						{% elif paciente.estadoCivil == 'ACOMPANADO' %}
-    						<strong>ACOMPANADA</strong>
-    						{% elif paciente.estadoCivil == 'VIUDO' %}
-    						<strong>VIUDA</strong>
-    						{% else %}
-    						<strong>SOLTERA</strong>
-    						{% endif %}
+						<strong>{{ paciente.estadoCivil }}A</strong>
 						{% else %}
-						<strong>{{ paciente.estadoCivil }}</strong>
+						<strong>{{ paciente.estadoCivil }}O</strong>
 						{% endif %}
 					</span>
 				</div>
@@ -182,9 +171,9 @@ Presenta algunos datos del expediente para confirmar eliminacion
 	</div>
 	<hr />
 	<form action=" " method="post">{% csrf_token %}
-	<div class="col-md-offset-2 col-md-10">
-      <button id="delete_personalpaciente" type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Si, Eliminar</button>
-      <a href="{% url 'datospersonales-list' %}" class="btn btn-default"><span class="glyphicon glyphicon-ban-circle"></span> No, cancelar</a>
+	<div class="col-md-offset-4 col-md-4 operaciones">
+      <button id="delete_personalpaciente" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-trash"></span> Si</button>
+      <a href="{% url 'datospersonales-list' %}" class="btn btn-danger" title="Volver al Listado"><span class="glyphicon glyphicon-ban-circle"></span> Cancelar</a>
     </div>
 	</form>
 {%endblock%}

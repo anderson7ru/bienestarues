@@ -9,23 +9,26 @@ Presenta un listado de los expedientes permanentes activos
 
 {% block panelcontent%}
    <div class="table-responsive">
-       <!--<a href=" " class="btn btn-info" style="float: right"><span class="glyphicon glyphicon-search"></span> Busqueda avanzada</a>!-->
+      {% if hematologia %}
        <table class="table table-hover" id="hematologialist">
            <tr class="success">
 
                <th>Codigo de Expediente</th>
                <th>Nombre Completo</th>
-               <th>Ver Detalles</th>
+               <th class="opciones">Ver Detalles</th>
            </tr>
            {% for hematologia in hematologia %}
              <tr>
                  <td>{{ hematologia.paciente_id}}</td>
                  <td>{{ hematologia.paciente.get_full_name}}</td>
-                 <td>
+                 <td class="opciones">
                   <a href="{% url 'laboratorioapp.views.hematologia_detalle' pk=hematologia.codExamen_Hematologia %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
                  </td>
              </tr>
            {% endfor %}
        </table>
+	  {% else %}
+		<h3 class="vacio">NO HAY EXAMENES REGISTRADOS</h3>
+	{% endif %}
    </div>
 {% endblock %}

@@ -3,14 +3,14 @@ name: datospersonales-view
 Presenta en detalle la ficha de identificacion de un expediente permanente
 !-->
 {% extends "layouts/master.html" %}
+{% load user_group %}
 
 {% block pageheader %} Ficha de identificaci&oacute;n del expediente cl&iacute;nico {%endblock%}
 {% block paneltitle %} <strong>Expediente: </strong>{{ paciente.codigoPaciente }} {%endblock%}
 
 {% block panelcontent %}
     <div class="panel panel-info">
-        <div class="panel-body" style="padding-left: 50px; padding-top: 0px;">
-            <a href="{% url 'datospersonales-file' pk=paciente.codigoPaciente %}" class="btn btn-info" style="float: right; margin-top: 20px;"><span class="glyphicon glyphicon-print"></span> Imprimir</a>
+        <div class="panel-body" style="padding-left: 50px; padding-top: 0px;">            
 			<h3 class="page-header text-left">A) DEL PACIENTE</h3>
 			<div class="row">
 				<div class="col-md-2" style="padding-top: 17px;">
@@ -58,26 +58,16 @@ Presenta en detalle la ficha de identificacion de un expediente permanente
 				<div class="col-md-3" style="padding-top: 17px;">
 					Edad:
 					<span class="subrayado">
-						<strong>{{ paciente.edad_paciente }}</strong>
+						<strong>{{ paciente.edad_paciente }} a&ntilde;os</strong>
 					</span>
 				</div>
 				<div class="col-md-5" style="padding-top: 17px;">
 					Estado Civil:
 					<span class="subrayado">
 						{% if paciente.sexo == 'F' %}
-    						{% if paciente.estadoCivil == 'CASADO' %}
-    						<strong>CASADA</strong>
-    						{% elif paciente.estadoCivil == 'DIVORCIADO' %}
-    						<strong>DIVORCIADA</strong>
-    						{% elif paciente.estadoCivil == 'ACOMPANADO' %}
-    						<strong>ACOMPANADA</strong>
-    						{% elif paciente.estadoCivil == 'VIUDO' %}
-    						<strong>VIUDA</strong>
-    						{% else %}
-    						<strong>SOLTERA</strong>
-    						{% endif %}
+						<strong>{{ paciente.estadoCivil }}A</strong>
 						{% else %}
-						<strong>{{ paciente.estadoCivil }}</strong>
+						<strong>{{ paciente.estadoCivil }}O</strong>
 						{% endif %}
 					</span>
 				</div>
@@ -229,10 +219,10 @@ Presenta en detalle la ficha de identificacion de un expediente permanente
         <div class="panel-body"  style="padding-left: 50px; padding-top: 0px;">
             <h3 class="page-header text-left">C) DE LA INFORMACION</h3>
 			<div class="row">
-				<div class="col-md-3" style="padding-top: 17px;">
+				<div class="col-md-10" style="padding-top: 17px;">
 					Tomo informaci&oacute;n: 
 					<span class="subrayado">
-						<strong>{{ paciente.nombreRecibido }}</strong>
+						<strong>{{ paciente.nombreRecibido.get_full_name }}</strong>
 					</span>
 				</div>
 			</div>
@@ -267,15 +257,19 @@ Presenta en detalle la ficha de identificacion de un expediente permanente
 		</div>
 	</div>
 	<hr />
-	<div class="col-md-offset-2 col-md-10">
-        <a href="{% url 'datospersonales-list' %}" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Volver a la lista</a>
-		<a href="{% url 'datospersonales-update' pk=paciente.codigoPaciente %}" class="btn btn-warning"><span class="glyphicon glyphicon-list-alt"></span> Modificar</a>
+	<div class="col-md-12 operaciones">
+        <a href="{% url 'datospersonales-list' %}" class="btn btn-primary" title="Volver al Listado Anterior" style="float: left; "><span class="glyphicon glyphicon-arrow-left"></span> </a>
 		{% if paciente.estadoExpediente == 'A' %}
-		<a href="{% url 'datospersonales-delete' pk=paciente.codigoPaciente %}" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Eliminar</a>
+			{% if user|has_group:"archivo" or user|has_group:"administradores" or user|has_group:"desarrolladores" %}
+			<a href="{% url 'datospersonales-update' pk=paciente.codigoPaciente %}" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span> Modificar</a>
+			{% endif %}
+			<a href="{% url 'datospersonales-delete' pk=paciente.codigoPaciente %}" class="btn btn-danger" style="float: right; "><span class="glyphicon glyphicon-trash"></span> Eliminar</a>
 		{% endif %}
 		{% if paciente.estadoExpediente == 'P' %}
-		<a href="{% url 'datospersonales-restaurar' pk=paciente.codigoPaciente %}" class="btn btn-success"><span class="glyphicon glyphicon-repeat"></span> Restaurar</a>
+			<a href="{% url 'datospersonales-restaurar' pk=paciente.codigoPaciente %}" class="btn btn-success" ><span class="glyphicon glyphicon-repeat"></span> Restaurar</a>
 		{% endif %}
-		
-        </div>
+		{% if user|has_group:"archivo" or user|has_group:"administradores" or user|has_group:"desarrolladores" %}
+		<a href="{% url 'datospersonales-file' pk=paciente.codigoPaciente %}" class="btn btn-info" ><span class="glyphicon glyphicon-print"></span> Imprimir</a>
+		{% endif %}
+	</div>	
 {%endblock%}

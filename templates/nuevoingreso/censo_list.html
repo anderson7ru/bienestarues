@@ -15,6 +15,7 @@ Esta pagina presenta el listado del registro de consolidado de actividades diari
 {% block panelcontent%}
    <div class="table-responsive">
        <a href="{% url 'censo-new' %} " class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Nuevo</a>
+	   {% if censo %}
        <table class="table table-hover">
            <tr class="success">
 
@@ -32,5 +33,8 @@ Esta pagina presenta el listado del registro de consolidado de actividades diari
              </tr>
            {% endfor %}
        </table>
+	   {% else %}
+			<h3 class="vacio">CONSOLIDADO DE LABORES VACIO</h3>
+	   {% endif %}
    </div>
 {% endblock %}

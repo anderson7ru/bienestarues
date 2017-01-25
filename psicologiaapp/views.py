@@ -15,19 +15,19 @@ from reportlab.lib import colors
 from reportlab.lib.sequencer import Sequencer
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from django.contrib.auth.decorators import login_required,user_passes_test,permission_required
-from datospersonalesapp.files import PageNumCanvas, agregaTexto
+from bienestarhome.files import PageNumCanvas, agregaTexto
 
 from psicologiaapp.forms import PsicologiaForm,ProcesoTerapeuticoForm,RegistroAvanceForm
 from psicologiaapp.models import Psicologia,ProcesoTerapeutico,RegistroAvance
 from psicologiaapp.files import headerPsico,writeLine,saltoPagina,headerPsico2,headerProcesos,headerRegistro
-#from psicologiaapp.admin import is_psicologo
-from bienestarhome.admin import is_psicologo, is_desarrollador
+from bienestarhome.admin import is_psicologo, is_psicologo1, is_usuario1
 
 from empleadosapp.models import Empleado, Doctor
 from datospersonalesapp.models import Paciente
 
 #Listado de Los pacientes de Psicologia
 @login_required(login_url='logins')
+@user_passes_test(is_usuario1)
 def psicologia_lista(request):
     paciente = Psicologia.objects.select_related('paciente')
     #registro = ProcesoTerapeutico.objects.select_related('codPsicologia','codPsicologia__paciente')
@@ -35,8 +35,8 @@ def psicologia_lista(request):
 
 #vista para crear el expediente de psicologia
 @login_required(login_url='logins')
-#@permission_required('psicologia.add_psicologia',raise_exception=True)
-#@user_passes_test(is_psicologo)
+@permission_required('psicologia.add_psicologia',raise_exception=True)
+@user_passes_test(is_psicologo)
 def psicologia_nuevo(request,pk):
     paciente = Paciente.objects.get(pk=pk)
     form = PsicologiaForm()
@@ -55,6 +55,7 @@ def psicologia_nuevo(request,pk):
 
 #Vista para modificar los datos del expediente de psicologia
 @login_required(login_url='logins')
+@user_passes_test(is_psicologo)
 def psicologia_actualizar(request,paciente):
     paciente = Paciente.objects.get(pk=paciente)
     psicologia = Psicologia.objects.get(paciente_id=paciente)
@@ -73,6 +74,7 @@ def psicologia_actualizar(request,paciente):
 
 #vista para consultar los datos del expediente de psicologia
 @login_required(login_url='logins')
+@user_passes_test(is_usuario1)
 def psicologia_consulta(request,paciente):
     infoPaciente = Paciente.objects.get(codigoPaciente=paciente)
     infoPsicologia = Psicologia.objects.get(paciente_id=paciente)
@@ -84,6 +86,7 @@ def psicologia_consulta(request,paciente):
 #Vista para crear el seguimiento del proceso terapeutico a seguir
 #es llamado inmediatamente despues de crear el expediente de psicologia
 @login_required(login_url='logins')
+@user_passes_test(is_psicologo)
 def procesoterapeutico_nuevo(request,paciente):
     paciente = Paciente.objects.get(pk=paciente)
     codigo = paciente.codigoPaciente
@@ -99,11 +102,12 @@ def procesoterapeutico_nuevo(request,paciente):
             messages.success(request, 'Proceso Terapeutico Creado exitosamente')
             return redirect('registroavance-new',proceso=proc.codProcesoTerapeutico)
         else:
-            form=ProcesoTerapeuticoForm()
+            form=ProcesoTerapeuticoForm() == MODIFICAR
     return render(request,"psicologia/procesoterapeutico_nuevo.html",{"form":form,"paciente":codigo})
 
 #Vista Para modificar los datos del proceso terapeutico
 @login_required(login_url='logins')
+@user_passes_test(is_psicologo)
 def procesoterapeutico_actualizar(request,paciente):
     paciente = Paciente.objects.get(pk=paciente)
     codigo = paciente.codigoPaciente
@@ -124,6 +128,7 @@ def procesoterapeutico_actualizar(request,paciente):
     
 #Vista para consultar procesos terapeuticos
 @login_required(login_url='logins')
+@user_passes_test(is_psicologo1)
 def procesoterapeutico_consulta(request,paciente):
     paciente = Paciente.objects.get(pk=paciente)
     psico = Psicologia.objects.get(paciente_id=paciente.codigoPaciente)
@@ -136,6 +141,7 @@ def procesoterapeutico_consulta(request,paciente):
 #Vista para crear el Registro de Avances del proceso terapeutico
 #Lleva los comentarios tanto del paciente como del psicologo
 @login_required(login_url='logins')
+@user_passes_test(is_psicologo)
 def registroavance_nuevo(request,proceso):
     proc = ProcesoTerapeutico.objects.get(pk=proceso)
     psico = Psicologia.objects.get(pk=proc.codPsicologia_id)
@@ -156,6 +162,7 @@ def registroavance_nuevo(request,proceso):
     
 #Vista para actualizar el registro de avances
 @login_required(login_url='logins')
+@user_passes_test(is_psicologo)
 def registroavance_actualizar(request,proceso):
     proc = ProcesoTerapeutico.objects.get(pk=proceso)
     psico = Psicologia.objects.get(pk=proc.codPsicologia_id)
@@ -176,6 +183,7 @@ def registroavance_actualizar(request,proceso):
     
 #vista para consultar el registro de avances
 @login_required(login_url='logins')
+@user_passes_test(is_psicologo1)
 def registroavance_consulta(request,proceso):
     proc = ProcesoTerapeutico.objects.get(pk=proceso)
     psico = Psicologia.objects.get(pk=proc.codPsicologia_id)
@@ -199,6 +207,7 @@ def obtenerNombreCompleto(pk):
     
 #Funcion que permite crear las 2 hojas del expediente de Psicologia
 @login_required(login_url='logins')
+@user_passes_test(is_usuario1)
 def expedientePsicologiaPDF(request,paciente):
     
     infoPaciente = Paciente.objects.get(codigoPaciente=paciente)
@@ -228,16 +237,9 @@ def expedientePsicologiaPDF(request,paciente):
     estcivil = infoPaciente.estadoCivil.capitalize()
     
     if sexo == "Femenino":
-        if infoPaciente.estadoCivil == 'CASADO':
-            estcivil = "Casada"
-        elif infoPaciente.estadoCivil == 'DIVORCIADO':                 
-            estcivil = "Divorciada"
-        elif infoPaciente.estadoCivil == 'ACOMPANADO':
-            estcivil = "Acompanada"
-        elif infoPaciente.estadoCivil == 'VIUDO':   
-            estcivil = "Viuda"
-        else:
-            estcivil = "Soltera"    
+        estcivil = estcivil+'a'
+    else:
+        estcivil = estcivil+'o'
     
     fulldireccion = infoPaciente.direccion + ', '+str(infoPaciente.codMunicipio)
     
@@ -266,7 +268,7 @@ def expedientePsicologiaPDF(request,paciente):
         ref = "Dr. "+str(infoPsicologia.referido)
     
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition']='inline; filename="expediente_'+paciente+'.pdf"'
+    response['Content-Disposition']='attachment; filename="expediente_'+paciente+'.pdf"'
     
     buffer = BytesIO()
     
@@ -389,7 +391,8 @@ def expedientePsicologiaPDF(request,paciente):
     
     return response
 
-@login_required(login_url='logins')    
+@login_required(login_url='logins')
+@user_passes_test(is_psicologo1)    
 def procesoTerapeuticoPDF(request,paciente):
     pac = Paciente.objects.get(pk=paciente)
     psico = Psicologia.objects.get(paciente_id=pac.codigoPaciente)
@@ -400,7 +403,7 @@ def procesoTerapeuticoPDF(request,paciente):
     
     buffer = BytesIO()
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition']='inline; filename="ficha_ident_'+paciente+'.pdf"'
+    response['Content-Disposition']='attachment; filename="ficha_ident_'+pk+'.pdf"'
     
     doc = SimpleDocTemplate(buffer,pagesize=letter,topMargin=120)
     
@@ -463,6 +466,7 @@ def procesoTerapeuticoPDF(request,paciente):
     return response
     
 @login_required(login_url='logins')
+@user_passes_test(is_psicologo1)
 def registroAvancePDF(request,proceso):
     proc = ProcesoTerapeutico.objects.get(pk=proceso)
     psico = Psicologia.objects.get(pk=proc.codPsicologia_id)
@@ -472,7 +476,7 @@ def registroAvancePDF(request,proceso):
     usuario = request.user
     buffer = BytesIO()
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition']='inline; filename="ficha_ident_'+paciente.pk+'.pdf"'
+    #response['Content-Disposition']='attachment; filename="procso_terapeutico_'+pk+'.pdf"
     
     doc = SimpleDocTemplate(buffer,pagesize=letter,topMargin=120)
     

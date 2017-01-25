@@ -1,0 +1,177 @@
+{% extends "layouts/master.html" %}
+
+{% block pageheader %}
+	Ficha de identificaci&oacute;n del expediente cl&iacute;nico
+{%endblock%}
+
+{% block paneltitle %}
+	<strong>Expediente: </strong>{{ paciente.codigoPaciente }}</span>
+{%endblock%}
+
+{% block panelcontent %}
+    <h3 class="page-header text-left">A) DEL PACIENTE</h3>
+	<div class="row">
+	  <div class="col-md-1"></div>
+	  <div class="col-md-2" style="border-bottom:1px solid black;text-align:center"><strong>{{ paciente.apellidoPrimero }}</strong></div>
+	  <div class="col-md-1"></div>
+	  {% if paciente.apellidoSegundo %}
+		<div class="col-md-2" style="border-bottom:1px solid black;text-align:center"><strong>{{ paciente.apellidoSegundo }}</strong></div>
+	  {% else %}
+		<div class="col-md-2" style="border-bottom:1px solid black;text-align:center"><strong>-----</strong></div>
+	  {% endif %}
+	  <div class="col-md-1"></div>
+	  <div class="col-md-4" style="border-bottom:1px solid black;text-align:center"><strong>{{ paciente.nombrePrimero }} {{ paciente.nombreSegundo }} </strong></div>
+	</div>
+	<div class="row">
+	  <div class="col-md-1"></div>
+	  <div class="col-md-2" style="text-align:center">Primer Apellido</div>
+	  <div class="col-md-3" style="text-align:right">Segundo Apellido</div>
+	  <div class="col-md-1"></div>
+	  <div class="col-md-4" style="text-align:center">Nombres</div>
+	</div>
+	<div class="row">
+	  <div class="col-md-1"></div>
+	  <div class="col-md-1">Sexo </div>
+	  {% if paciente.sexo == 'F' %}
+		<div class="col-md-2" style="border-bottom:1px solid black;text-align:center"><strong>Femenino</strong></div>
+	  {% else %}
+		<div class="col-md-2" style="border-bottom:1px solid black;text-align:center"><strong>Masculino</strong></div>
+	  {% endif %}
+	  <div class="col-md-1"></div>
+	  <div class="col-md-3">Fecha de Nacimiento </div>
+	  <div class="col-md-2" style="border-bottom:1px solid black;text-align:center"><strong>{{ paciente.fechaNacimiento|date:"SHORT_DATE_FORMAT" }} </strong></div>
+	</div>
+	<div class="row">
+	  <div class="col-md-1"></div>
+	  <div class="col-md-1">Edad </div>
+	  <div class="col-md-2" style="border-bottom:1px solid black;text-align:center"><strong>{{ paciente.edad_paciente }}</strong></div>
+	  <div class="col-md-1"></div>
+	  <div class="col-md-3">Estado Civil </div>
+	  <div class="col-md-2" style="border-bottom:1px solid black;text-align:center"><strong>{{ paciente.estadoCivil }} </strong></div>
+	</div>
+	<div class="row">
+	  <div class="col-md-1"></div>
+	  <div class="col-md-1">NIT</div>
+	  <div class="col-md-2" style="border-bottom:1px solid black;text-align:center"><strong>{{ paciente.nit }}</strong></div>
+	</div>
+	{% if paciente.dui or paciente.due %}
+	<div class="row">
+	  <div class="col-md-1"></div>
+	  {% if paciente.dui  %}
+		<div class="col-md-2">DUI </div>
+	    <div class="col-md-3" style="border-bottom:1px solid black;text-align:center"><strong>{{ paciente.dui }} </strong></div>
+		<div class="col-md-1"></div>
+	  {% endif %}
+	  {% if paciente.due  %}
+	    <div class="col-md-2">DUE</div>
+	    <div class="col-md-2" style="border-bottom:1px solid black;text-align:center"><strong>{{ paciente.due }}</strong></div>
+	  {% endif %}
+	</div>
+	{% endif %}
+	<div class="row">
+	  <div class="col-md-1"></div>
+	  <div class="col-md-2">Estado UES </div>
+	  {% if paciente.estadoUes == 'EST' %}
+	    <div class="col-md-2" style="border-bottom:1px solid black;text-align:center"><strong>Estudiante</strong></div>
+	  {% elif paciente.estadoUes == 'DOC' %}
+		<div class="col-md-2" style="border-bottom:1px solid black;text-align:center"><strong>Docente</strong></div>
+	  {% elif paciente.estadoUes == 'PAD' %}
+		<div class="col-md-2" style="border-bottom:1px solid black;text-align:center"><strong>Pers.Administrativo</strong></div>
+	  {% else %}
+		<div class="col-md-2" style="border-bottom:1px solid black;text-align:center"><strong>Otro</strong></div>
+	  {% endif %}
+	  <div class="col-md-1"></div>
+	  <div class="col-md-1">Facultad </div>
+	  <div class="col-md-4" style="border-bottom:1px solid black;text-align:center"><strong>{{ paciente.facultadE }} </strong></div>
+	</div>
+	<div class="row">
+	  <div class="col-md-1"></div>
+	  <div class="col-md-2">Direcci&oacute;n </div>
+	  <div class="col-xs-8" style="border-bottom:1px solid black;text-align:center"><strong>{{ paciente.direccion }}</strong></div>
+	</div>
+	<div class="row">
+	  <div class="col-md-1"></div>
+	  <div class="col-md-2">Departamento </div>
+	  <div class="col-md-2" style="border-bottom:1px solid black;text-align:center"><strong>{{ paciente.codDepartamento }} </strong></div>
+	  <div class="col-md-1"></div>
+	  <div class="col-md-2">Municipio</div>
+	  <div class="col-md-3" style="border-bottom:1px solid black;text-align:center"><strong>{{ paciente.codMunicipio }}</strong></div>
+	</div>
+   	{% if paciente.telefono or paciente.correo %}
+	<div class="row">
+	  {% if paciente.telefono %}
+		<div class="col-md-1"></div>
+		<div class="col-md-2">Tel&eacute;fono </div>
+	    <div class="col-md-2" style="border-bottom:1px solid black;text-align:center"><strong>{{ paciente.telefono }}</strong></div>
+	  {% endif %}
+      {% if paciente.correo %}
+		<div class="col-md-1"></div>
+		<div class="col-md-2">Correo </div>
+	    <div class="col-md-3" style="border-bottom:1px solid black;text-align:center"><strong>{{ paciente.correo }}</strong></div>
+	  {% endif %}
+	</div>
+	{% endif %}
+	<h3 class="page-header text-left">B) DE LA FAMILIA</h3>
+	{% if paciente.nombrePadre or paciente.nombreMadre or paciente.nombrePareja %}
+	  {% if paciente.nombrePadre %}
+	    <div class="row">
+		  <div class="col-md-1"></div>	  
+		  <div class="col-md-3">Nombre del Padre </div>
+		  <div class="col-md-6" style="border-bottom:1px solid black;text-align:center"><strong>{{ paciente.nombrePadre }}</strong></div>
+	    </div>
+	  {% endif %}
+	  {% if paciente.nombreMadre %}
+	    <div class="row">
+		  <div class="col-md-1"></div>	  
+		  <div class="col-md-3">Nombre de la Madre </div>
+		  <div class="col-md-6" style="border-bottom:1px solid black;text-align:center"><strong>{{ paciente.nombreMadre }}</strong></div>
+	    </div>
+	  {% endif %}
+	  {% if paciente.nombrePareja %}
+	    <div class="row">
+		  <div class="col-md-1"></div>	  
+		  <div class="col-md-3">Nombre del Conyuge </div>
+		  <div class="col-md-6" style="border-bottom:1px solid black;text-align:center"><strong>{{ paciente.nombrePareja }}</strong></div>
+	    </div>
+	  {% endif %}
+	{% endif %}
+    <div class="row">
+	  <div class="col-md-1"></div>	  
+	  <div class="col-md-3">Responsable del paciente</div>
+	  <div class="col-md-6" style="border-bottom:1px solid black;text-align:center"><strong>{{ paciente.emergencia }}</strong></div>
+	</div>
+	<div class="row">
+	  <div class="col-md-1"></div>	  
+	  <div class="col-md-2">Tel&eacute;fono</div>
+	  <div class="col-md-2" style="border-bottom:1px solid black;text-align:center"><strong>{{ paciente.telefonoEmergencia }}</strong></div>
+	</div>
+	<h3 class="page-header text-left">C) DE LA INFORMACION</h3>
+	<div class="row">
+	  <div class="col-md-1"></div>	  
+	  <div class="col-md-2">Tomo informaci&oacute;n </div>
+	  <div class="col-md-8" style="border-bottom:1px solid black;text-align:center"><strong>{{ paciente.nombreRecibido }}</strong></div>
+	</div>
+	<div class="row">
+	  <div class="col-md-1"></div>
+	  <div class="col-md-3">Fecha de inscripci&oacute;n </div>
+	  <div class="col-md-7" style="border-bottom:1px solid black;text-align:center"><strong>{{ paciente.fechaIngreso }} </strong></div>
+	</div>
+	<div class="row">
+	  <div class="col-md-1"></div>
+	  <div class="col-md-3">Ultima modificaci&oacute;n</div>
+	  <div class="col-md-7" style="border-bottom:1px solid black;text-align:center"><strong>{{ paciente.fechaModificacion }}</strong></div>
+	</div>
+	<div class="row">
+	  <div class="col-md-1"></div>
+	  <div class="col-md-3">Estado del Expediente </div>
+	  {% if paciente.estadoExpediente == 'A' %}
+		<div class="col-md-2" style="border-bottom:1px solid black;text-align:center"><strong>Activo</strong></div>
+	  {% else %}
+		<div class="col-md-2" style="border-bottom:1px solid black;text-align:center"><strong>Inactivo</strong></div>
+	  {% endif %}
+	</div>
+	<hr />
+	<div class="col-md-offset-2 col-md-10">
+        <a href="{% url 'datospersonales-list' %}" class="btn btn-primary"><span class="glyphicons glyphicons-list-alt"></span>Volver a la lista</a>
+        </div>
+{%endblock%}

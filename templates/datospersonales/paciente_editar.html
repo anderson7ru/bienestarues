@@ -15,12 +15,12 @@ Vista para la creacion y modificacion de pacientes permanentes
 	<div class="panel panel-info">
         <div class="panel-body" style="padding-left: 20px; padding-top: 0px;">
             <h3 class="page-header text-left">A) DEL PACIENTE</h3>
-            <div class="row">
+			<div class="row">
 				<div class="col-md-3" style="padding-top: 7px;">
 					<div class="form-group">
 						{{ form.nombrePrimero.label_tag }} 
 						<span class="ayuda"> {{ form.nombrePrimero.help_text }} </span>
-						{{ form.nombrePrimero }}
+						{{ form.nombrePrimero }} 
 					</div>
 				</div>
 				<div class="col-md-3" style="padding-top: 7px;">
@@ -70,11 +70,6 @@ Vista para la creacion y modificacion de pacientes permanentes
 					</div>
 				</div>
             </div>
-            <div class="row">
-				<div class="col-md-10" style="padding-top: 7px;">
-					<span class="ayuda"> (*) Por lo menos un documento de identificaci&oacute;n: </span>
-				</div>
-			</div>
 			<div class="row">
 				<div class="col-md-3" style="padding-top: 7px;">
 					<div class="form-group">
@@ -99,6 +94,7 @@ Vista para la creacion y modificacion de pacientes permanentes
 						{{ form.due }} 
 					</div>
 				</div>
+				<input type="hidden" name="hiddenDocumento" />
             </div>
 			<div class="row">
 				<div class="col-md-3" style="padding-top: 7px;">
@@ -141,7 +137,7 @@ Vista para la creacion y modificacion de pacientes permanentes
 				<div class="col-md-2"></div>
 				<div class="col-md-3" style="padding-top: 7px;">
 					<div class="form-group">
-						<strong>Municipio</strong><!-- {{ form.codMunicipio.label_tag }} !-->
+						{{ form.codMunicipio.label_tag }}
 						<span class="ayuda">(*) {{ form.codMunicipio.help_text }} </span>
 						{{ form.codMunicipio }}
 					</div>
@@ -222,9 +218,9 @@ Vista para la creacion y modificacion de pacientes permanentes
 		</div>
 	</div>
     
-    <div class="col-md-offset-2 col-md-10">
+    <div class="col-md-offset-4 col-md-4 operaciones">
       <button id="save_personalpaciente" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
-      <a href="{% url 'datospersonales-list' %}" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Volver a la lista</a>
+      <a href="{% url 'datospersonales-list' %}" class="btn btn-danger" title="Volver al Listado"><span class="glyphicon glyphicon-ban-circle"></span> Cancelar</a>
     </div>
 </form>
 {% endblock %}

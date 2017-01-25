@@ -8,9 +8,9 @@ Presenta un listado de los expedientes eliminados/pasivos
 {% block paneltitle %} Pacientes de Bienestar Universitario {% endblock %}
 
 {% block panelcontent%}
-   {% if datoFacul %} 
+   {% if datoFacult %} 
 	{% for i in datoFacult %}
-	   <h4 id="subtitulo">{{ i.1 }}</h4>
+	    <h4 id="subtitulo">{{ i.1 }}</h4>
 		<table class="table table-hover" id="pacienteInactivlist">
 				<tr class="success">
 					<th>codigo</th>
@@ -26,7 +26,7 @@ Presenta un listado de los expedientes eliminados/pasivos
 					<td>{{ paciente.nombrePrimero}}</td>
 					<td>{{ paciente.apellidoPrimero}}</td>
 					<td class="opciones">
-					  <a href="{% url 'datospersonales-view' pk=paciente.codigoPaciente %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-th-large"></span></a>
+					  <a href="{% url 'datospersonales-view' pk=paciente.codigoPaciente %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
 					</td>
 					<td class="opciones">
 					  <a href="{% url 'datospersonales-restaurar' pk=paciente.codigoPaciente %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-repeat"></span></a>
@@ -37,7 +37,7 @@ Presenta un listado de los expedientes eliminados/pasivos
 			</table>
 	{% endfor %}
   {% else %}
-    <h3 id="vacio1">NO ARCHIVOS CON ESTADO INACTIVO</h3>
+   <h3 class="vacio">NO ARCHIVOS CON ESTADO INACTIVO</h3>
   {% endif %}
-	<a href="{% url 'datospersonales-list' %}" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Volver a pacientes activos</a>
+	<a href="{% url 'datospersonales-list' %}" class="btn btn-primary" title="Volver a Pacientes Activos"><span class="glyphicon glyphicon-arrow-left"></span> </a>
 {% endblock %}

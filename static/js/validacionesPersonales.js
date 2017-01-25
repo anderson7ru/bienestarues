@@ -402,7 +402,6 @@ $(document).ready(function() {
                         break;
                 }
         });
-    //});
 	
 	//Formulario de planificacionfamiliarapp<pfa>: inscripcion
 	$('#pfa_inscripcionEditarForm').formValidation({
@@ -996,32 +995,6 @@ $(document).ready(function() {
 						message: 'Solo se permiten 100 caracteres'
                     }
                 }
-            },
-			fechaProximaConsulta: {
-                validators: {
-                    notEmpty: {
-                        message: 'Este campo es requerido'
-                    },
-					date: {
-                        format: 'DD/MM/YYYY',
-                        message: 'El Fecha no es valida, debe ser: DD/MM/YYYY'
-                    }
-                }
-            },
-			nombreResponsable: {
-                validators: {
-                    notEmpty: {
-                        message: 'Este campo es requerido'
-                    },
-					stringLength: {
-                        max: 65,
-						message: 'Solo se permiten 65 caracteres'
-                    },
-                    regexp: {
-                        regexp: /^([a-zA-Z\.\s])+$/,
-                        message: 'Se aceptan solo letras y el punto'
-                    }
-                }
             }
         }
     });
@@ -1127,32 +1100,6 @@ $(document).ready(function() {
                    stringLength: {
                         max: 100,
 						message: 'Solo se permiten 100 caracteres'
-                    }
-                }
-            },
-			fechaProximaConsulta: {
-                validators: {
-                    notEmpty: {
-                        message: 'Este campo es requerido'
-                    },
-					date: {
-                        format: 'DD/MM/YYYY',
-                        message: 'El Fecha no es valida, debe ser: DD/MM/YYYY'
-                    }
-                }
-            },
-			nombreResponsable: {
-                validators: {
-                    notEmpty: {
-                        message: 'Este campo es requerido'
-                    },
-					stringLength: {
-                        max: 65,
-						message: 'Solo se permiten 65 caracteres'
-                    },
-                    regexp: {
-                        regexp: /^([a-zA-Z\.\s])+$/,
-                        message: 'Se aceptan solo letras y el punto'
                     }
                 }
             }
@@ -1598,7 +1545,6 @@ $(document).ready(function() {
 		}
 	});
 	
-	
 	// Formulario de laboraotorioapp<eea>: Creacion de Examen de Hematologia
 	$('#hematologiaForm').formValidation({
 	    framework: 'bootstrap',
@@ -1791,6 +1737,7 @@ $(document).ready(function() {
         }
         
 	});
+	
 	$('#psicologiaForm').formValidation({
 	framework: 'bootstrap',
 	icon: {
@@ -1950,9 +1897,7 @@ $(document).ready(function() {
         } 
     });
 
-//Validaciones para el proceso terapeutico
-
-    
+	//Validaciones para el proceso terapeutico   
     $('#procesoterapeutico_form').formValidation({
         framework: 'bootstrap',
     	icon: {
@@ -1986,9 +1931,8 @@ $(document).ready(function() {
         	}
     });
     
-//Validaciones para el registro de avance
-
-$('#registroavance_form').formValidation({
+	//Validaciones para el registro de avance
+	$('#registroavance_form').formValidation({
         framework: 'bootstrap',
     	icon: {
             valid: 'glyphicon glyphicon-ok',
@@ -2184,8 +2128,20 @@ $('#registroavance_form').formValidation({
                         message: 'No es un direccion de email valida'
                     }
                 }
+            },
+            grupos: {
+                validators: {
+                    choice: {
+                        min: 1,
+                        max: 3,
+                        message: 'Por Favor escoja al menos un tipo de usuario (Maximo 3)'
+                    }
+                }
             }
         }
     });
     
 });
+
+
+

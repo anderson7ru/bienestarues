@@ -13,26 +13,26 @@ Vista ver el calendario
         <h3 class="page-header text-left">Datos Generales del Doctor</h3>
 		<div class="row">
 			<div class="col-md-4" >
-				Nombre:
-				<span class="subrayado">
-					<strong>{{datos.nombrePrimero}} {{datos.nombreSegundo}} {{datos.apellidoPrimero}} {{datos.apellidoSegundo}}</strong>
-				</span>
+				<div class="form-group">
+	                <label for="nombre">Nombre: </label>
+	                <input type="text" name="nombre" value="{{datos.get_full_name}}" class="form-control" readonly />
+	            </div>
 			</div>
 			<div class="col-md-3" >
-				Sexo: 
-				<span class="subrayado">
-					{% if datos.sexo == 'F' %}
-						<strong>Femenino</strong>
-					{% else %}
-						<strong>Masculino</strong>
-					{% endif %}
-				</span>
+				<div class="form-group">
+	                <label for="sexo">Sexo: </label>
+	                {% if datos.sexo == 'M' %}
+	                    <input type="text" name="sexo" value="Masculino" class="form-control" readonly />
+	                {% else %}
+	                    <input type="text" name="sexo" value="Femenino" class="form-control" readonly />
+	                {% endif %}
+	            </div>
 			</div>
-			<div class="col-md-4" >
-				Especialidad:
-				<span class="subrayado">
-					<strong>{{ otro.especialidad }}</strong>
-				</span>
+			<div class="col-md-5" >
+				<div class="form-group">
+					<label for="especial">Especialidad: </label> 
+					<input type="text" name="especialidad" value="{{ otro.especialidad }}" class="form-control" readonly />
+				</div>
 			</div>
 		</div>
 	</div>
@@ -73,10 +73,18 @@ Vista ver el calendario
 </div>
 <div class="ayuda" style="margin: 50px; display:inline-block">
 	<p>Donde:  </p>
-	<p><span class="glyphicon glyphicon-king"></span> = Inscritos</p>
+	<p><span class="glyphicon glyphicon-user"></span> = Inscritos</p>
 	<p><span class="glyphicon glyphicon-ok-circle"></span> = Cupos Disponibles </p>
 </div>
 <div style="clear:both">
-<a href="{% url 'doctor-list' %}" class="btn btn-primary" style="float: right"><span class="glyphicon glyphicon-list-alt"></span> Ver Lista de Doctores en Citas Medicas</a>
+<a href="{% url 'doctor-list' %}" class="btn btn-primary" title="Volver a Lista de Doctores en Citas Medicas"><span class="glyphicon glyphicon-arrow-left"></span> </a>
 </div>
 {% endblock %}
+
+
+
+
+
+
+
+

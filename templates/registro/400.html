@@ -1,0 +1,15 @@
+<!-- 
+name: 
+Vista ver errores
+!-->
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} LA SOLICITUD NO PUEDE REALIZARSE {% endblock %}
+{% block paneltitle %} ERROR 400 {% endblock %}
+
+{% block panelcontent %}
+<div style="margin: 50px 0; text-align: center; font-size: 3rem;">
+ <img src="/static/images/error400.png" style="height: auto; width: 400px;" alt="prev image" class="img-rounded center-block" >
+ <p>La operaci&oacute;n que usted quiere realizar,<br /> no se puede ejecutar en este momento, <br />intente m&aacute;s tarde</p>
+</div>
+{% endblock %}

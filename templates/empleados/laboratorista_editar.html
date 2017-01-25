@@ -1,0 +1,68 @@
+<!-- 
+name: laboratorista-new
+Vista para la creacion de laboratorista
+!-->
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} Empleados de Bienestar Universitario {% endblock %}
+{% block paneltitle %} Edici&oacute;n de Datos del Laboratorista {% endblock %}
+
+{% block panelcontent %}
+<form id="eea_laborEditarForm" enctype="multipart/form-data" action="" method="post">{% csrf_token %}
+    <div class="ayuda" style="text-align:right">
+			<p>(*) campos requeridos </p>
+	</div>
+	<div class="panel panel-info" style="margin-top: 20px;">
+        <div class="panel-body"  style="padding-left: 50px; padding-top: 0px;">
+            <h3 class="page-header text-left">DATOS GENERALES DEL LABORATORISTA</h3>
+			<div class="row">
+				<div class="col-md-4" >
+					<div class="form-group">
+	                    <label for="nombre">Nombre: </label>
+	                    <input type="text" name="nombre" value="{{empleado.get_full_name}}" class="form-control" readonly />
+	                </div>
+				</div>
+				<div class="col-md-3" >
+					<div class="form-group">
+	                    <label for="sexo">Sexo: </label>
+	                    {% if empleado.sexo == 'M' %}
+	                    <input type="text" name="sexo" value="Masculino" class="form-control" readonly />
+	                    {% else %}
+	                    <input type="text" name="sexo" value="Femenino" class="form-control" readonly />
+	                    {% endif %}
+	                </div>
+				</div>
+			</div>
+			<div class="row" style="padding-top:17px;">
+				<div class="col-md-2" >
+					{{ form.firma.label_tag }} 
+					<span class="ayuda"> {{ form.firma.help_text }} </span>
+				</div>
+				<div class="col-md-4" >
+					<div class="form-group">
+						<span class="btn btn-primary btn-file">
+						<strong>CARGAR ARCHIVO</strong><input type="file" name="firma" >
+						</span>
+					</div>
+				</div>
+				<div class="col-md-2" >
+					{{ form.sello.label_tag }} 
+					<span class="ayuda"> {{ form.sello.help_text }} </span>
+				</div>
+				<div class="col-md-4" >
+					<div class="form-group">
+						<span class="btn btn-primary btn-file">
+						<strong>CARGAR ARCHIVO</strong><input type="file" name="sello" >
+						</span>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	
+	<div class="col-md-offset-4 col-md-4">
+      <button id="save_laboratorista" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
+    </div>
+</form>
+{% endblock %}

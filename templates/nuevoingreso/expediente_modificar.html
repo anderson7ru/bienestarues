@@ -88,16 +88,16 @@ Esta es la pagina/formulario donde se modifican los datos personales de un pacie
 					<td><strong>Recibio:</strong></td>
 		            <td style="width:300px"><input type="text" class="form-control" name="nombreRecibido" value="{{ expediente.nombreRecibido }}" readonly/></td>
 					<td><strong>Fecha:</strong></td>
-		            <td style="width:300px"><input type="text" class="form-control" name="fechaIngreso" value="{{ expediente.fechaIngreso|date:"SHORT_DATE_FORMAT" }}" readonly/></td>
+		            <td style="width:300px"><input type="text" class="form-control" name="fechaIngreso" value="{{ expediente.fechaIngreso|date:'SHORT_DATE_FORMAT' }}" readonly/></td>
 				</tr>
 			</table>
 			<br/>
 		</div>
 	</div>
-        <div class="col-md-offset-8 col-md-10">
-        <button id="update_expedienteprovisional" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span></span>Guardar Cambios</button>
-           <a href="{% url 'expedienteprovisonal-list' %}" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span>Volver a la lista</a>
-        </div>
+	<div class="col-md-offset-4 col-md-4 operaciones">
+        <button id="update_expedienteprovisional" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span>Guardar</button>
+        <a href="{% url 'expedienteprovisonal-list' %}" class="btn btn-danger" title="Volver al Listado"><span class="glyphicon glyphicon-ban-circle"></span> Cancelar</a>
+    </div>
         <script type="text/javascript"> 
            document.getElementById("id_fechaNacimiento").setAttribute('value','{{ expediente.fechaNacimiento|date:"Y-m-d" }}');
         </script>

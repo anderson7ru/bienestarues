@@ -1,10 +1,11 @@
-{% extends "layouts/beta.html" %}
-{% block content %}
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} Reporte de Enfermeria {% endblock %}
+{% block paneltitle %} Referencias Internas y Externas {% endblock %}
+
+{% block panelcontent %}
 <form id="reporte_enfermeria_Form" action="" method="post">{% csrf_token %}
 <div class="container">
-    <div class="page-header">
-        <h1 class="text-center">Informe de Referencias</h1>
-    </div>
     <div class="row">
         <div class="col-md-offset-1 col-md-3" style="padding-top: 7px;">
                 <strong>Fecha de Inicio</strong>
@@ -19,32 +20,32 @@
         </div>
     </div>
 </div>
-<div class="container" style="padding-top: 7px;">
+<div style="padding-top: 7px;">
     <div class="panel panel-info">
         <table class="columns">
             <tr>
                 <td>
                     <div class="panel-body">
-                        <div class="chartfix" id="internachart" style="width: 500px; height: 100px;"></div>
+                        <div class="chartfix" id="internachart" style="width: 600px; height: 600px;"></div>
                     </div>
                 </td>
                 <td>
                     <div class="panel-body">
-                        <div class="chartfix" id="externachart" style="width: 500px; height: 100px;"></div>
+                        <div class="chartfix" id="externachart" style="width: 600px; height: 600px;"></div>
                     </div>
                 </td>
             </tr>
         </table>
         <div class="col-md-offset-3 col-md-10" style="padding-top: 7px;">
-                		{% if interna_list or externa_list %}
-                		    <strong>Referencias Internas y Externas del {{fechaInicio}} al {{fechaFin}}</strong>
-				            <div class="row">
-				 	            <div class="col-md-3"><strong>Generar Archivo:</strong></div>
-				 	            <a href="{% url 'referenciasExcel-new' inicio=fechaInicio fin=fechaFin %}" class="btn btn-info" style="float: center"><span class="glyphicon glyphicon-list-alt"></span>&nbsp Excel</a>
-				            </div>
-		                {% else %}
-		                <strong><p>No hay registro para este rango de fechas</p></strong>
-		                {% endif %}
+                        {% if interna_list or externa_list %}
+                            <strong>Referencias Internas y Externas del {{fechaInicio}} al {{fechaFin}}</strong>
+                            <div class="row">
+                                <div class="col-md-3"><strong>Generar Archivo:</strong></div>
+                                <a href="{% url 'referenciasExcel-new' inicio=fechaInicio fin=fechaFin %}" class="btn btn-info" style="float: center"><span class="glyphicon glyphicon-list-alt"></span>&nbsp Excel</a>
+                            </div>
+                        {% else %}
+                        <strong><p>No hay registro para este rango de fechas</p></strong>
+                        {% endif %}
         </div>
     </div>
 </div>

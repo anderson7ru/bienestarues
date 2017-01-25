@@ -1,0 +1,118 @@
+<!-- 
+name: empleados-eliminadoslist
+Presenta un listado de todos los empleados inactivos de Bienestar Universitario
+!-->
+{% extends "layouts/master.html" %}
+{% load user_group %}
+
+{% block pageheader %} Personal Inactivo {%endblock%}
+{% block paneltitle %} Personal de Bienestar Universitario {% endblock %}
+
+{% block panelcontent%}
+   <div class="table-responsive">
+       <br />
+	   {% if datoCargo %}    
+	    {% for i in datoCargo %}
+	       {% if i.0 == 'D' %}
+		       <h4 id="subtitulo">Doctor</h4>
+		   {% elif i.0 == 'E' %}
+		       <h4 id="subtitulo">Enfermera</h4>
+		   {% elif i.0 == 'A' %}
+		       <h4 id="subtitulo">Personal de Archivo</h4>
+		   {% elif i.0 == 'P' %}
+		       <h4 id="subtitulo">Personal Administrativo</h4>
+		   {% else %}
+		       <h4 id="subtitulo">Otro</h4>
+		   {% endif %}
+		   <table class="table table-hover" id="empleadoslist">
+             <tr class="success">
+               <th>Nombre</th>
+               <th>Apellido</th>
+               <th class="opciones">Ver</th>
+			   <th class="opciones">Restaurar</th>
+             </tr>
+		   {% for empleado in empleados %}
+		      {% if i.0 == empleado.cargo %}
+			     <tr>
+                    <td>{{ empleado.nombrePrimero }}</td>
+                    <td>{{ empleado.apellidoPrimero }}</td>
+					<td class="opciones">
+                     <a href="{% url 'empleados-view' pk=empleado.codigoEmpleado %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
+				    </td>
+					<td class="opciones">
+					 <a href="{% url 'empleados-restaurar' pk=empleado.codigoEmpleado %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-repeat"></span></a>
+					</td>
+                 </tr>
+			  {% endif %}
+		   {% endfor %}	
+		     </table>
+	   {% endfor %}
+	   {% else %}
+		<h3 class="vacio">NO HAY PERSONAL INACTIVO</h3>
+	   {% endif %}
+	   <h3 style="text-align:center; margin-top: 50px;">MEDICOS DE BIENESTAR UNIVERSITARIO</h3>
+	   {% if datoEspecialidad %} 
+	   {% for i in datoEspecialidad %}
+	       <h4 id="subtitulo">{{ i.1 }}</h4>
+		   <table class="table table-hover" id="doctoreslist">
+             <tr class="success">
+               <th>Nombre</th>
+               <th>Apellido</th>
+               <th class="opciones">Ver</th>
+			   {% if user|has_group:"direccion" or user|has_group:"desarrolladores" %}
+			   <th class="opciones">Restaurar</th>
+			   {% endif %}
+             </tr>
+			{% for doctor in doctores %}
+		      {% if i.0 == doctor.especialidad_id %}
+				<tr>
+                 <td>{{ doctor.codigoEmpleado.nombrePrimero }}</td>
+                 <td>{{ doctor.codigoEmpleado.apellidoPrimero }}</td>
+                 <td class="opciones">
+                     <a href="{% url 'doctor-view' pk=doctor.codigoDoctor %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
+				 </td>
+				 {% if user|has_group:"direccion" or user|has_group:"desarrolladores" %}
+				 <td class="opciones">
+					 <a href="{% url 'doctor-restaurar' pk=doctor.codigoDoctor %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-repeat"></span></a>
+				 </td>
+				 {% endif %}
+                </tr>
+			  {% endif %}
+			{% endfor %}
+			</table>
+	   {% endfor %}
+	   {% else %}
+		<h3 class="vacio">NO HAY MEDICOS INACTIVOS</h3>
+	   {% endif %}
+	   <h3 style="text-align:center; margin-top: 70px;">LABORATORISTAS DE BIENESTAR UNIVERSITARIO</h3>
+	   {% if lab %} 
+		<table class="table table-hover" id="lablist">
+            <tr class="success">
+               <th>Nombre</th>
+               <th>Apellido</th>
+               <th class="opciones">Ver</th>
+			   {% if user|has_group:"direccion" or user|has_group:"desarrolladores" %}
+			   <th class="opciones">Restaurar</th>
+			   {% endif %}
+             </tr>
+			{% for l in lab %}
+				<tr>
+                 <td>{{ l.codigoEmpleado.nombrePrimero }}</td>
+                 <td>{{ l.codigoEmpleado.apellidoPrimero }}</td>
+                 <td class="opciones">
+                     <a href="{% url 'empleados-view' pk=l.codigoEmpleado_id %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
+				 </td>
+				 {% if user|has_group:"direccion" or user|has_group:"desarrolladores" %}
+				 <td class="opciones">
+					 <a href="{% url 'empleados-restaurar' pk=l.codigoEmpleado_id %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-repeat"></span></a>
+				 </td>
+				 {% endif %}
+                </tr>
+			{% endfor %}
+			</table>
+	   {% else %}
+		<h3 class="vacio">NO HAY LABORATORISTAS INACTIVOS</h3>
+	   {% endif %}
+	   <a href="{% url 'empleados-list' %}" class="btn btn-primary" title="Volver al Listado de Personal de Bienestar"><span class="glyphicon glyphicon-arrow-left"></span> </a>
+   </div>
+{% endblock %}

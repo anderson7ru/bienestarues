@@ -1,23 +1,24 @@
 <!-- 
 name: datospersonales-view
-Presenta en detalle la ficha de identificacion de un expediente permanente
+Presenta en los datos del un determinado empleado
 !-->
 {% extends "layouts/master.html" %}
+{% load user_group %}
 
-{% block pageheader %} Empleados de Bienestar Universitario {%endblock%}
+{% block pageheader %} Personal de Bienestar Universitario {%endblock%}
 {% block paneltitle %} Detalles del Empleado: {{ empleado.apellidoPrimero }} {%endblock%}
 
 {% block panelcontent %}
     <div class="panel panel-info">
         <div class="panel-body" style="padding-left: 50px; padding-top: 0px;">
             <div class="row">
-				<div class="col-md-3" style="padding-top: 17px;">
+				<div class="col-md-4" style="padding-top: 17px;">
 					Primer Apellido:
 					<span class="subrayado">
 						<strong>{{ empleado.apellidoPrimero }}</strong>
 					</span>
 				</div>
-				<div class="col-md-3" style="padding-top: 17px;">
+				<div class="col-md-4" style="padding-top: 17px;">
 					Segundo Apellido:
 					<span class="subrayado">
 						{% if empleado.apellidoSegundo %}
@@ -35,7 +36,7 @@ Presenta en detalle la ficha de identificacion de un expediente permanente
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-3" style="padding-top: 17px;">
+				<div class="col-md-4" style="padding-top: 17px;">
 					Sexo:
 					<span class="subrayado">
 						{% if empleado.sexo == 'F' %}
@@ -64,8 +65,20 @@ Presenta en detalle la ficha de identificacion de un expediente permanente
 						<strong>Personal de Archivo</strong>
 						{% elif empleado.cargo == 'P' %}
 						<strong>Personal Administrativo</strong>
+						{% elif empleado.cargo == 'L' %}
+						<strong>Laboratorista</strong>
 						{% else %}
 						<strong>Otro</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-4" style="padding-top: 17px;">
+					Estado del Empleado:
+					<span class="subrayado">
+						{% if empleado.estadoEmpleado == 'A' %}
+						<strong>Activo</strong>
+						{% else %}
+						<strong>Inactivo</strong>
 						{% endif %}
 					</span>
 				</div>
@@ -73,25 +86,34 @@ Presenta en detalle la ficha de identificacion de un expediente permanente
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-3" style="padding-top: 17px;">
+		<div class="col-md-10" style="padding-top: 17px; padding-left:30px;">
 			Tomo informaci&oacute;n: 
 			<span class="subrayado">
-				<strong>{{ empleado.nombreRecibido }}</strong>
+				<strong>{{ empleado.nombreRecibido.get_full_name }}</strong>
 			</span>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-md-10" style="padding-top: 17px;">
+	<div class="row" style=" margin-bottom:50px;">
+		<div class="col-md-10" style="padding-top: 17px; padding-left:30px;">
 				Fecha de ingreso de datos:
 			<span class="subrayado">
 				<strong>{{ empleado.fechaIngreso }}</strong>
 			</span>
 		</div>
 	</div>
-	<hr />
-	<div class="col-md-offset-2 col-md-10">
-        <a href="{% url 'empleados-list' %}" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Volver a la lista</a>
-		<a href="{% url 'empleados-update' pk=empleado.codigoEmpleado %}" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span> Modificar</a>
-		
-        </div>
+	<div class="col-md-12 operaciones" >        
+		{% if empleado.estadoEmpleado == 'A' %}
+			{% if user|has_group:"direccion" or user|has_group:"jefe_archivo" or user|has_group:"archivo" or user|has_group:"administradores" or user|has_group:"desarrolladores" %}
+			<a href="{% url 'empleados-list' %}" class="btn btn-primary" title="Volver al Listado de Empleados"><span class="glyphicon glyphicon-arrow-left"></span> </a>
+			<a href="{% url 'empleados-update' pk=empleado.codigoEmpleado %}" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span> Modificar</a>
+			<a href="{% url 'empleados-delete' pk=empleado.codigoEmpleado %}" class="btn btn-danger" style="float: right; "><span class="glyphicon glyphicon-trash"></span> Eliminar</a>
+			{% endif %}
+		{% endif %}
+		{% if empleado.estadoEmpleado == 'P' %}
+			{% if user|has_group:"direccion" or user|has_group:"jefe_archivo" or user|has_group:"archivo" or user|has_group:"administradores" or user|has_group:"desarrolladores" %}
+			<a href="{% url 'empleados-eliminadoslist' %}" class="btn btn-primary" title="Volver al Listado de Empleados Inactivos"><span class="glyphicon glyphicon-arrow-left"></span> </a>
+			<a href="{% url 'empleados-restaurar' pk=empleado.codigoEmpleado %}" class="btn btn-success" ><span class="glyphicon glyphicon-repeat"></span> Restaurar</a>
+			{% endif %}
+		{% endif %}
+	</div>
 {%endblock%}

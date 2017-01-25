@@ -3,41 +3,59 @@ name:cola_enfemeria-list
 Esta pagina presenta los pacientes en cola para toma de signos vitales
 !-->
 {% extends "layouts/master.html" %}
+{% load user_group %}
 
-{% block pageheader %}
-  Listado de Pacientes A Pasar Consulta
-{%endblock%}
-
-{% block paneltitle %}
-  Pacientes en Cola
-{% endblock %}
+{% block pageheader %} Listado de Pacientes A Pasar Consulta {%endblock%}
+{% block paneltitle %} Pacientes en Cola {% endblock %}
 
 {% block panelcontent%}
    <div class="table-responsive">
-       <table class="table table-hover">
+     {% if cola %}
+	   <table class="table table-hover">
            <tr class="success">
 
                <th># Expediente</th>
                <th>Nombre del Paciente</th>
-               <th>Doctor Asignado</th>
                <th>Hora de Ingreso</th>
+			   {% if user|has_group:"medicos" or user|has_group:"ginecologos" or user|has_group:"psicologos" or user|has_group:"nutricionistas" or user|has_group:"administradores" or user|has_group:"desarrolladores" %}
+			   {% if not user|has_group:"administradores" %}
                <th>Dar Consulta</th>
+			   {% endif %}
                <th>Borrar de la Cola</th>
+			   {% endif %}
+			   
            </tr>
            {% for cola in cola %}
              <tr>
                  <td>{{ cola.0}}</td>
                  <td>{{ cola.1}} {{ cola.2}} {{ cola.3}}</td>
-                 <td>{{ cola.5}}</td>
                  <td>{{ cola.4}}</td>
+				 {% if user|has_group:"medicos" or user|has_group:"ginecologos" or user|has_group:"psicologos" or user|has_group:"nutricionistas" or user|has_group:"administradores" or user|has_group:"desarrolladores" %}
+				 {% if not user|has_group:"administradores" %}
                  <td class="opciones">
-						<a href="{% url 'consulta-inicio' nkey=cola.0 dkey=cola.5 %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-share-alt"></span></a>
-				 </td>
+            <a href="{% url 'consulta-inicio' nkey=cola.0 dkey=cola.5 %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-share-alt"></span></a>
+         </td>
+				 {% endif %}
 				 <td class="opciones">
 						<a href="" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-trash"></span></a>
 				 </td>
+				 {% endif %}
              </tr>
            {% endfor %}
        </table>
+	  {% else %}
+		<h3 class="vacio">NO HAY PACIENTES EN COLA</h3>
+	  {% endif %}
    </div>
 {% endblock %}
+
+
+
+
+
+
+
+
+
+
+

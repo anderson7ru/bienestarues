@@ -9,43 +9,46 @@ Presenta un listado de los expedientes permanentes activos
 
 {% block panelcontent%}
    <div class="table-responsive">
-       <!--<a href=" " class="btn btn-info" style="float: right"><span class="glyphicon glyphicon-search"></span> Busqueda avanzada</a>!-->
+      {% if personalpaciente %}
        <table class="table table-hover" id="pacientelist">
            <tr class="success">
 
                <th>Codigo</th>
                <th>Nombre Completo</th>
-               <th>Hematologia</th>
-               <th>Orina</th>
-               <th>Heces</th>
-               <th>Quimica Sanguinea</th>
-               <th>Nuevo Ingreso</th>
-               <th>Pruebas Especiales</th>
+               <th class="opciones">Hematologia</th>
+               <th class="opciones">Orina</th>
+               <th class="opciones">Heces</th>
+               <th class="opciones">Quimica Sanguinea</th>
+               <th class="opciones">Nuevo Ingreso</th>
+               <th class="opciones">Pruebas Especiales</th>
            </tr>
            {% for paciente in personalpaciente %}
              <tr>
                  <td>{{ paciente.codigoPaciente}}</td>
                  <td>{{ paciente.get_full_name}}</td>
-                 <td>
+                 <td class="opciones">
                      <a href="{% url 'hematologia-new' pk=paciente.codigoPaciente %}" class="btn btn-default btn-xs">HEMATOLOGIA</a>
-				     </td>
-				     <td>
+				 </td>
+				 <td class="opciones">
 				         <a href="{% url 'examen_orina-new' pk=paciente.codigoPaciente %}" class="btn btn-default btn-xs">ORINA</a>  
-				     </td>
-				     <td>
-				         <a href="{% url 'examen_heces-new' pk=paciente.codigoPaciente %}" class="btn btn-default btn-xs">HECES</a> 
-				     </td>
-				     <td>
-				         <a href="{% url 'quimica_sanguinea-new' pk=paciente.codigoPaciente %}" class="btn btn-default btn-xs">QUIMICA SANGUINEA</a>
-				     </td>
-				     <td>
-				         <a href="{% url 'nuevo_ingreso-new' pk=paciente.codigoPaciente %}" class="btn btn-default btn-xs">NUEVO INGRESO</a>  
-				     </td>
-				     <td>
-				         <a href="{% url 'pruebas_especiales-new' pk=paciente.codigoPaciente %}" class="btn btn-default btn-xs">PRUEBAS ESPECIALES</a>  
-				     </td>
+				 </td>
+				 <td class="opciones">
+				      <a href="{% url 'examen_heces-new' pk=paciente.codigoPaciente %}" class="btn btn-default btn-xs">HECES</a> 
+				 </td>
+				 <td class="opciones">
+				     <a href="{% url 'quimica_sanguinea-new' pk=paciente.codigoPaciente %}" class="btn btn-default btn-xs">QUIMICA SANGUINEA</a>
+				 </td>
+				 <td class="opciones">
+				     <a href="{% url 'nuevo_ingreso-new' pk=paciente.codigoPaciente %}" class="btn btn-default btn-xs">NUEVO INGRESO</a>  
+				 </td>
+				 <td class="opciones">
+				    <a href="{% url 'pruebas_especiales-new' pk=paciente.codigoPaciente %}" class="btn btn-default btn-xs">PRUEBAS ESPECIALES</a>  
+				 </td>
              </tr>
            {% endfor %}
        </table>
+	  {% else %}
+		<h3 class="vacio">NO HAY EXAMENES REGISTRADOS</h3>
+	{% endif %}
    </div>
 {% endblock %}

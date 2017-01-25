@@ -121,7 +121,7 @@ class PacienteInscripcion(models.Model):
 	#metodos anticonceptivos
 	metAnticonceptivos = models.CharField("Ha utilizado metodos anticonceptivos?", max_length=1, choices=ELECCIONES, default='N')
 	metUtilizado = models.CharField("Metodo Utilizado", max_length=60, null=True, blank=True)
-	metTiempo = models.PositiveIntegerField("Por cuanto tiempo", help_text="semanas", null=True, blank=True)
+	metTiempo = models.PositiveIntegerField("Por cuanto tiempo", null=True, blank=True)
 	metLapso = models.CharField(" ", max_length=1, choices=TIEMPO_ELECCIONES, default='N')
 	metJustificar = models.CharField("Porque dejo de usarlo", max_length=100, null=True, blank=True)
 	metLugar = models.CharField("Donde lo obtuvo", max_length=60, null=True, blank=True)
@@ -185,8 +185,8 @@ class PacienteInscripcion(models.Model):
 	diagnostico = models.CharField(max_length=100, null=True, blank=True)
 	indicaciones = models.CharField(max_length=100, null=True, blank=True)
 	#8.Responsable
-	#proximaConsulta = models.PositiveIntegerField("Proxima consulta", default=0) #Modificacion para dejar la gestion de fecha a control de citas
-	#proximaConsultaLapso =  models.CharField(" ", max_length=1, choices=TIEMPO_ELECCIONES, default='N') 
+	proximaConsulta = models.PositiveIntegerField("Proxima consulta", default=0) #Modificacion para dejar la gestion de fecha a control de citas
+	proximaConsultaLapso =  models.CharField(" ", max_length=1, choices=TIEMPO_ELECCIONES, default='N') 
 	fechaIngreso = models.DateTimeField("Fecha de Inscripcion",auto_now_add=True)
 	#Extraido determinado por la sesion actual
 	nombreResponsable = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="Nombre Responsable", editable=False, default=1)
@@ -211,8 +211,8 @@ class PacienteSubSecuentePF(models.Model):
 	tomaPap = models.CharField("Toma PAP", max_length=1, choices=ELECCIONES, default='N')
 	tipoConsulta = models.CharField("Tipo de Consulta", max_length=1, choices=CONSULTA_ELECCIONES, default='N')
 	indicaciones = models.CharField(max_length=100, null=True, blank=True)
-	#proximaConsulta = models.PositiveIntegerField("Proxima consulta", default=0) #Modificacion para dejar la gestion de fecha a control de citas
-	#proximaConsultaLapso =  models.CharField(" ", max_length=1, choices=TIEMPO_ELECCIONES, default='N') 
+	proximaConsulta = models.PositiveIntegerField("Proxima consulta", default=0) #Modificacion para dejar la gestion de fecha a control de citas
+	proximaConsultaLapso =  models.CharField(" ", max_length=1, choices=TIEMPO_ELECCIONES, default='N') 
 	fechaIngreso = models.DateTimeField("Fecha",auto_now_add=True)
 	nombreResponsable = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="Nombre Responsable", editable=False, default=1)
 	

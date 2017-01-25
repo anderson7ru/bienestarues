@@ -5,21 +5,24 @@ from django.utils import timezone
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 import datetime
-import time
-from django.db import connection
+from django.db import connection,transaction
+from django.contrib.auth.decorators import login_required,user_passes_test
+from bienestarhome.admin import is_enfermera1, is_jefenfermeria, is_jefenfermeria1, is_medico, is_medico1, is_usuario4, is_usuario6, is_usuario9, is_usuario11, is_usuario12, is_usuario13
 import json
+import os, sys, subprocess
+import xlrd
 from django.db.models import Count, Avg, Sum
 from django.utils.dateparse import parse_date
 
-from nuevoingresoapp.models import Expediente_Provisional, Certificado_Salud, Actividad_Enfermeria, Censo_Enfermeria
-from nuevoingresoapp.forms import ExpedienteProForm, CertificadoForm, ActividadForm, CensoForm
+from nuevoingresoapp.models import importar_bd, Expediente_Provisional, Certificado_Salud, Actividad_Enfermeria, Censo_Enfermeria
+from nuevoingresoapp.forms import importarBDForm, ExpedienteProForm, CertificadoForm, ActividadForm, CensoForm
 from datospersonalesapp.models import Facultad
-from enfermeriaapp.forms import ColaConsultaForm, ColaEnfermeriaForm
 from empleadosapp.models import Doctor, Especialidad
 
 
 #View para ver el listado de Expedientes de Nuevo Ingreso
 @login_required(login_url='logins')
+@user_passes_test(is_usuario13)
 def Expediente_Provisional_list(request):
     expedientes=Expediente_Provisional.objects.order_by('facultad')
     cursor = connection.cursor()
@@ -29,22 +32,15 @@ def Expediente_Provisional_list(request):
 
 #Muestra el listado de actividades que se realizan en el area de enfermeria
 @login_required(login_url='logins')
+@user_passes_test(is_jefenfermeria)
 def actividad_list(request):
     actividad=Actividad_Enfermeria.objects.order_by('codActividad')
     return render(request,"nuevoingreso/actividad_list.html",{'actividad':actividad})
 
-#Muestra el informe de actividades de enfermeria filtrado por rangos de fechas y agrupados por actividad, ordenados descendentemente por la cantidad de actividad
-@login_required(login_url='logins')
-def reporte_censo(request):
-    fechaInicio=request.POST.get('fechaInicio')
-    fechaFin=request.POST.get('fechaFin')
-    cursor = connection.cursor()
-    cursor.execute('SELECT distinct(a.codActividad),a.nombreActividad,sum(c.cantidad) as cantidad FROM nuevoingresoapp_censo_enfermeria as c inner join nuevoingresoapp_actividad_enfermeria as a where c.actividad_id = a.codActividad and c.fechaActividad between %s and %s group by c.actividad_id order by cantidad desc', [fechaInicio, fechaFin])
-    censo_list = cursor.fetchall()
-    return render(request,"nuevoingreso/reporte_censo_actividades.html",{'censo_list':censo_list,'fechaInicio':fechaInicio,'fechaFin':fechaFin})
 
 #Muestra el informe de los pacientes que han pasado consulta general segun facultad de procedencia filtrados por rangos de fechas y agrupados por facultad, ordenados descendentemente por la cantidad de consulta por facultad
 @login_required(login_url='logins')
+@user_passes_test(is_usuario11)
 def reporte_consulta_general_procedencia(request):
     fechaInicio=request.POST.get('fechaInicio')
     fechaFin=request.POST.get('fechaFin')
@@ -55,6 +51,7 @@ def reporte_consulta_general_procedencia(request):
 
 #Muestra el informe de los pacientes que han pasado consulta general segun genero filtrados por rangos de fechas y agrupados por genero, ordenados descendentemente por la cantidad de consulta por genero
 @login_required(login_url='logins')
+@user_passes_test(is_usuario11)
 def reporte_consulta_general_genero(request):
     fechaInicio=request.POST.get('fechaInicio')
     fechaFin=request.POST.get('fechaFin')
@@ -65,6 +62,7 @@ def reporte_consulta_general_genero(request):
 
 #Muestra el informe de los pacientes que han pasado consulta general segun el tipo de paciente (Estudiante, Docente, Ordenanzas, Etc) filtrados por rangos de fechas y agrupados por tipo de paciente, ordenados descendentemente por la cantidad de consulta por tipo de paciente
 @login_required(login_url='logins')
+@user_passes_test(is_usuario11)
 def reporte_consulta_general_tipo_paciente(request):
     fechaInicio=request.POST.get('fechaInicio')
     fechaFin=request.POST.get('fechaFin')
@@ -73,45 +71,10 @@ def reporte_consulta_general_tipo_paciente(request):
     consulta_list = cursor.fetchall()
     return render(request,"nuevoingreso/reporte_consulta_general_paciente.html",{'consulta_list':consulta_list,'fechaInicio':fechaInicio,'fechaFin':fechaFin})
 
-#Muestra el informe de morbilidad de antiguo ingreso filtrados por rangos de fechas y agrupados por morbilidad, ordenados descendentemente por la cantidad de consulta por morbilidad
-@login_required(login_url='logins')
-def reporte_morbilidad(request):
-    fechaInicio=request.POST.get('fechaInicio')
-    fechaFin=request.POST.get('fechaFin')
-    cursor1 = connection.cursor()
-    cursor2 = connection.cursor()
-    cursor1.execute('SELECT distinct(g.diagnostico_principal) as morbilidad,count(*) as cantidad FROM generalapp_consulta as g inner join datospersonalesapp_paciente as p on g.cod_expediente_id = p.codigoPaciente and g.fecha between %s and %s group by g.diagnostico_principal order by cantidad desc limit 0,10', [fechaInicio, fechaFin])
-    cursor2.execute('SELECT distinct(g.diagnostico_principal) as morbilidad,count(*) as cantidad FROM generalapp_consulta as g inner join nuevoingresoapp_expediente_provisional as p on g.cod_expediente_id = p.Cod_Expediente_Provisional and g.fecha between %s and %s group by g.diagnostico_principal order by cantidad desc limit 0,10', [fechaInicio, fechaFin])
-    morbilidadAntiguo_list = cursor1.fetchall()
-    morbilidadNuevo_list = cursor2.fetchall()
-    return render(request,"nuevoingreso/reporte_morbilidad.html",{'morbilidadAntiguo_list':morbilidadAntiguo_list,'morbilidadNuevo_list':morbilidadNuevo_list,'fechaInicio':fechaInicio,'fechaFin':fechaFin})
-
-
-#Muestra el informe de morbilidad de antiguo ingreso filtrados por rangos de fechas y agrupados por morbilidad, ordenados descendentemente por la cantidad de consulta por morbilidad
-@login_required(login_url='logins')
-def reporte_morbilidad_antiguo_ingreso(request):
-    fechaInicio=request.POST.get('fechaInicio')
-    fechaFin=request.POST.get('fechaFin')
-    cursor = connection.cursor()
-    cursor.execute('SELECT distinct(g.diagnostico_principal) as morbilidad,count(*) as cantidad FROM generalapp_consulta as g inner join datospersonalesapp_paciente as p on g.cod_expediente_id = p.codigoPaciente and g.fecha between %s and %s group by g.diagnostico_principal order by cantidad desc limit 0,10', [fechaInicio, fechaFin])
-    consulta_list = cursor.fetchall()
-    return render(request,"nuevoingreso/reporte_morbilidad_antiguo_ingreso.html",{'consulta_list':consulta_list,'fechaInicio':fechaInicio,'fechaFin':fechaFin})
-
-#Muestra el informe de morbilidad de nuevo ingreso filtrados por rangos de fechas y agrupados por morbilidad, ordenados descendentemente por la cantidad de consulta por morbilidad
-@login_required(login_url='logins')
-def reporte_morbilidad_nuevo_ingreso(request):
-    fechaInicio=request.POST.get('fechaInicio')
-    fechaFin=request.POST.get('fechaFin')
-    cursor = connection.cursor()
-    #cursor1 = connection.cursor()
-    cursor.execute('SELECT distinct(g.diagnostico_principal) as morbilidad,count(*) as cantidad FROM generalapp_consulta as g inner join nuevoingresoapp_expediente_provisional as p on g.cod_expediente_id = p.Cod_Expediente_Provisional and g.fecha between %s and %s group by g.diagnostico_principal order by cantidad desc limit 0,10', [fechaInicio, fechaFin])
-    consulta_list = cursor.fetchall()
-    #cursor1.execute('SELECT distinct(g.diagnostico_principal) as morbilidad,count(*) as cantidad FROM generalapp_consulta as g inner join datospersonalesapp_paciente as p on g.cod_expediente_id = p.codigoPaciente and g.fecha between %s and %s group by g.diagnostico_principal order by cantidad desc limit 0,10', [fechaInicio, fechaFin])
-    #consulta_list += cursor1.fetchall()
-    return render(request,"nuevoingreso/reporte_morbilidad_nuevo_ingreso.html",{'consulta_list':consulta_list,'fechaInicio':fechaInicio,'fechaFin':fechaFin})
 
 #Muestra el informe de pacientes atendidos por cada doctor filtrados por rangos de fechas y agrupados por consultas, ordenados descendentemente por la cantidad de consulta dadas
 @login_required(login_url='logins')
+@user_passes_test(is_usuario4)
 def reporte_pacientes_por_medico(request):
     fechaInicio=request.POST.get('fechaInicio')
     fechaFin=request.POST.get('fechaFin')
@@ -120,21 +83,9 @@ def reporte_pacientes_por_medico(request):
     consulta_list = cursor.fetchall()
     return render(request,"nuevoingreso/reporte_pacientes_por_medico.html",{'consulta_list':consulta_list,'fechaInicio':fechaInicio,'fechaFin':fechaFin})
 
-#Muestra el informe de consultas por especialidad filtrados por rangos de fechas y agrupados por especialidad, ordenados descendentemente por la cantidad de consulta dadas
-@login_required(login_url='logins')
-def reporte_consultas_especialidad(request):
-    fechaInicio=request.POST.get('fechaInicio')
-    fechaFin=request.POST.get('fechaFin')
-    cursor1 = connection.cursor()
-    cursor1.execute('SELECT distinct(g.cod_doctor_id) as doctor,esp.especialidad as especialidad,count(*) as cantidad FROM empleadosapp_especialidad as esp inner join empleadosapp_doctor d on esp.id = d.especialidad_id inner join generalapp_consulta as g on g.cod_doctor_id = d.codigoDoctor and g.fecha between %s and %s WHERE g.cod_expediente_id LIKE "%%-%%"  group by d.especialidad_id order by cantidad desc', [fechaInicio, fechaFin])
-    antiguo_list = cursor1.fetchall()
-    
-    cursor2 = connection.cursor()
-    cursor2.execute('SELECT distinct(g.cod_doctor_id) as doctor,esp.especialidad as especialidad,count(*) as cantidad FROM empleadosapp_especialidad as esp inner join empleadosapp_doctor d on esp.id = d.especialidad_id inner join generalapp_consulta as g on g.cod_doctor_id = d.codigoDoctor and g.fecha between %s and %s WHERE g.cod_expediente_id NOT LIKE "%%-%%"  group by d.especialidad_id order by cantidad desc', [fechaInicio, fechaFin])
-    nuevo_list = cursor2.fetchall()
-    return render(request,"nuevoingreso/reporte_consulta_especialidad.html",{'antiguo_list':antiguo_list,'nuevo_list':nuevo_list,'fechaInicio':fechaInicio,'fechaFin':fechaFin})
 
 @login_required(login_url='logins')
+@user_passes_test(is_usuario4)
 def reporte_referencias(request):
     fechaInicio=request.POST.get('fechaInicio')
     fechaFin=request.POST.get('fechaFin')
@@ -147,6 +98,7 @@ def reporte_referencias(request):
     return render(request,"nuevoingreso/reporte_referencias.html",{'interna_list':interna_list,'externa_list':externa_list,'fechaInicio':fechaInicio,'fechaFin':fechaFin})
 
 @login_required(login_url='logins')
+@user_passes_test(is_usuario4)
 def reporte_tipo_consulta(request):
     fechaInicio=request.POST.get('fechaInicio')
     fechaFin=request.POST.get('fechaFin')
@@ -156,6 +108,7 @@ def reporte_tipo_consulta(request):
     return render(request,"nuevoingreso/reporte_tipo_consulta.html",{'consulta_list':consulta_list,'fechaInicio':fechaInicio,'fechaFin':fechaFin})
 
 @login_required(login_url='logins')
+@user_passes_test(is_usuario4)
 def reporte_visto_bueno(request):
     fechaInicio=request.POST.get('fechaInicio')
     fechaFin=request.POST.get('fechaFin')
@@ -165,12 +118,14 @@ def reporte_visto_bueno(request):
     return render(request,"nuevoingreso/reporte_visto_bueno.html",{'consulta_list':consulta_list,'fechaInicio':fechaInicio,'fechaFin':fechaFin})
 
 @login_required(login_url='logins')
+@user_passes_test(is_jefenfermeria1)
 def censo_list(request):
     censo=Censo_Enfermeria.objects.order_by('codCenso')
     return render(request,"nuevoingreso/censo_list.html",{'censo':censo})
 
 #Vista para crear expedientes a partir de la pagina de listado de expedientes
 @login_required(login_url='logins')
+@user_passes_test(is_usuario6)
 def expedienteprovisional_nuevo(request):
     doctores = Doctor.objects.filter(especialidad_id = Especialidad.objects.filter(especialidad="Medicina General") )
     info = ""
@@ -202,6 +157,7 @@ def expedienteprovisional_nuevo(request):
     return render(request,"nuevoingreso/expediente_editar.html",{'form':form,'informacion':info,'doctores':doctores})
 
 @login_required(login_url='logins')
+@user_passes_test(is_jefenfermeria1)
 def expedienteprovisional_editar(request,pk):
     info = ""
     expediente = Expediente_Provisional.objects.get(pk=pk)
@@ -232,6 +188,7 @@ def expedienteprovisional_editar(request,pk):
 
 #Vista para eliminar un expediente provisional de un paciente
 @login_required(login_url='logins')
+@user_passes_test(is_jefenfermeria1)
 def expedienteprovisional_eliminar1(request,pk):
     info = ""
     form = Expediente_Provisional.objects.get(pk=pk)
@@ -260,22 +217,26 @@ def expedienteprovisional_eliminar1(request,pk):
 
 #Vista para ver el contenido de atributos del expediente provisional de un paciente
 @login_required(login_url='logins')
+@user_passes_test(is_usuario9)
 def expedienteprovisional_detalle(request,pk):
     expediente = Expediente_Provisional.objects.get(pk=pk) 
     return render(request, "nuevoingreso/expediente_detalle.html", {'expediente':expediente})
 
 @login_required(login_url='logins')
+@user_passes_test(is_jefenfermeria1)
 def expedienteprovisional_modificar(request,pk):
     expediente = Expediente_Provisional.objects.get(pk=pk) 
     return render(request, "nuevoingreso/expediente_modificar.html", {'expediente':expediente})
 
 @login_required(login_url='logins')
+@user_passes_test(is_jefenfermeria1)
 def expedienteprovisional_eliminar2(request,pk):
     form = Expediente_Provisional.objects.get(pk=pk) 
     return render(request, "nuevoingreso/expediente_eliminar.html", {'form':form})
 
 #View para modificar los datos de un expediente provisional
 @login_required(login_url='logins')
+@user_passes_test(is_jefenfermeria1)
 def expedienteprov_modificar(request, pk):
     paciente = Expediente_Provisional.objects.get(pk=pk)
     expediente = Expediente_Provisional.objects.get(pk=pk)
@@ -293,6 +254,7 @@ def expedienteprov_modificar(request, pk):
     return render(request,"nuevoingreso/expediente_editar.html",{'form':formP,'expediente':expediente})
 
 @login_required(login_url='logins')
+@user_passes_test(is_jefenfermeria1)
 def expedienteprovisional_eliminar(request, pk):
     paciente = Expediente_Provisional.objects.get(pk=pk)
     expediente = Expediente_Provisional.objects.get(pk=pk)
@@ -310,6 +272,7 @@ def expedienteprovisional_eliminar(request, pk):
 
 #View para ingresar un certificado de salud
 @login_required(login_url='logins')
+@user_passes_test(is_medico)
 def certificado_salud_nuevo(request,pk):
     info = ""
     paciente = Expediente_Provisional.objects.get(pk=pk)
@@ -332,11 +295,13 @@ def certificado_salud_nuevo(request,pk):
     return render(request,"nuevoingreso/certificado_salud.html",{'certificado':certificado,'informacion':info,'paciente':paciente})
 
 @login_required(login_url='logins')
+@user_passes_test(is_medico1)
 def certificado_salud_ver(request,pk):
     expediente = Expediente_Provisional.objects.get(pk=pk) 
     return render(request, "nuevoingreso/certificado_salud.html", {'expediente':expediente})
 
 @login_required(login_url='logins')
+@user_passes_test(is_jefenfermeria)
 def actividad_nuevo(request):
     info = ""
     form = ActividadForm()
@@ -355,6 +320,7 @@ def actividad_nuevo(request):
     return render(request,"nuevoingreso/actividad_editar.html",{'form':form,'informacion':info})
 
 @login_required(login_url='logins')
+@user_passes_test(is_usuario12)
 def censo_nuevo(request):
     info = ""
     form = CensoForm()
@@ -370,4 +336,62 @@ def censo_nuevo(request):
         else:
             form=CensoForm()
             info = "Ocurrio un error los datos no se guardaron"
-    return render(request,"nuevoingreso/censo_editar.html",{'form':form,'informacion':info})    
+    return render(request,"nuevoingreso/censo_editar.html",{'form':form,'informacion':info})
+
+@login_required(login_url='logins')
+def importar_bd_nuevo(request):
+    form = importarBDForm()
+    archivos = request.FILES.get('archivo')
+    if request.method == "POST":
+        data1={'archivo':archivos}
+        archivo = importarBDForm(data1,request.FILES or None)
+        if archivo.is_valid():
+                archivoBD = archivo.save(commit=False)
+                archivoBD.save()
+                cursor = connection.cursor()
+                cursor.execute('SELECT max(codImportar_BD) as id from nuevoingresoapp_importar_bd')
+                consulta = cursor.fetchall()
+                aux = 0
+                for valor in consulta:
+                    if(aux < valor[0]):
+                        aux = valor[0]
+                    else:
+                        aux = 0
+                pk = int(aux)
+                baseDatos = importar_bd.objects.get(pk=pk)
+                pathAux=str(baseDatos.archivo)
+                BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+                MEDIA_ROOT = os.path.join(BASE_DIR,"exameneslab/") + pathAux
+                book = xlrd.open_workbook(MEDIA_ROOT)
+                sheet = book.sheet_by_name("source")
+                query = '''INSERT INTO nuevoingresoapp_expediente_provisional(nombrePrimero,nombreSegundo,apellidoPrimero,apellidoSegundo,sexo,fechaNacimiento,telefono,correo, fechaIngreso, talla,temperatura,presionArterial,peso,frecuenciaRespiratoria,frecuenciaCardiaca,nit,facultad_id,nombreRecibido_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'''
+
+                for r in range(1,sheet.nrows):
+                    nombrePrimero = sheet.cell(r,0).value
+                    nombreSegundo = sheet.cell(r,1).value
+                    apellidoPrimero = sheet.cell(r,2).value
+                    apellidoSegundo = sheet.cell(r,3).value
+                    sexo = sheet.cell(r,4).value
+                    fechaNacimiento = sheet.cell(r,5).value
+                    telefono = sheet.cell(r,6).value
+                    correo = sheet.cell(r,7).value
+                    fechaIngreso = timezone.now()
+                    talla = 0
+                    temperatura = 0
+                    presionArterial = str(0)
+                    peso = 0
+                    frecuenciaRespiratoria = 0
+                    frecuenciaCardiaca = 0
+                    nit = sheet.cell(r,8).value
+                    facultad_id = sheet.cell(r,9).value
+                    nombreRecibido_id = request.user.id
+                    data = (nombrePrimero, nombreSegundo, apellidoPrimero, apellidoSegundo, sexo, fechaNacimiento,telefono, correo, fechaIngreso, talla, temperatura, presionArterial, peso, frecuenciaRespiratoria, frecuenciaCardiaca, nit, facultad_id, nombreRecibido_id)
+                    cursor2 = connection.cursor()
+                    cursor2.execute(query,data)
+                transaction.commit()
+                os.remove(MEDIA_ROOT)
+                baseDatos.delete()
+                return redirect('home')
+        else:
+            form=importarBDForm()
+    return render(request, "nuevoingreso/importar_bd.html", {'form':form})    

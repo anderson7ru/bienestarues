@@ -3,6 +3,7 @@ name: procesoterapeutico-view
 Presenta en detalle la ficha del Proceso terapeutico de psicologia para determinado paciente
 !-->
 {% extends "layouts/master.html" %}
+{% load user_group %}
 
 {% block pageheader %} Proceso Terapeutico {%endblock%}
 {% block paneltitle %} <strong>Expediente: </strong>{{ paciente.codigoPaciente }} {%endblock%}
@@ -30,7 +31,9 @@ Presenta en detalle la ficha del Proceso terapeutico de psicologia para determin
         <th style="text-align:center;">Objetivo Terapeutico</th>
         <th style="text-align:center;">Tecnicas</th>
         <th style="text-align:center;">Observaciones</th>
+        {% if user|has_group:"psicologos" or user|has_group:"desarrolladores" %}
         <th style="text-align:center;">Crear Registro de Avance</th>
+        {% endif %}
         <th style="text-align:center;">Ver Registro de Avance</th>
     </tr>
     {% for item in proc %}
@@ -51,15 +54,16 @@ Presenta en detalle la ficha del Proceso terapeutico de psicologia para determin
         <td>Musicoterapia</td>
         {% endif %}
         <td>{{item.observaciones}}</td>
+        {% if user|has_group:"psicologos" or user|has_group:"desarrolladores" %}
         <td><a href="{% url 'registroavance-new' proceso=item.codProcesoTerapeutico %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-comment"></span></a></td>
-        <td><a href="{% url 'registroavance-view' proceso=item.codProcesoTerapeutico %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-th-large"></span></a></td>
+        {% endif %}
+        <td><a href="{% url 'registroavance-view' proceso=item.codProcesoTerapeutico %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a></td>
     </tr>
     {% endfor %}
 </table>    
 </div>
-<div class="col-md-offset-4 col-md-4 operaciones">
-    <a href="{% url 'psicologia-list' %}" class="btn btn-primary"><span class="glyphicon glyphicon-arrow-left"></span> Volver a la lista de Pacientes</a>
-    <a href="{% url 'procesoterapeuticopdf-create' paciente=paciente.codigoPaciente %}" class="btn btn-info" target="blank"><span class="glyphicon glyphicon-print"></span> Generar Archivo PDF</a>
+<div class="col-md-10 operaciones">
+    <a href="{% url 'psicologia-list' %}" class="btn btn-primary" title="Volver a la lista de Pacientes"><span class="glyphicon glyphicon-arrow-left"></span> </a>
+    <a href="{% url 'procesoterapeuticopdf-create' paciente=paciente.codigoPaciente %}" class="btn btn-success"><span class="glyphicon glyphicon-list-alt"></span> Imprimir</a>
 </div>
-
 {% endblock %}

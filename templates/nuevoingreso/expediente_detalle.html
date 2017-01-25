@@ -1,4 +1,5 @@
 {% extends "layouts/master.html" %}
+{% load user_group %}
 
 {% block pageheader %}
 	Expediente Temporal: Datos del Paciente 
@@ -89,8 +90,10 @@
 		  <div class="col-md-5"><strong>Fecha:</strong> {{ expediente.fechaIngreso|date:"SHORT_DATE_FORMAT" }}</div>
 		</div>
 	</div>
-	<div class="col-md-offset-2 col-md-10">
-        <a href="{% url 'nuevoingresoapp.views.Expediente_Provisional_list' %}" class="btn btn-primary" style="float: center"><span class="glyphicon glyphicon-list-alt"></span>Volver a la lista</a>
-        <a href="{% url 'datospersonalesprovisional-new' nit=expediente.nit %}" class="btn btn-success" style="float: center"><span class="glyphicon glyphicon-send"></span>Enviar a Expediente Permanente</a>
+	<div class="col-md-10 operaciones">
+        <a href="{% url 'nuevoingresoapp.views.Expediente_Provisional_list' %}" class="btn btn-primary" title="Volver a la lista"><span class="glyphicon glyphicon-arrow-left"></span> </a>
+		{% if user|has_group:"archivo" or user|has_group:"administradores" or user|has_group:"desarrolladores" %}
+			<a href="{% url 'datospersonalesprovisional-new' nit=expediente.nit %}" class="btn btn-success"><span class="glyphicon glyphicon-send"></span> Enviar a Expediente Permanente</a>
+		{% endif %}
     </div>
 {%endblock%}

@@ -1,5 +1,8 @@
+# -*- coding: utf-8 -*-
 from django import forms
 from django.forms import ModelForm, Textarea
+
+# apps internas y externas
 from smart_selects.form_fields import ChainedModelChoiceField
 from datospersonalesapp.models import Paciente, Departamento, Municipio, Facultad, Busqueda
 import re
@@ -7,27 +10,27 @@ import re
 #Formulario para la creacion de Expediente del Paciente
 # Elecciones para modelos: --se utilizan en el formulario
 SEXO_ELECCIONES=(
-        ('M','Masculino'),
-        ('F','Femenino'),
-        )
+    ('M','Masculino'),
+    ('F','Femenino'),
+    )
 
 ESTADOCIVIL_ELECCIONES=(
-        ('SOLTERO','Soltero'),
-        ('CASADO','Casado'),
-        ('DIVORCIADO','Divorciado'),
-        ('ACOMPANADO','Acompanado'),
-        ('VIUDO','Viudo'),
-        )
+    ('SOLTER','Soltero(a)'),
+    ('CASAD','Casado(a)'),
+    ('DIVORCIAD','Divorciado(a)'),
+    ('ACOMPANAD','Acompanado(a)'),
+    ('VIUD','Viudo(a)'),
+    )
 
 ESTADOUES_ELECCIONES=(
-        ('EST','Estudiante'),
-        ('DOC','Docente'),
-        ('PAD','Pers.Administrativo'),
-        ('OTR','Otro'),
-        )
+    ('EST','Estudiante'),
+    ('DOC','Docente'),
+    ('PAD','Pers.Administrativo'),
+    ('OTR','Otro'),
+    )
 
 class PacienteForm(ModelForm):
-	#El model a utilizar, con los elementos visibles	
+    #El model a utilizar, con los elementos visibles	
 	class Meta:
 		model = Paciente 
 		fields = ['apellidoPrimero', 'apellidoSegundo', 'nombrePrimero', 'nombreSegundo', 'sexo', 'fechaNacimiento', 
@@ -50,7 +53,7 @@ class PacienteForm(ModelForm):
 	codMunicipio = ChainedModelChoiceField('datospersonalesapp','Municipio','codDepartamento','codDepartamento','datospersonalesapp','Paciente','codMunicipio',False,True)
 	direccion = forms.CharField(widget=forms.Textarea(attrs={'name':'direccion','cols':'40','rows':'3','maxlength':'300','class':'form-control'}),label="Direccion",help_text="(*)")
 	telefono = forms.CharField(widget=forms.TextInput(attrs={'name':'telefono','maxlength':'9','placeholder':'####-####','class':'form-control','id':'telefono'}),label="Telefono",required=False)
-	correo = forms.EmailField(widget=forms.EmailInput(attrs={'name':'correo','class':'form-control'}),label="Correo",required=False)
+	correo = forms.EmailField(widget=forms.EmailInput(attrs={'name':'correo','class':'form-control'}),label="correo",required=False)
 	nombrePadre = forms.CharField(widget=forms.TextInput(attrs={'name':'nombrePadre','maxlength':'65','class':'form-control'}),label="Nombre del Padre",required=False)
 	nombreMadre = forms.CharField(widget=forms.TextInput(attrs={'name':'nombreMadre','maxlength':'65','class':'form-control'}),label="Nombre de la Madre",required=False)
 	nombrePareja = forms.CharField(widget=forms.TextInput(attrs={'name':'nombrePareja','maxlength':'65','class':'form-control'}),label="Nombre del Conyuge",required=False)

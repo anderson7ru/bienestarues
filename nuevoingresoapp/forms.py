@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.forms import ModelForm, Textarea
 from smart_selects.form_fields import ChainedModelChoiceField
 from django.contrib.auth.models import User
-from nuevoingresoapp.models import Expediente_Provisional, Certificado_Salud, Actividad_Enfermeria, Censo_Enfermeria
+from nuevoingresoapp.models import Expediente_Provisional, Certificado_Salud, Actividad_Enfermeria, Censo_Enfermeria, importar_bd
 from datospersonalesapp.models import Facultad
 
 import re
@@ -77,3 +77,9 @@ class CensoForm(ModelForm):
         fields = ['cantidad','actividad']
     cantidad = forms.IntegerField(widget=forms.NumberInput(attrs={'name':'cantidad','class':'form-control','min':'0','max':'100'}),label="cantidad",help_text="(*)")
     actividad=forms.ModelChoiceField(widget=forms.Select(attrs={'name':'actividad','class':'form-control'}),queryset=Actividad_Enfermeria.objects.all(),label="Actividad",help_text="(*)")
+
+class importarBDForm(ModelForm):
+    class Meta:
+        model = importar_bd
+        fields=['archivo']
+        archivo = forms.FileField(widget=forms.FileInput(attrs={'name':'archivo','class':'form-control'}),label="SELECCIONAR UN ARCHIVO",help_text="(*)")

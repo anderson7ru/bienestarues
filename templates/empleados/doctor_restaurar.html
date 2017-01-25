@@ -1,0 +1,102 @@
+<!-- 
+name: doctor-restaurar
+Presenta los datos del doctor para confirmar el cambio de estado de Inactivo a Activo
+!-->
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} Eliminar Registro del Personal {%endblock%}
+{% block paneltitle %} Detalles del Doctor: {{ empleado.apellidoPrimero }} {%endblock%}
+
+{% block panelcontent %}
+    <h3 class="msjRestaurar"> Esta seguro que desea restaurar los datos del Doctor: {{ empleado.apellidoPrimero }} ? </h3>
+	<div class="panel panel-info">
+        <div class="panel-body" style="padding-left: 50px; padding-top: 0px;">
+            <h3 class="page-header text-left">DATOS PERSONALES</h3>
+			<div class="row">
+				<div class="col-md-4" style="padding-top: 7px;">
+					Primer Apellido:
+					<span class="subrayado">
+						<strong>{{ empleado.apellidoPrimero }}</strong>
+					</span>
+				</div>
+				<div class="col-md-4" style="padding-top: 7px;">
+					Segundo Apellido:
+					<span class="subrayado">
+						{% if empleado.apellidoSegundo %}
+						<strong>{{ empleado.apellidoSegundo }}</strong>
+						{% else %}
+						<strong>-----</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-4" style="padding-top: 7px;">
+					Nombres:
+					<span class="subrayado">
+						<strong>{{ empleado.nombrePrimero }} {{ empleado.nombreSegundo }}</strong>
+					</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4" style="padding-top: 17px;">
+					Sexo:
+					<span class="subrayado">
+						{% if empleado.sexo == 'F' %}
+						<strong>Femenino</strong>
+						{% else %}
+						<strong>Masculino</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-5" style="padding-top: 17px;">
+					Fecha de Nacimiento:
+					<span class="subrayado">
+						<strong>{{ empleado.fechaNacimiento|date:"SHORT_DATE_FORMAT" }}</strong>
+					</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4" style="padding-top: 17px;">
+					Cargo:
+					<span class="subrayado">
+						{% if empleado.cargo == 'D' %}
+						<strong>Doctor</strong>
+						{% elif empleado.cargo == 'E' %}
+						<strong>Enfermera</strong>
+						{% elif empleado.cargo == 'A' %}
+						<strong>Personal de Archivo</strong>
+						{% elif empleado.cargo == 'P' %}
+						<strong>Personal Administrativo</strong>
+						{% else %}
+						<strong>Otro</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-4" style="padding-top: 17px;">
+					Estado del Empleado:
+					<span class="subrayado">
+						{% if empleado.estadoEmpleado == 'A' %}
+						<strong>Activo</strong>
+						{% else %}
+						<strong>Inactivo</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<h3 class="page-header text-left">DATOS MEDICOS</h3>
+			<div class="row">
+				<div class="col-md-10" style="padding-top: 7px; margin-bottom: 20px;">
+					Especialidad:
+					<span class="subrayado">
+						<strong>{{ especialidad.especialidad }}</strong>
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<form action=" " method="post">{% csrf_token %}
+	<div class="col-md-offset-4 col-md-4 operaciones">
+      <button id="restaurar_doctor" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-trash"></span> Si</button>
+      <a href="{% url 'empleados-eliminadoslist' %}" class="btn btn-danger" title="Volver al Listado de Empleados Inactivos"><span class="glyphicon glyphicon-ban-circle"></span> Cancelar</a>
+    </div>
+	</form>
+{%endblock%}

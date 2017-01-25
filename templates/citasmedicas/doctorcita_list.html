@@ -3,9 +3,10 @@ url name: doctorcita_list
 Presenta un listado de todas las citas por doctor
 !-->
 {% extends "layouts/master.html" %}
+{% load user_group %}
 
 {% block pageheader %} Citas Medicas {%endblock%}
-{% block paneltitle %} Listado de citas del doctor: {{datos.apellidoPrimero}} {% endblock %}
+{% block paneltitle %} Listado de citas del doctor: {{ datos.apellidoPrimero }} {% endblock %}
 
 {% block panelcontent%}
    <div class="panel panel-info" style="margin-top: 20px;">
@@ -37,20 +38,20 @@ Presenta un listado de todas las citas por doctor
 			</div>
 		</div>
 	</div>
-	{% if doctorcitas %}
    <div class="table-responsive">
-       <table class="table table-hover" id="citasDoctor">
+     {% if doctorcitas %}
+	   <table class="table table-hover" id="citasDoctor">
            <tr class="success">
-               <th>Paciente</th>
                <th>Fecha</th>
                <th>Hora</th>
+               <th>Paciente</th>
                <th>Estado de la cita</th>
            </tr>
            {% for doctorcitas in doctorcitas %}
              <tr>
-                 <td>{{ doctorcitas.paciente }}</td>
                  <td>{{ doctorcitas.fechaConsulta  }}</td>
                  <td>{{ doctorcitas.horaConsulta }}</td>
+                 <td>{{ doctorcitas.paciente }}</td>
                  <td>
 					{% if doctorcitas.estadoConsulta  == 'N' %}
 						Normal
@@ -63,9 +64,11 @@ Presenta un listado de todas las citas por doctor
              </tr>
            {% endfor %}
        </table>
-       {% else %}
-       	  <h3 id="vacio1"> EL DOCTOR NO TIENE CITAS PENDIENTES </h3>
-       {% endif %}
-       <a href="{% url 'doctor-list' %}" class="btn btn-primary" style="float: right"><span class="glyphicon glyphicon-list-alt"></span> Ver Lista de Doctores en Citas Medicas</a>
+	 {% else %}
+		<h3 class="vacio">EL MEDICO NO CUENTA CON REGISTRO DE CITAS</h3>
+	 {% endif %}
+	 {% if user|has_group:"archivo" or user|has_group:"administradores" or user|has_group:"desarrolladores" %}
+		<a href="{% url 'doctor-list' %}" class="btn btn-primary" title="Volver a Lista de Doctores en Citas Medicas"><span class="glyphicon glyphicon-arrow-left"></span> </a>
+	   {% endif %}
    </div>
 {% endblock %}

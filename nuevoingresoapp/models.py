@@ -3,7 +3,7 @@ from django.db import models
 from django.utils import timezone
 from django.core.urlresolvers import reverse
 from django.conf import settings
-from smart_selects.db_fields import ChainedForeignKey
+#from smart_selects.db_fields import ChainedForeignKey
 from datospersonalesapp.models import Facultad
 from empleadosapp.models import Doctor
 
@@ -117,3 +117,10 @@ class Certificado_Salud(models.Model):
     presentaImpedimentosDetalle = models.CharField(max_length=1000, null=True, blank=True) #OP-SA-SP
     aptoAprobado = models.CharField(max_length=2, null=True, blank=True)
     aptoAprobadoDetalle = models.CharField(max_length=1000, null=True, blank=True) #OP-SA-SP
+
+class importar_bd(models.Model):
+    codImportar_BD = models.AutoField(primary_key=True, null=False)#OA-NA-NP
+    archivo = models.FileField(blank=True, null=True, upload_to='ImportarBD/')
+
+    def __str__(self):
+         return '%s %s' % (self.codImportar_BD, self.archivo)

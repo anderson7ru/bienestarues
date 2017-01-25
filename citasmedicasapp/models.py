@@ -42,7 +42,7 @@ class Cita(models.Model):
 	
 	#Al llamar a Cita, se visualiza: paciente,codigoDoctor,estadoConsulta
 	def __str__(self):
-		return '%s %s %s' % (self.codigoDoctor, self.paciente, self.estadoConsulta)
+		return '%s %s %s' % (self.codigoDoctor, self.paciente, self.estadoConsulta)	
 	
 class Cancelacion(models.Model):
 	codigoCancelacion = models.AutoField(primary_key=True, null=False)

@@ -15,7 +15,6 @@ Vista para la creacion de pacientes permanentes a partir de su expediente provis
 	</div>
 	<div class="panel panel-info">
 	    <div class="panel-body" style="padding-left: 20px; padding-top: 0px;">
-	        
 	        <h3 class="page-header text-left">A) DEL PACIENTE {{pr}}</h3>
 	        <div class="row">
 	            <div class="col-md-3" style="padding-top: 7px;">
@@ -283,9 +282,9 @@ Vista para la creacion de pacientes permanentes a partir de su expediente provis
 		</div>
 	</div>
     
-    <div class="col-md-offset-2 col-md-10">
-      <button id="save_personalpaciente" type="submit" class="btn btn-success" style="float: center"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
-      <a href="{% url 'datospersonales-list' %}" class="btn btn-primary" style="float: center"><span class="glyphicon glyphicon-list-alt"></span> Volver a la lista</a>
+    <div class="col-md-offset-4 col-md-4 operaciones">
+      <button id="save_personalpaciente" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
+	  <a href="{% url 'datospersonales-list' %}" class="btn btn-danger" title="Volver al Listado"><span class="glyphicon glyphicon-ban-circle"></span> Cancelar</a>
     </div>
 </form>	
 {% endblock %}

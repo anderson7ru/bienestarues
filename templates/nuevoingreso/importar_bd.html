@@ -1,0 +1,39 @@
+<!-- 
+name: examen_pruebas_especiale-new y pruebas_especiales-update
+Vista para la creacion y modificacion de examen de laboratorio de pruebas especiales
+!-->
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} IMPORTAR BASE DE DATOS {% endblock %}
+{% block paneltitle %} CARGAR ARCHIVO DE DATOS DE ALUMNOS DE NUEVO INGRESO {% endblock %}
+
+{% block panelcontent %}
+<form id="importar_bd_id" action="" enctype="multipart/form-data" method="post">{% csrf_token %}
+
+	<div class="row" >
+		<div class="col-md-offset-2 col-md-8" style="padding-top: 0px;">
+				<div class="form-group">
+					<div class="input-group">
+						<span class="ayuda"> (*) </span>
+			    		<label for="l_archivo"><strong>SELECCIONAR UN ARCHIVO: &nbsp&nbsp&nbsp&nbsp</strong></label>
+			    		<span class="btn btn-primary btn-file">
+    			        <strong>CARGAR ARCHIVO</strong><input type="file" name="archivo" required>
+			           	</span>
+					</div>
+					<div class="input-group">
+						
+					</div>
+				</div>
+		</div>
+	</div>
+    <div class="ayuda" style="text-align:right">
+			<p>(*) campos requeridos </p>
+	</div>
+    
+    <div class="col-md-offset-4 col-md-4 operaciones">
+      <button id="save_personalpaciente" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
+      <a href="{% url 'home' %}" class="btn btn-danger" title="Volver a menu inicio"><span class="glyphicon glyphicon-ban-circle"></span> Cancelar</a>
+    </div>
+</form>
+{{informacion}}
+{% endblock %}

@@ -3,6 +3,7 @@ name: expediente_provisional-list
 Esta pagina es la presentada en el listado de los pacientes de nuevo ingreso
 !-->
 {% extends "layouts/master.html" %}
+{% load user_group %}
 
 {% block pageheader %}
   Expediente Provisional
@@ -14,8 +15,11 @@ Esta pagina es la presentada en el listado de los pacientes de nuevo ingreso
 
 {% block panelcontent%}
    <div class="table-responsive">
-       <a href="{% url 'expedienteprovisonal-new' %} " class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Nuevo</a>
-       <a href="#" class="btn btn-info" style="float: right"><span class="glyphicon glyphicon-search"></span> Busqueda Avanzada</a>
+       {% if user|has_group:"jefe_enfermeria" or user|has_group:"administradores" or user|has_group:"desarrolladores" %}
+	   <a href="{% url 'expedienteprovisonal-new' %} " class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Nuevo</a>
+	   {% endif %}
+       <!-- <a href="#" class="btn btn-info" style="float: right"><span class="glyphicon glyphicon-search"></span> Busqueda Avanzada</a> -->
+	   {% if datoFacult %}
        {% for i in datoFacult %}
        <h3 id="subtitulo">{{ i.1 }}</h3>
        <table class="table table-hover">
@@ -24,10 +28,14 @@ Esta pagina es la presentada en el listado de los pacientes de nuevo ingreso
                <th>Correlativo</th>
                <th>Nombre</th>
                <th>Apellido</th>
-               <th>Ver</th>
-               <th>Modificar</th>
-               <th>Eliminar</th>
-               <th>Certificado</th>
+               <th class="opciones">Ver</th>
+			   {% if user|has_group:"jefe_enfermeria" or user|has_group:"administradores" or user|has_group:"desarrolladores" %}
+               <th class="opciones">Modificar</th>
+               <th class="opciones">Eliminar</th>
+			   {% endif %}
+			   {% if user|has_group:"medicos" or user|has_group:"administradores" or user|has_group:"desarrolladores" %}
+               <th class="opciones">Certificado</th>
+			   {% endif %}
            </tr>
            {% for expediente in expedienteprovisional %}
            {% if i.0 == expediente.facultad_id %}
@@ -35,22 +43,29 @@ Esta pagina es la presentada en el listado de los pacientes de nuevo ingreso
                  <td>{{ expediente.Cod_Expediente_Provisional}}</td>
                  <td>{{ expediente.nombrePrimero}}</td>
                  <td>{{ expediente.apellidoPrimero}}</td>
-                 <td>
+                 <td class="opciones">
                   <a href="{% url 'nuevoingresoapp.views.expedienteprovisional_detalle' pk=expediente.Cod_Expediente_Provisional %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
                  </td>
-                 <td>
+				 {% if user|has_group:"jefe_enfermeria" or user|has_group:"administradores" or user|has_group:"desarrolladores" %}
+                 <td class="opciones">
                   <a href="{% url 'nuevoingresoapp.views.expedienteprov_modificar' pk=expediente.Cod_Expediente_Provisional %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span></a>
                  </td>
-                 <td>
+                 <td class="opciones">
                   <a href="{% url 'nuevoingresoapp.views.expedienteprovisional_eliminar' pk=expediente.Cod_Expediente_Provisional %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-trash"></span></a>
                  </td>
-                 <td>
+				 {% endif %}
+				 {% if user|has_group:"medicos" or user|has_group:"desarrolladores" %}
+                 <td class="opciones">
                   <a href="{% url 'nuevoingresoapp.views.certificado_salud_nuevo' pk=expediente.Cod_Expediente_Provisional %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-share-alt"></span></a>
                  </td>
+				 {% endif %}
              </tr>
              {% endif %}
            {% endfor %}
        </table>
        {% endfor %}
+	   {% else %}
+			<h3 class="vacio">NO HAY EXPEDIENTES DE PROVISIONALES</h3>
+	   {% endif %}
    </div>
 {% endblock %}

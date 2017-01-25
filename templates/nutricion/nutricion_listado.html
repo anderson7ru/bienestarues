@@ -1,4 +1,5 @@
 {% extends "layouts/master.html" %}
+{% load user_group %}
 
 {% block pageheader %} Clinica de Nutricion {%endblock%}
 {% block paneltitle %} Listado de Pacientes {% endblock %}
@@ -6,14 +7,17 @@
 {% block panelcontent%}
 <div class="table-responsive">
     <!--<a href="#" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Nuevo</a>-->
-    <table class="table table-hover" id="nutricionlist">
+    {%if pacientes%}
+	<table class="table table-hover" id="nutricionlist">
         <tr class="success">
             <th style="text-align:center;">Paciente</th>
             <th style="text-align:center;">Edad</th>
             <th style="text-align:center;">Sexo</th>
             <th style="text-align:center;">Fecha de ingreso</th>
             <th style="text-align:center;">Ver</th>
+			{% if user|has_group:"nutricionistas" %}
             <th style="text-align:center;">Modificar</th>
+			{% endif %}
             <!--<th style="text-align:center;">Ver Procesos Terapeuticos</th>-->
             <!--<th style="text-align:center;">Ver Registro de Avance</th>-->
         </tr>
@@ -24,8 +28,10 @@
             <td>{{paciente.paciente.edad_paciente}}</td>
             <td>{{paciente.paciente.sexo}}</td>
             <td>{{paciente.creado}}</td>
-            <td><a href="#" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-th-large"></span></a></td>
+            <td><a href="#" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a></td>
+			{% if user|has_group:"nutricionistas" %}
             <td><a href="#" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span></a></td>
+			{% endif %}
             <!--<td><a href="{% url 'procesoterapeutico-view' paciente=paciente.paciente.codigoPaciente %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-tasks"></span></a></td>-->
             <!--<td><a href="" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-comment"></span></a></td>-->
         </tr>
@@ -36,5 +42,8 @@
         </tr>
         {%endif%}
     </table>
+	{%else%}
+		<h3 class="vacio">NO HAY DATOS QUE MOSTRAR...</h3>
+    {%endif%}
 </div>
 {% endblock %}

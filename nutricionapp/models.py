@@ -6,7 +6,7 @@ from django.db import models
 from datospersonalesapp.models import Paciente
 from django.conf import settings
 from django.core.validators import validate_comma_separated_integer_list
-from smart_selects.db_fields import ChainedForeignKey
+#from smart_selects.db_fields import ChainedForeignKey
 # Create your models here.
 
 habitos_eleccion = (

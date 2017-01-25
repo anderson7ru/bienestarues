@@ -8,8 +8,7 @@ Presenta algunos datos del expediente para confirmar restauracion de un paciente
 {% block paneltitle %} <strong>Expediente: </strong>{{ paciente.codigoPaciente }} {%endblock%}
 
 {% block panelcontent %}
-    <hr/>
-	<h3 style="color:green;"> Esta seguro que desea restaurar el expediente: {{ paciente.codigoPaciente }} ? </h3>
+    <h3 class="msjRestaurar"> Esta seguro que desea restaurar el expediente: {{ paciente.codigoPaciente }} ? </h3>
 	<div class="panel panel-info">
         <div class="panel-body" style="padding-left: 50px; padding-top: 0px;">
             <div class="row">
@@ -65,19 +64,9 @@ Presenta algunos datos del expediente para confirmar restauracion de un paciente
 					Estado Civil:
 					<span class="subrayado">
 						{% if paciente.sexo == 'F' %}
-    						{% if paciente.estadoCivil == 'CASADO' %}
-    						<strong>CASADA</strong>
-    						{% elif paciente.estadoCivil == 'DIVORCIADO' %}
-    						<strong>DIVORCIADA</strong>
-    						{% elif paciente.estadoCivil == 'ACOMPANADO' %}
-    						<strong>ACOMPANADA</strong>
-    						{% elif paciente.estadoCivil == 'VIUDO' %}
-    						<strong>VIUDA</strong>
-    						{% else %}
-    						<strong>SOLTERA</strong>
-    						{% endif %}
+						<strong>{{ paciente.estadoCivil }}A</strong>
 						{% else %}
-						<strong>{{ paciente.estadoCivil }}</strong>
+						<strong>{{ paciente.estadoCivil }}O</strong>
 						{% endif %}
 					</span>
 				</div>
@@ -182,9 +171,9 @@ Presenta algunos datos del expediente para confirmar restauracion de un paciente
 	</div>
 	<hr />
 	<form action=" " method="post">{% csrf_token %}
-	<div class="col-md-offset-2 col-md-10">
-      <button id="regresar_personalpaciente" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span> Si, Restaurar</button>
-      <a href="{% url 'datospersonales-eliminadoslist' %}" class="btn btn-danger"><span class="glyphicon glyphicon-ban-circle"></span> No, cancelar</a>
+	<div class="col-md-offset-4 col-md-3 operaciones">
+      <button id="regresar_personalpaciente" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span> Si</button>
+	  <a href="{% url 'datospersonales-eliminadoslist' %}" class="btn btn-danger" title="Volver a Inactivos"><span class="glyphicon glyphicon-ban-circle"></span> Cancelar</a>
     </div>
 	</form>
 {%endblock%}

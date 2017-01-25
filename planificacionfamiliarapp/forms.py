@@ -71,10 +71,10 @@ class PlanificacionFamForm(ModelForm):
 		'cistocele','gradoCistocele','rectocele','gradoRectocele','prolapsoUterino','gradoProlapsoUterino','vagina','snSecrecionVagina',
 		'secrecionVagina','cuPalpacion','cuConsistencia','cuMovilidad','cuDolorMov','sangrarTacto','tomaPap','cuObservaciones',
 		'uteroPosicion','uTamano','uConsistencia','uMovilidad','uDolorMov','usnTumores','uTumores','anexosLibres','engrosados','aDolorPalpitacion',
-		'asnTumores','aTumores','fondoSaco','fechaInicioMetodo','anticonceptivo','miONombre','miOtros','diagnostico','indicaciones']
+		'asnTumores','aTumores','fondoSaco','fechaInicioMetodo','anticonceptivo','miONombre','miOtros','diagnostico','indicaciones','proximaConsulta','proximaConsultaLapso']
 		
 	paciente = forms.ModelChoiceField(widget=forms.Select(attrs={'name':'paciente','class':'selectpicker','data-live-search':'true'}),queryset=Paciente.objects.filter(sexo='F',estadoExpediente='A').exclude(codigoPaciente__in=PacienteInscripcion.objects.all().values_list('paciente_id')),label="Paciente",help_text="(*)")
-	aniosEscolaridad = forms.IntegerField(widget=forms.NumberInput(attrs={'name':'aniosEscolaridad','class':'form-control','min':'1','max':'20'}),label="Anos de escolaridad",help_text="(*)")
+	aniosEscolaridad = forms.IntegerField(widget=forms.NumberInput(attrs={'name':'aniosEscolaridad','class':'form-control','min':'1','max':'20'}),label="de escolaridad",help_text="(*)")
 	primeraVida = forms.ChoiceField(widget=forms.RadioSelect, choices=ELECCIONES, initial='S' ,label="1era vez en la vida")
 	primeraInstitucion = forms.ChoiceField(widget=forms.RadioSelect, choices=ELECCIONES, initial='S',label="1era vez en la institucion")
 	embarazos = forms.IntegerField(widget=forms.NumberInput(attrs={'name':'embarazos','class':'form-control','min':'0','max':'10','value': '0'}),label="Embarazos")
@@ -117,7 +117,7 @@ class PlanificacionFamForm(ModelForm):
 	metAnticonceptivos = forms.ChoiceField(widget=forms.RadioSelect, choices=ELECCIONES, initial='N',label="Ha utilizado metodos anticonceptivos?")
 	metUtilizado = forms.CharField(widget=forms.TextInput(attrs={'name':'metUtilizado','maxlength':'60','class':'form-control'}),label="Metodo Utilizado",required=False)
 	metTiempo = forms.IntegerField(widget=forms.NumberInput(attrs={'name':'metTiempo','class':'form-control','min':'1','max':'100'}),label="Por cuanto tiempo",required=False)
-	metLapso = forms.CharField(max_length=1,widget=forms.Select(attrs={'name':'metLapso','class':'form-control'}, choices=TIEMPO_ELECCIONES),label=" ")
+	metLapso = forms.CharField(max_length=1,widget=forms.Select(attrs={'name':'metLapso','class':'form-control'}, choices=TIEMPO_ELECCIONES),label=" ",help_text="(*)")
 	metJustificar = forms.CharField(widget=forms.TextInput(attrs={'name':'metJustificar','maxlength':'100','class':'form-control'}),label="Porque dejo de usarlo",required=False)
 	metLugar = forms.CharField(widget=forms.TextInput(attrs={'name':'metLugar','maxlength':'60','class':'form-control'}),label="Donde lo obtuvo",required=False)
 	temperatura = forms.DecimalField(widget=forms.NumberInput(attrs={'name':'temperatura','class':'form-control','min':'30.0','max':'40.0'}),label="Temperatura",help_text="(*)")
@@ -172,24 +172,28 @@ class PlanificacionFamForm(ModelForm):
 	miOtros = forms.CharField(widget=forms.TextInput(attrs={'name':'miOtros','maxlength':'15','class':'form-control'}),label="Otros",required=False)
 	diagnostico = forms.CharField(widget=forms.TextInput(attrs={'name':'diagnostico','maxlength':'100','class':'form-control'}),label="Diagnostico",required=False)
 	indicaciones = forms.CharField(widget=forms.TextInput(attrs={'name':'indicaciones','maxlength':'100','class':'form-control'}),label="Indicaciones",required=False)
+	proximaConsulta = forms.IntegerField(widget=forms.NumberInput(attrs={'name':'proximaConsulta','class':'form-control','min':'0','max':'20','value': '0'}),label="Proxima Consulta")
+	proximaConsultaLapso = forms.CharField(max_length=1,widget=forms.Select(attrs={'name':'proximaConsultaLapso','class':'form-control'}, choices=TIEMPO_ELECCIONES),label=" ")
 	
 class PlanificacionSubForm(ModelForm):
 	#El model a utilizar, con los elementos visibles	
 	class Meta:
 		model = PacienteSubSecuentePF 
 		fields = ['peso','presionArterial','metUtilizado','metTiempo','metLapso','histHallazgos','metContinuacion','nombreCambio','motivoCambio',
-		'diagnostico','tomaPap','tipoConsulta','indicaciones']
+		'diagnostico','tomaPap','tipoConsulta','indicaciones','proximaConsulta','proximaConsultaLapso']
 	
 	peso = forms.IntegerField(widget=forms.NumberInput(attrs={'name':'peso','class':'form-control','min':'80','max':'450'}),label="Peso",help_text="(*)")
 	presionArterial = forms.CharField(widget=forms.TextInput(attrs={'name':'presionArterial','maxlength':'7','class':'form-control','placeholder':'###/##'}),label="PA",help_text="(*)")
 	metUtilizado = forms.CharField(widget=forms.TextInput(attrs={'name':'metUtilizado','maxlength':'60','class':'form-control'}),label="Metodo Utilizado",required=False)
 	metTiempo = forms.IntegerField(widget=forms.NumberInput(attrs={'name':'metTiempo','class':'form-control','min':'1','max':'100'}),label="Tiempo de uso",required=False)
-	metLapso = forms.CharField(max_length=1,widget=forms.Select(attrs={'name':'metLapso','class':'form-control'}, choices=TIEMPO_ELECCIONES),label=" ")
+	metLapso = forms.CharField(max_length=1,widget=forms.Select(attrs={'name':'metLapso','class':'form-control'}, choices=TIEMPO_ELECCIONES),label=" ",help_text="(*)")
 	histHallazgos = forms.CharField(widget=forms.Textarea(attrs={'name':'histHallazgos','cols':'40','rows':'2','maxlength':'500','class':'form-control'}),label="Historia y hallazgos",required=False)
 	metContinuacion  = forms.ChoiceField(widget=forms.RadioSelect, choices=ELECCIONES, initial='S',label="Continua con el metodo")
 	nombreCambio = forms.CharField(widget=forms.TextInput(attrs={'name':'nombreCambio','maxlength':'50','class':'form-control'}),label="Cambia a",required=False)
-	motivoCambio = forms.CharField(widget=forms.TextInput(attrs={'name':'motivoCambio','maxlength':'100','class':'form-control'}),label="Motivo del cambio",required=False)
-	diagnostico = forms.CharField(widget=forms.TextInput(attrs={'name':'diagnostico','maxlength':'50','class':'form-control'}),label="Diagnostico",required=False)
+	motivoCambio = forms.CharField(widget=forms.Textarea(attrs={'name':'motivoCambio','cols':'40','rows':'2','maxlength':'500','class':'form-control'}),label="Motivo del cambio",required=False)
+	diagnostico = forms.CharField(widget=forms.Textarea(attrs={'name':'diagnostico','maxlength':'50','cols':'40','rows':'2','maxlength':'500','class':'form-control'}),label="Diagnostico",required=False)
 	tomaPap = forms.ChoiceField(widget=forms.RadioSelect, choices=ELECCIONES, initial='N',label="Toma PAP")
 	tipoConsulta = forms.ChoiceField(widget=forms.RadioSelect, choices=CONSULTA_ELECCIONES, initial='N',label="Tipo de consulta")
-	indicaciones = forms.CharField(widget=forms.TextInput(attrs={'name':'indicaciones','maxlength':'100','class':'form-control'}),label="Indicaciones",required=False)
+	indicaciones = forms.CharField(widget=forms.Textarea(attrs={'name':'indicaciones','cols':'40','rows':'2','maxlength':'500','maxlength':'100','class':'form-control'}),label="Indicaciones",required=False)
+	proximaConsulta = forms.IntegerField(widget=forms.NumberInput(attrs={'name':'proximaConsulta','class':'form-control','min':'0','max':'20','value': '0'}),label="Proxima Consulta")
+	proximaConsultaLapso = forms.CharField(max_length=1,widget=forms.Select(attrs={'name':'proximaConsultaLapso','class':'form-control'}, choices=TIEMPO_ELECCIONES),label=" ")

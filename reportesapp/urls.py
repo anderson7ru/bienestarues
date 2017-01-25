@@ -24,4 +24,11 @@ urlpatterns = [
     #Para reporte en formato Excel de consultas generales segun tipo de paciente
     url(r'^(?P<inicio>[0-9]+\-[0-9]+\-[0-9]+)/(?P<fin>[0-9]+\-[0-9]+\-[0-9]+)/consultasTipoPacienteExcel/$', views.reporteConsultaTipoPacienteExcel, name='consultaTipoPacienteExcel-new'),
     url(r'^export/csv/$', views.export, name='export_excel'),
+
+    #Reporte de censo de actividades de enfermeria
+    url(r'^reporteCenso/$', views.reporte_censo, name='censo-reporte'),
+    #Reporte de consultas por especialidad
+    url(r'^reporteConsultaEspecialidad/$', views.reporte_consultas_especialidad, name='consulta_especialidad-reporte'),
+    #Reporte de morbilidades de antiguo y nuevo ingreso
+    url(r'^reporteMorbilidad/$', views.reporte_morbilidad, name='morbilidad-reporte'),
 ]

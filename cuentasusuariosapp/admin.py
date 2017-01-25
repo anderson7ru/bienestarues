@@ -1,5 +1,5 @@
 from django.contrib import admin
-from cuentas_usuarioapp.models import UsuarioEmpleado
+from cuentasusuariosapp.models import UsuarioEmpleado
 
 # Register your models here.
 class UsuarioAdmin(admin.ModelAdmin):

@@ -3,18 +3,18 @@ name: actividades de enfemeria-list
 Esta pagina presenta el listado de las actividades de enfermeria
 !-->
 {% extends "layouts/master.html" %}
+{% load user_group %}
 
-{% block pageheader %}
-  Listado de Actividades de Enfermeria
-{%endblock%}
+{% block pageheader %} Actividades de Enfermeria {%endblock%}
+{% block paneltitle %} Lista de Actividades {% endblock %}
 
-{% block paneltitle %}
-  Actividades de Enfermeria
-{% endblock %}
 
 {% block panelcontent%}
    <div class="table-responsive">
-       <a href="{% url 'actividad-new' %} " class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Nuevo</a>
+       {% if user|has_group:"jefe_enfermeria" or user|has_group:"desarrolladores"%}
+	   <a href="{% url 'actividad-new' %} " class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Nuevo</a>
+	   {% endif %}
+	   {% if actividad %}
        <table class="table table-hover">
            <tr class="success">
 
@@ -28,5 +28,9 @@ Esta pagina presenta el listado de las actividades de enfermeria
              </tr>
            {% endfor %}
        </table>
+	   {% else %}
+		  <h3 class="vacio">NO HAY REGISTRO DE ACTIVIDADES</h3>
+		
+	{% endif %}
    </div>
 {% endblock %}

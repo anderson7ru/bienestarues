@@ -1,8 +1,9 @@
 <!--
-    name: paciente-busqueda
-    Template para hacer busqueda avanzada de pacientes
+name: paciente-busqueda
+Template para hacer busqueda avanzada de pacientes
 -->
 {% extends "layouts/master.html" %}
+{% load user_group %}
 
 {% block pageheader %} Archivo de Expedientes Activos {%endblock%}
 {% block paneltitle %} Pacientes de Bienestar Universitario {% endblock %}
@@ -17,57 +18,57 @@
                         {{form.consulta}}
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <input type="submit" class="btn btn-success" value="Buscar"><span class="glyphicons glyphicons-search"></input>
+                <div class="col-md-3" style="float:right; ">
+                    <button type="submit" class="btn btn-success" style="float:right; "><span class="glyphicon glyphicon-search"></span> Buscar</button>
                 </div>
             </form>
         </div>
     </div>   
 </div>
 <div class="panel-body">
-    <div class="table-responsive">
-        <table class="table table-hover">
+	<div class="table-responsive">
+        {% if data %}
+		<table class="table table-hover">
             <tr class="success">
                <th>Codigo</th>
                <th>Facultad</th>
                <th>Nombre</th>
                <th>Apellido</th>
-               <th>Ver</th>
-			   <th>Modificar</th>
-			   <!--<th>Cola</th>-->
-			   <th>Eliminar</th>
-			   <th>Ver Citas Medicas</th>
+               <th class="opciones">Ver</th>
+			   {% if user|has_group:"archivo" or user|has_group:"administradores" or user|has_group:"desarrolladores" %}
+               <th class="opciones">Modificar</th>
+               {% endif %}
+			   <!--<th class="opciones">Cola</th>-->
+			   <th class="opciones">Eliminar</th>
+			   <th class="opciones">Ver Citas Medicas</th>
             </tr>
-            {% if data %}
-                {% for obj in data %}
-                <tr>
-                    <td>{{obj.codigoPaciente}}</td>
-                    <td>{{obj.facultadE}}</td>
-                    <td>{{obj.nombrePrimero}}</td>
-                    <td>{{obj.apellidoPrimero}}</td>
-                    <td>
-                     <a href="{% url 'datospersonales-view' pk=obj.codigoPaciente %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-th-large"></span></a>
+			{% for obj in data %}
+				<tr>
+                 <td>{{obj.codigoPaciente}}</td>
+                 <td>{{obj.facultadE}}</td>
+                 <td>{{obj.nombrePrimero}}</td>
+                 <td>{{obj.apellidoPrimero}}</td>
+                 <td class="opciones">
+                     <a href="{% url 'datospersonales-view' pk=obj.codigoPaciente %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
                  </td>
-                 <td>
+                 {% if user|has_group:"archivo" or user|has_group:"administradores" or user|has_group:"desarrolladores" %}
+                 <td class="opciones">
                      <a href="{% url 'datospersonales-update' pk=obj.codigoPaciente %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span></a>
                  </td>
-                 <td>
+                 {% endif %}
+                 <td class="opciones">
                     <a href="{% url 'datospersonales-delete' pk=obj.codigoPaciente %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-trash"></span></a>
                  </td>
-                 <td>
+                 <td class="opciones">
 				    <a href="{% url 'pacientecita_list' pk=obj.codigoPaciente %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-time"></span></a>
 				 </td>
                 </tr>
                 {% endfor %}
-
-            {% else %}
-            <tr>
-                <td>NO HAY DATOS QUE MOSTRAR...</td>
-            </tr>
-            {% endif %}
         </table>
-        <a href="{% url 'datospersonales-list' %}" class="btn btn-primary" style="float: left"><span class="glyphicon glyphicon-list-alt"></span> Ver Lista de Pacientes</a>
-        <a href="{% url 'datospersonales-eliminadoslist' %}" class="btn btn-danger" style="float: right"><span class="glyphicon glyphicon-trash"></span> Listado de eliminados</a>
+		{% else %}
+            <h3 class="msjRestaurar">NO HAY DATOS QUE MOSTRAR...</h3>
+         {% endif %}
+        <a href="{% url 'datospersonales-list' %}" class="btn btn-primary" title="Volver a Pacientes Activos" style="margin-top: 50px;" ><span class="glyphicon glyphicon-arrow-left"></span> </a>
     </div>
 </div>
 {% endblock %}

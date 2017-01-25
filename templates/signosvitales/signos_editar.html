@@ -141,10 +141,9 @@ Presenta el formulario de signos vitales
 		</div>
 	</div>
 
-    <div class="col-md-offset-2 col-md-10">
+    <div class="col-md-offset-4 col-md-4 operaciones">
        <button id="save_signosvitales" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
-       <a href="{% url 'signosvitales-list' %}" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Volver a la lista</a>
-       <a href="{% url 'cola_enfermeria-list' %}" class="btn btn-default"><span class="glyphicon glyphicon-list-alt"></span> Volver a la Cola</a>
+	   <a href="{% url 'cola_enfermeria-list' %}" class="btn btn-danger" title="Volver a la cola"><span class="glyphicon glyphicon-ban-circle"></span> Cancelar</a>
     </div>
     </form>
 {% endblock %}

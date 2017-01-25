@@ -3,17 +3,17 @@ name: empleados-list
 Presenta un listado de todos los empleados de Bienestar Universitario
 !-->
 {% extends "layouts/master.html" %}
+{% load user_group %}
 
-{% block pageheader %} Bienestar Universitario {%endblock%}
-{% block paneltitle %} Listado del personal {% endblock %}
+{% block pageheader %} Personal Activo {%endblock%}
+{% block paneltitle %} Personal de Bienestar Universitario {% endblock %}
 
 {% block panelcontent%}
    <div class="table-responsive">
-       <a href="{% url 'empleados-new' %} " class="btn btn-success" style="float: right"><span class="glyphicon glyphicon-plus"></span> Nuevo</a>
+       <a href="{% url 'empleados-new' %} " class="btn btn-success" title="Agregar Nuevo Empleado"><span class="glyphicon glyphicon-plus"></span> Nuevo</a>
        <br />
-	   <h3 style="text-align:center">Personal de Bienestar Universitario</h3>
-	   {% if empleados %}    
-	   {% for i in datoCargo %}
+	   {% if datoCargo %}    
+	    {% for i in datoCargo %}
 	       {% if i.0 == 'D' %}
 		       <h4 id="subtitulo">Doctor</h4>
 		   {% elif i.0 == 'E' %}
@@ -31,6 +31,7 @@ Presenta un listado de todos los empleados de Bienestar Universitario
                <th>Apellido</th>
                <th class="opciones">Ver</th>
 			   <th class="opciones">Modificar</th>
+			   <th class="opciones">Eliminar</th>
              </tr>
 		   {% for empleado in empleados %}
 		      {% if i.0 == empleado.cargo %}
@@ -38,32 +39,42 @@ Presenta un listado de todos los empleados de Bienestar Universitario
                     <td>{{ empleado.nombrePrimero }}</td>
                     <td>{{ empleado.apellidoPrimero }}</td>
 					<td class="opciones">
-                     <a href="{% url 'empleados-view' pk=empleado.codigoEmpleado %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-th-large"></span></a>
+                     <a href="{% url 'empleados-view' pk=empleado.codigoEmpleado %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
 				    </td>
 					<td class="opciones">
                      <a href="{% url 'empleados-update' pk=empleado.codigoEmpleado %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span></a>
 				    </td>
+					<td class="opciones">
+					 <a href="{% url 'empleados-delete' pk=empleado.codigoEmpleado %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-trash"></span></a>
+					</td>
                  </tr>
 			  {% endif %}
 		   {% endfor %}	
 		     </table>
 	   {% endfor %}
 	   {% else %}
-		<h4 id="vacio1">NO HAY PERSONAL REGISTRADO</h4>
+		<h3 class="vacio">NO HAY PERSONAL REGISTRADO</h3>
 	   {% endif %}
-	   <hr />
-	   <hr />
-	   <h3 style="text-align:center">Medicos de Bienestar Universitario</h3>
-	   {% if doctores %} 
+	   <h3 style="text-align:center; margin-top: 50px;">MEDICOS DE BIENESTAR UNIVERSITARIO</h3>
+	   {% if datoEspecialidad %} 
+	   <div style="float: right; color:red;">
+		 <ul>
+			<li> Mod.Empleado*: Para modificar los datos del empleado </li>
+			<li> Mod.Doctor*: Para modificar los datos del Doctor</li>
+		  </ul>
+		</div>
 	   {% for i in datoEspecialidad %}
-	       <h4 id="subtitulo">Especialidad: {{ i.1 }}</h4>
+	       <h4 id="subtitulo">{{ i.1 }}</h4>
 		   <table class="table table-hover" id="doctoreslist">
              <tr class="success">
                <th>Nombre</th>
                <th>Apellido</th>
                <th class="opciones">Ver</th>
 			   <th class="opciones">Mod.Empleado*</th>
+			   {% if user|has_group:"direccion" or user|has_group:"desarrolladores" %}
 			   <th class="opciones">Mod.Doctor*</th>
+			   <th class="opciones">Eliminar</th>
+			   {% endif %}
              </tr>
 			{% for doctor in doctores %}
 		      {% if i.0 == doctor.especialidad_id %}
@@ -71,27 +82,70 @@ Presenta un listado de todos los empleados de Bienestar Universitario
                  <td>{{ doctor.codigoEmpleado.nombrePrimero }}</td>
                  <td>{{ doctor.codigoEmpleado.apellidoPrimero }}</td>
                  <td class="opciones">
-                     <a href="{% url 'doctor-view' pk=doctor.codigoDoctor %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-th-large"></span></a>
+                     <a href="{% url 'doctor-view' pk=doctor.codigoDoctor %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
 				 </td>
 				 <td class="opciones">
                      <a href="{% url 'empleados-update' pk=doctor.codigoEmpleado_id %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span></a>
 				 </td>
+				 {% if user|has_group:"direccion" or user|has_group:"desarrolladores" %}
 				 <td class="opciones">
                      <a href="{% url 'doctor-update' pk=doctor.codigoDoctor %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span></a>
 				 </td>
+				 <td class="opciones">
+					 <a href="{% url 'doctor-delete' pk=doctor.codigoDoctor %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-trash"></span></a>
+				 </td>
+				 {% endif %}
                 </tr>
 			  {% endif %}
 			{% endfor %}
 			</table>
 	   {% endfor %}
 	   {% else %}
-		<h4 id="vacio1">NO HAY MEDICOS REGISTRADOS</h4>
+		<h3 class="vacio">NO HAY MEDICOS REGISTRADOS</h3>
 	   {% endif %}
+	   <h3 style="text-align:center; margin-top: 70px;">LABORATORISTAS DE BIENESTAR UNIVERSITARIO</h3>
+	   {% if lab %} 
 	   <div style="float: right; color:red;">
 		 <ul>
 			<li> Mod.Empleado*: Para modificar los datos del empleado </li>
-			<li> Mod.Doctor*: Para modificar los datos del Doctor</li>
+			<li> Mod.Labt*: Para modificar los datos del Laboratorista</li>
 		  </ul>
 		</div>
+		<table class="table table-hover" id="doctoreslist">
+            <tr class="success">
+               <th>Nombre</th>
+               <th>Apellido</th>
+               <th class="opciones">Ver</th>
+			   <th class="opciones">Mod.Empleado*</th>
+			   {% if user|has_group:"direccion" or user|has_group:"desarrolladores" %}
+			   <th class="opciones">Mod.Labt*</th>
+			   <th class="opciones">Eliminar</th>
+			   {% endif %}
+             </tr>
+			{% for l in lab %}
+				<tr>
+                 <td>{{ l.codigoEmpleado.nombrePrimero }}</td>
+                 <td>{{ l.codigoEmpleado.apellidoPrimero }}</td>
+                 <td class="opciones">
+                     <a href="{% url 'empleados-view' pk=l.codigoEmpleado_id %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
+				 </td>
+				 <td class="opciones">
+                     <a href="{% url 'empleados-update' pk=l.codigoEmpleado_id %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span></a>
+				 </td>
+				 {% if user|has_group:"direccion" or user|has_group:"desarrolladores" %}
+				 <td class="opciones">
+                     <a href="'laboratorista-update' pk=l.codigoLaboratorista" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span></a>
+				 </td>
+				 <td class="opciones">
+					 <a href="{% url 'empleados-delete' pk=l.codigoEmpleado_id %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-trash"></span></a>
+				 </td>
+				 {% endif %}
+                </tr>
+			{% endfor %}
+			</table>
+	   {% else %}
+		<h3 class="vacio">NO HAY LABORATORISTAS REGISTRADOS REGISTRADOS</h3>
+	   {% endif %}
+	   <a href="{% url 'empleados-eliminadoslist'%}" class="btn btn-danger" style="float: right" title="Listado de Empleados Inactivos"><span class="glyphicon glyphicon-trash" ></span> Eliminados</a>
    </div>
 {% endblock %}

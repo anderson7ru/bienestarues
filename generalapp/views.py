@@ -10,7 +10,7 @@ from io import BytesIO
 from django.http import HttpResponse
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate
-from datospersonalesapp.files import PageNumCanvas, agregaTexto
+from bienestarhome.files import PageNumCanvas, agregaTexto
 
 from .models import Consulta
 from datospersonalesapp.models import Paciente, Facultad
@@ -18,7 +18,7 @@ from signosvitalesapp.models import SignosVitales
 
 from .forms import *
 
-from datospersonalesapp.files import *
+from bienestarhome.files import *
 from psicologiaapp.files import *
 from nuevoingresoapp.models import Expediente_Provisional
 from enfermeriaapp.models import Cola_Consulta
@@ -33,8 +33,8 @@ def consulta_inicio(request, nkey, dkey):
     # dkey es el ID que identifica al doctor
     
     # debug
-    print nkey
-    print dkey
+    #print nkey
+    #print dkey
     
     # buscamos al paciente en los expedientes permanentes
     if Paciente.objects.get(nit=nkey):
@@ -74,11 +74,11 @@ def consulta_inicio(request, nkey, dkey):
             dpform = DatosPersonalesForm()
             svform = SignosVitalesForm()
             
-            print nkey
-            print dkey
+            #print nkey
+            #print dkey
     # debug
-    print paciente
-    print pacientepk
+    #print paciente
+    #print pacientepk
     
     # seteamos data en la sesion
     request.session['pacientepk'] = pacientepk
@@ -86,9 +86,9 @@ def consulta_inicio(request, nkey, dkey):
     request.session['pacientenit'] = nkey
     
     # debug
-    print request.session['pacientepk']
-    print request.session['doctorpk']
-    print request.session['pacientenit']
+    #print request.session['pacientepk']
+    #print request.session['doctorpk']
+    #print request.session['pacientenit']
     
     # averiguamos si el paciente tiene alguna consulta reciente, es decir
     # en un lapso de X horas hacia atras a partir de la fecha y hora actual,
@@ -113,12 +113,12 @@ def consulta_inicio(request, nkey, dkey):
         request.session['cpk'] = capk
         
         # debug
-        print request.session['cpk']
+        #print request.session['cpk']
     else:
         capk = False
     
     # debug
-    print 'capk consulta actual = ', capk
+    #print 'capk consulta actual = ', capk
     
     return render(request, 'generalapp/consulta-inicio.html', {'pacientepk': pacientepk, 'signos_list': signos_list, 'dpform': dpform, 'svform': svform, 'capk': capk})
 #
@@ -134,9 +134,9 @@ def consulta_create(request):
     nkey = request.session['pacientenit']
     
     # debug
-    print pacientepk
-    print docpk
-    print nkey
+    #print pacientepk
+    #print docpk
+    #print nkey
     
     # recuperamos la lista de enfermedades para el autocomplete en los forms
     morbs_list = db29179_cie10.objects.all()
@@ -163,10 +163,10 @@ def consulta_update(request):
     cpk = request.session['cpk']
     
     # debug
-    print pacientepk
-    print docpk
-    print nkey
-    print cpk
+    #print pacientepk
+    #print docpk
+    #print nkey
+    #print cpk
     
     # recuperamos la lista de enfermedades para el autocomplete en los forms
     morbs_list = db29179_cie10.objects.all()
@@ -192,7 +192,7 @@ def consulta_all(request):
     pacientepk = request.session['pacientepk']
     
     # debug
-    print pacientepk
+    #print pacientepk
     
     # recuperamos las consultas del paciente
     consultas_list = Consulta.objects.filter(cod_expediente=pacientepk).order_by('-fecha')
@@ -206,7 +206,7 @@ def consultaAllPDF(request):
     pacientepk = request.session['pacientepk']
     
     # debug
-    print pacientepk
+    #print pacientepk
     
     if Consulta.objects.filter(cod_expediente=pacientepk):
         # recuperamos la data de las consultas
@@ -214,7 +214,7 @@ def consultaAllPDF(request):
         
         paciente = Paciente.objects.get(pk=pacientepk)
         nombre = paciente.get_full_name()
-        print nombre
+        #print nombre
         
         response = HttpResponse(content_type='application/pdf')
         buffer = BytesIO()
@@ -329,7 +329,7 @@ def receta(request):
 #
 # @login_required(login_url='logins')
 def eliminar_receta(request, rpk):
-    print rpk
+    #print rpk
     
     if Receta.objects.filter(pk=rpk):
         Receta.objects.filter(pk=rpk).delete()
@@ -344,7 +344,7 @@ def eliminar_receta(request, rpk):
 #
 # @login_required(login_url='logins')
 def recetaPDF(request, rpk):
-    print rpk
+    #print rpk
     
     if Receta.objects.filter(pk=rpk):
         receta = Receta.objects.get(pk=rpk)
@@ -417,7 +417,7 @@ def orden_laboratorio(request):
 #
 # @login_required(login_url='logins')
 def eliminar_ordenlab(request, rpk):
-    print rpk
+    #print rpk
     
     if OrdenLab.objects.filter(pk=rpk):
         OrdenLab.objects.filter(pk=rpk).delete()
@@ -432,19 +432,19 @@ def eliminar_ordenlab(request, rpk):
 #
 # @login_required(login_url='logins')
 def ordenLabPDF(request, rpk):
-    print rpk
+    #print rpk
     
     if OrdenLab.objects.filter(pk=rpk):
         orden = OrdenLab.objects.get(pk=rpk)
         
         pacientepk = orden.cod_expediente_id
-        print pacientepk
+        #print pacientepk
         
         paciente = Paciente.objects.get(codigoPaciente=pacientepk)
-        print paciente.codigoPaciente
+        #print paciente.codigoPaciente
         
         nombre = paciente.get_full_name()
-        print nombre
+        #print nombre
         
         response = HttpResponse(content_type='application/pdf')
         buffer = BytesIO()
@@ -524,7 +524,7 @@ def referencia_interna(request):
 #
 # @login_required(login_url='logins')
 def eliminar_interna(request, rpk):
-    print rpk
+    #print rpk
     
     if ReferenciaInterna.objects.filter(pk=rpk):
         ReferenciaInterna.objects.filter(pk=rpk).delete()
@@ -539,18 +539,18 @@ def eliminar_interna(request, rpk):
 #
 # @login_required(login_url='logins')
 def referenciaInternaPDF(request, rpk):
-    print rpk
+    #print rpk
     
     if ReferenciaInterna.objects.filter(pk=rpk):
         referencia = ReferenciaInterna.objects.get(pk=rpk)
         
         pacientepk = referencia.cod_expediente_id
-        print pacientepk
+        #print pacientepk
         paciente = Paciente.objects.get(codigoPaciente=pacientepk)
-        print paciente.codigoPaciente
+        #print paciente.codigoPaciente
         
         nombre = paciente.get_full_name()
-        print nombre
+        #print nombre
         
         response = HttpResponse(content_type='application/pdf')
         buffer = BytesIO()
@@ -631,12 +631,12 @@ def referencia_externa(request):
             # recuperamos el registro mas reciente de signos vitales del paciente
             signos = SignosVitales.objects.filter(paciente=pacientepk).last()
             
-            print signos
+            #print signos
             
             # recuperamos el registro mas reciente de consulta general del paciente
             consulta = Consulta.objects.filter(cod_expediente=pacientepk).last()
             
-            print consulta
+            #print consulta
             
             # llenamos el formulario con la data del paciente
             form = ReferenciaExternaMForm(initial={
@@ -652,7 +652,7 @@ def referencia_externa(request):
 #
 # @login_required(login_url='logins')
 def eliminar_externa(request, rpk):
-    print rpk
+    #print rpk
     
     if ReferenciaExterna.objects.filter(pk=rpk):
         ReferenciaExterna.objects.filter(pk=rpk).delete()
@@ -667,7 +667,7 @@ def eliminar_externa(request, rpk):
 #
 # @login_required(login_url='logins')
 def referenciaExternaPDF(request, rpk):
-    print rpk
+    #print rpk
     
     if ReferenciaExterna.objects.filter(pk=rpk):
         # recuperamos la data de la referencia

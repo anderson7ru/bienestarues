@@ -1,0 +1,15 @@
+<!-- 
+name: 
+Vista ver errores
+!-->
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} SERVIDOR {% endblock %}
+{% block paneltitle %} ERROR 500 {% endblock %}
+
+{% block panelcontent %}
+<div style="margin: 50px 0; text-align: center; font-size: 3rem;">
+ <img src="/static/images/error500.png" style="height: auto; width: 200px;" alt="prev image" class="img-rounded center-block" >
+ <p> Disculpe los incovenientes, le solicitamos notificar el error encontrado, para realizar mejoras en el Sistema.<br /> Gracias! </p>
+</div>
+{% endblock %}

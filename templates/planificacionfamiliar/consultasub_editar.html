@@ -4,7 +4,7 @@ Presenta el formulario para la creacion de consultas subsecuentes
 !-->
 {% extends "layouts/master.html" %}
 
-{% block pageheader %} Gu&iacutea de Atenci&oacuten en Planificaci&oacute;n Familiar {%endblock%}
+{% block pageheader %} Gu&iacute;a de Atenci&oacuten en Planificaci&oacute;n Familiar {%endblock%}
 {% block paneltitle %} Consulta Subsecuente {% endblock %}
 
 {% block panelcontent%}
@@ -19,28 +19,28 @@ Presenta el formulario para la creacion de consultas subsecuentes
 					<label>Paciente </label>
 				</div>
 				<div class="col-md-2" >
-					<input class="form-control" type="text" value="{{ datos.codigoPaciente }}" READONLY/>
+					<input class="form-control" type="text" value="{{ datos.codigoPaciente }}" readonly />
 				</div>
 				<div class="col-md-2"></div>
 				<div class="col-md-1">
 					<label>Fecha</label>
 				</div>
 				<div class="col-md-3">
-					<input class="form-control" type="text" value="{% now 'SHORT_DATE_FORMAT' %}" READONLY/>
+					<input class="form-control" type="text" value="{% now 'SHORT_DATE_FORMAT' %}" readonly />
 				</div>
 			</div>
 			<div class="row"  style="padding-top: 17px;">
 				<div class="col-md-1" >
 					<label>Nombre </label>
 				</div>
-				<div class="col-md-5" >
-					<input class="form-control" type="text" value="{{ datos.get_full_name }}" READONLY/>
+				<div class="col-md-4" >
+					<input class="form-control" type="text" value="{{ datos.get_full_name }}" readonly />
 				</div>
 				<div class="col-md-1" >
 					<label>Edad </label>
 				</div>
 				<div class="col-md-2" >
-					<input class="form-control" type="text" value="{{ datos.edad_paciente }} A&ntilde;os" READONLY/>
+					<input class="form-control" type="text" value="{{ datos.edad_paciente }} A&ntilde;os" readonly />
 				</div>
 			</div>
 			<div class="row"  style="padding-top: 17px;">
@@ -83,12 +83,14 @@ Presenta el formulario para la creacion de consultas subsecuentes
 						{{ form.metTiempo }}
 					</div>
 				</div>
-				<div class="col-md-1" style="padding-left:0px;">
-					semanas
+				<div class="col-md-2" style="padding-left:0px;">
+					<div class="form-group">
+						{{ form.metLapso }}
+					</div>
 				</div>
 			</div>
 			<div class="row"  style="padding-top: 7px;">
-				<div class="col-md-3" >
+				<div class="col-md-2" >
 					{{ form.histHallazgos.label_tag }}
 					<span class="ayuda"> {{ form.histHallazgos.help_text }} </span>
 				</div>
@@ -104,9 +106,11 @@ Presenta el formulario para la creacion de consultas subsecuentes
 					<span class="ayuda"> {{ form.metContinuacion.help_text }} </span>
 				</div>
 				<div class="col-md-2" >
+					<div class="form-group">
 					{% for radio in form.metContinuacion %}
 					<span> {{ radio }} </span>
 					{% endfor %}
+					</div>
 				</div>
 				<div class="col-md-1"  style="padding-right: 0px;padding-left: 0px;">
 					{{ form.nombreCambio.label_tag }}
@@ -123,7 +127,7 @@ Presenta el formulario para la creacion de consultas subsecuentes
 					{{ form.motivoCambio.label_tag }}
 					<span class="ayuda"> {{ form.motivoCambio.help_text }} </span>
 				</div>
-				<div class="col-md-7" >
+				<div class="col-md-5" >
 					<div class="form-group">
 						{{ form.motivoCambio }}
 					</div>
@@ -134,7 +138,7 @@ Presenta el formulario para la creacion de consultas subsecuentes
 					{{ form.diagnostico.label_tag }}
 					<span class="ayuda"> {{ form.diagnostico.help_text }} </span>
 				</div>
-				<div class="col-md-7" >
+				<div class="col-md-5" >
 					<div class="form-group">
 						{{ form.diagnostico }}
 					</div>
@@ -167,51 +171,39 @@ Presenta el formulario para la creacion de consultas subsecuentes
 					{{ form.indicaciones.label_tag }}
 					<span class="ayuda"> {{ form.indicaciones.help_text }} </span>
 				</div>
-				<div class="col-md-7" style="padding-left: 25px;">
+				<div class="col-md-5">
 					<div class="form-group">
 						{{ form.indicaciones }}
 					</div>
 				</div>
 			</div>
 			<div class="row"  style="padding-top: 7px;">
-				<div class="col-md-3" >
-					{{ form.fechaProximaConsulta.label_tag }}
-					<span class="ayuda"> {{ form.fechaProximaConsulta.help_text }} </span>
+				<div class="col-md-2" >
+					{{ form.proximaConsulta.label_tag }}
+					<span class="ayuda"> {{ form.proximaConsulta.help_text }} </span>
 				</div>
-				<div class="col-md-4" >
+				<div class="col-md-2">
 					<div class="form-group">
-						{{ form.fechaProximaConsulta }}
+						{{ form.proximaConsulta }}
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-left: 25px;">
+					<div class="form-group">
+						{{ form.proximaConsultaLapso }}
 					</div>
 				</div>
 			</div>
-			<div class="row"  style="padding-top: 7px;">
-				<div class="col-md-3" >
-					{{ form.nombreResponsable.label_tag }}
-					<span class="ayuda"> {{ form.nombreResponsable.help_text }} </span>
-				</div>
-				<div class="col-md-4" >
-					<div class="form-group">
-						{{ form.nombreResponsable }}
-					</div>
-				</div>
-			</div>
-			<div class="row"  style="padding-top: 7px;">
-				<div class="col-md-3" >
-					{{ form.cargo.label_tag }}
-					<span class="ayuda"> {{ form.cargo.help_text }} </span>
-				</div>
-				<div class="col-md-4" >
-					<div class="form-group">
-						{{ form.cargo }}
-					</div>
-				</div>
+			<div style=" margin-top: 30px; ">
+				<p><b>CONTROL NORMAL:</b> Es aquel en el cual la usuaria usando de manera regular el m&eacute;todo de planificaci&oacute;n no presenta morbilidad asociada a este.</p>
+				<p><b>CONTROL POR MORBILIDAD(M):</b> Considerado cuando la usuaria consulte por morbilidad asociada al m&eacute;todo utilizado, que comprometa su estado de salud con base a lo descrito en la Gu&iacute;a de Planificaci&oacute;n. </p>
+				<p><b>CONTROL POR FALLA:</b> Se entender&aacute; como falla aquella en que la mujer sale embarazada utilizando correctamente un m&eacute;todo de planificaci&oacute;n familiar</p>
 			</div>
 		</div>
 	</div>
 		
-    <div class="col-md-offset-2 col-md-10">
+    <div class="col-md-offset-4 col-md-4 operaciones">
        <button id="save_inscripcionplanificacion" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
-       <a href="{% url 'planificacionfamiliar-listsub' pk=principal.pk %}" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Volver a la lista</a>
+	   <a href="{% url 'planificacionfamiliar-listsub' pk=principal.pk %}" class="btn btn-danger" title="Volver al Listado"><span class="glyphicon glyphicon-ban-circle"></span> Cancelar</a>
     </div>
     </form>
 {%endblock%}

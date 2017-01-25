@@ -1,9 +1,11 @@
+# -*- coding: utf-8 -*-
 from django import forms
 from django.forms import ModelForm
-from smart_selects.form_fields import ChainedModelChoiceField
 
+# apps internas y externas
 from citasmedicasapp.models import Cita, Cancelacion
 from datospersonalesapp.models import Paciente
+import re
 
 #Formulario para la creacion de citas
 class CitasMedicasForm(ModelForm):
@@ -11,7 +13,8 @@ class CitasMedicasForm(ModelForm):
 	class Meta:
 		model = Cita 
 		fields = ['horaConsulta', 'paciente']
-	horaConsulta = forms.TimeField(widget=forms.TextInput(attrs={'name':'horaConsulta','class':'form-control','id':'horaConsulta','maxlength':'5'}),label="Hora de Inicio",help_text="(*)")
+		
+	horaConsulta = forms.TimeField(widget=forms.TextInput(attrs={'name':'horaConsulta','class':'form-control','id':'horaConsulta','maxlength':'5'}),label="Hora de Consulta",help_text="(*)")
 	paciente = forms.ModelChoiceField(widget=forms.Select(attrs={'name':'paciente','class':'selectpicker','data-live-search':'true'}),queryset=Paciente.objects.filter(estadoExpediente='A'),label="Paciente",help_text="(*)")
 
 #Formulario para la cancelacion

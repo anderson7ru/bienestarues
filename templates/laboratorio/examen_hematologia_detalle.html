@@ -113,13 +113,8 @@
 		  <div class="col-md-5"><strong>Fecha:</strong> {{ hematologia.fechaIngreso|date:"SHORT_DATE_FORMAT" }}</div>
 		</div>
 	</div>
-	<div class="col-md-offset-8 col-md-8">
-		<div class="col-lg-3">
-	      <a href="{% url 'examen_hematologia_pdf' pk=hematologia.codExamen_Hematologia %}" class="btn btn-info btn-block">
-	         <span class="glyphicon glyphicon-file"></span>&nbspCrear PDF
-	      </a> 
-	  	</div>
-        <a href="{% url 'laboratorioapp.views.hematologia_list' %}" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span>&nbspVolver a la lista</a>
+	<div class="col-md-10 operaciones">
+		<a href="{% url 'laboratorioapp.views.hematologia_list' %}" class="btn btn-primary" title="Volver a Pacientes Activos"><span class="glyphicon glyphicon-arrow-left"></span> </a>
+		<a href="{% url 'examen_hematologia_pdf' pk=hematologia.codExamen_Hematologia %}" class="btn btn-info" ><span class="glyphicon glyphicon-print"></span> Imprimir</a>
      </div>
 {%endblock%}
-

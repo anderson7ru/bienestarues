@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^(?P<pk>[0-9]+)/subsecuente/$',views.planificacionfamiliar_subsecuente,name='planificacionfamiliar-listsub',),
     url(r'^(?P<pk>[0-9]+)/subsecuente/nuevo/$',views.planificacionfamiliar_subnuevo,name='planificacionfamiliar-subnew',),
     url(r'^(?P<pk>[0-9]+)/subsecuente/(?P<pacientesubsecuentepf_id>[0-9]+)/$',views.planificacionfamiliar_subdetalle,name='planificacionfamiliar-subview',),
+    url(r'^(?P<pk>[0-9]+)/subsecuente/(?P<pacientesubsecuentepf_id>[0-9]+)/pdf/$',views.planificacionfamiliar_subfile,name='planificacionfamiliar-subfile',),
 ]

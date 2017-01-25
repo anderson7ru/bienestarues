@@ -17,31 +17,31 @@ Vista para la creacion de citas medicas
             <h3 class="page-header text-left">Datos Generales del Doctor</h3>
 			<div class="row">
 				<div class="col-md-4" >
-					Nombre:
-					<span class="subrayado">
-						<strong>{{datos.nombrePrimero}} {{datos.nombreSegundo}} {{datos.apellidoPrimero}} {{datos.apellidoSegundo}}</strong>
-					</span>
+					<div class="form-group">
+						<label for="nombre">Nombre: </label>
+						<input type="text" name="nombre" value="{{datos.get_full_name}}" class="form-control" readonly />
+					</div>
 				</div>
 				<div class="col-md-3" >
-					Especialidad:
-					<span class="subrayado">
-						<strong>{{especialidad.especialidad}}</strong>
-					</span>
+					<div class="form-group">
+						<label for="especial">Especialidad: </label> 
+						<input type="text" name="especialidad" value="{{ especialidad.especialidad }}" class="form-control" readonly />
+					</div>
 				</div>
 				<div class="col-md-3" >
-					Fecha de la consulta:
-					<span class="subrayado">
-						<strong>{{fecha}}</strong>
-					</span>
+					<div class="form-group">
+						<label for="especial">Fecha de la consulta: </label> 
+						<input type="text" name="fechaC" value="{{fecha}}" class="form-control" readonly />
+					</div>
 				</div>
 			</div>
 			<h4 style="padding-top: 17px; padding-left: 200px;">Horarios de Atencion</h4>
 			<div class="row">
 				<div class="col-md-2" >
-					Paciente por consulta:
-					<span class="subrayado">
-						<strong>{{hora.pacienteConsulta}}</strong>
-					</span>
+					<div class="form-group">
+						<label for="especial">Paciente por consulta: </label> 
+						<input type="text" name="pacienteC" value="{{hora.pacienteConsulta}}" class="form-control" readonly />
+					</div>
 				</div>
 				<div class="col-md-6">
 					<table class="table table-hover">
@@ -88,9 +88,9 @@ Vista para la creacion de citas medicas
 		</div>
 	</div>
 	
-	<div class="col-md-offset-2 col-md-10">
+	<div class="col-md-offset-4 col-md-4 operaciones">
       <button id="save_cita" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
-	  <a href="{% url 'doctor-list' %}" class="btn btn-primary" style="float: right"><span class="glyphicon glyphicon-list-alt"></span> Ver Lista de Doctores en Citas Medicas</a>
+	  <a href="{% url 'doctor-list' %}" class="btn btn-danger" title="Ver Lista de Doctores en Citas Medicas"><span class="glyphicon glyphicon-ban-circle"></span> Cancelar</a>
     </div>
 </form>
 {% endblock %}

@@ -14,7 +14,7 @@ from django.utils.encoding import force_text
 from django.http import HttpResponseRedirect
 from django.views.decorators.debug import sensitive_post_parameters
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
 import random
 import warnings
@@ -22,12 +22,13 @@ from email.mime.text import MIMEText
 from smtplib import SMTP 
 from django.core.mail import send_mail
 
+from bienestarhome.admin import is_director1
 from .forms import UsuarioForm
 from django.contrib.auth.models import Group
 from django.contrib.auth.forms import PasswordResetForm,SetPasswordForm
 from django.contrib.auth.models import User
-from cuentas_usuarioapp.models import UsuarioEmpleado
-from cuentas_usuarioapp.forms import CambiarPassword,ResetPasswordForm
+from cuentasusuariosapp.models import UsuarioEmpleado
+from cuentasusuariosapp.forms import CambiarPassword,ResetPasswordForm
 from empleadosapp.models import Empleado
 
 UserModel = get_user_model()
@@ -52,6 +53,7 @@ UserModel = get_user_model()
     return render(request,"cuentas_usuarioapp/crear.html",{'form':form})"""
 
 @login_required(login_url='logins')
+@user_passes_test(is_director1)
 def empleado_usuario(request):
 	formU = UsuarioForm()
 	psw = generarpassword()

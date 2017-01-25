@@ -3,25 +3,33 @@ name: datospersonales-list
 Presenta un listado de los expedientes permanentes activos
 !-->
 {% extends "layouts/master.html" %}
+{% load user_group %}
 
 {% block pageheader %} Archivo de Expedientes Activos {%endblock%}
 {% block paneltitle %} Pacientes de Bienestar Universitario {% endblock %}
 
 {% block panelcontent%}
    <div class="table-responsive">
-      <a href="{% url 'datospersonales-new' %} " class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Nuevo</a>
-	   <a href=" {% url 'datospersonales-busqueda' %}" class="btn btn-info" style="float: right"><span class="glyphicon glyphicon-search"></span> Busqueda avanzada</a>
-	   {% for i in datoFacult %}
+       {% if user|has_group:"archivo" or user|has_group:"administradores" or user|has_group:"desarrolladores" %}
+	   <a href="{% url 'datospersonales-new' %} " class="btn btn-success" title="Inscripcion de Nuevo Paciente"><span class="glyphicon glyphicon-plus"></span> Nuevo</a>
+	   {% endif %}
+	   <a href=" {% url 'datospersonales-busqueda' %}" class="btn btn-info" style="float: right" title="Busqueda Avanzada"><span class="glyphicon glyphicon-search"></span></a>
+       {% if datoFacult %} 
+	    {% for i in datoFacult %}
 	       <h3 id="subtitulo">{{ i.1 }}</h3>
 		   <table class="table table-hover" id="pacientelist">
 				<tr class="success">
-					<th>Codigo</th>
+					<th>codigo</th>
 					<th>Nombre</th>
 					<th>Apellido</th>
 					<th class="opciones">Ver</th>
+					{% if user|has_group:"jefe_archivo" or user|has_group:"archivo" or user|has_group:"administradores" or user|has_group:"desarrolladores" %}
+					{% if user|has_group:"archivo" or user|has_group:"administradores" or user|has_group:"desarrolladores" %}
 					<th class="opciones">Modificar</th>
-					<th class="opciones">Cola</th>
+					<th class="opciones">Cola Enfermeria</th>
+					{% endif %}
 					<th class="opciones">Eliminar</th>
+					{% endif %}
 				</tr>
 		   {% for paciente in personalpaciente %}
 		       {% if i.0 == paciente.facultadE_id %}
@@ -30,26 +38,32 @@ Presenta un listado de los expedientes permanentes activos
 					<td>{{ paciente.nombrePrimero}}</td>
 					<td>{{ paciente.apellidoPrimero}}</td>
 					<td class="opciones">
-						<a href="{% url 'datospersonales-view' pk=paciente.codigoPaciente %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-th-large"></span></a>
+						<a href="{% url 'datospersonales-view' pk=paciente.codigoPaciente %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
 					</td>
+					{% if user|has_group:"jefe_archivo" or user|has_group:"archivo" or user|has_group:"administradores" or user|has_group:"desarrolladores" %}
+					{% if user|has_group:"archivo" or user|has_group:"administradores" or user|has_group:"desarrolladores" %}
 					<td class="opciones">
 						<a href="{% url 'datospersonales-update' pk=paciente.codigoPaciente %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span></a>
 					</td>
 					<td class="opciones">
 						<a href="{% url 'cola_enfermeria-new' pk=paciente.codigoPaciente %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-share-alt"></span></a>
 					</td>
+					{% endif %}
 					<td class="opciones">
 						<a href="{% url 'datospersonales-delete' pk=paciente.codigoPaciente %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-trash"></span></a>
 					</td>
-					<td class="opciones">
-						<a href="{% url 'consulta-inicio' pk=paciente.codigoPaciente %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-share-alt"></span></a>
-					</td>
+					{% endif %}
 				 </tr>
 			   {% endif %}
 		   {% endfor %}
 			</table>
 	   {% endfor %}
-	   <a href="{% url 'cola_enfermeria-list' %}" class="btn btn-info" style="float: left"><span class="glyphicon glyphicon-eye-open"></span> Ver cola de enfermeria</a>
-	   <a href="{% url 'datospersonales-eliminadoslist' %}" class="btn btn-danger" style="float: right"><span class="glyphicon glyphicon-trash"></span> Listado de eliminados</a>
+	  {% else %}
+		<h3 class="vacio">NO HAY REGISTRO DE PACIENTES ACTIVOS</h3>
+	  {% endif %}
+	  {% if user|has_group:"jefe_archivo" or user|has_group:"archivo" or user|has_group:"administradores" or user|has_group:"desarrolladores" %}
+	   <a href="{% url 'cola_enfermeria-list' %}" class="btn btn-info" style="float: left"><span class="glyphicon glyphicon-eye-open"></span> Ver Cola de Enfermeria</a>
+	   <a href="{% url 'datospersonales-eliminadoslist' %}" class="btn btn-danger" style="float: right" title="Listado de Expedientes Inactivos"><span class="glyphicon glyphicon-trash" ></span> Eliminados</a>
+	   {% endif %}
    </div>
 {% endblock %}

@@ -1,6 +1,6 @@
 <!-- 
 name: doctor-list
-Presenta un listado de los doctores que estan disponibles
+Presenta un listado de los doctores que estan disponibles 
 !-->
 {% extends "layouts/master.html" %}
 
@@ -9,9 +9,10 @@ Presenta un listado de los doctores que estan disponibles
 
 {% block panelcontent%}
 <div class="table-responsive">
-       <a href="{% url 'paciente_list' %}" class="btn btn-info" style="float: right; margin-bottom: 15px;"><span class="glyphicon glyphicon-plus"></span> Listado de Pacientes</a>
+	{% if datoEspecialidad %}
+       <a href="{% url 'paciente_list' %}" class="btn btn-info" style="float: right; margin-bottom: 15px;" title="Listado de Pacientes con cita pendiente"><span class="glyphicon glyphicon-plus"></span> Pacientes</a>
        {% for i in datoEspecialidad %}
-		<h4 id="subtitulo">Especialidad: {{ i.1 }}</h4>
+		<h4 id="subtitulo">{{ i.1 }}</h4>
 		<table class="table table-hover" id="pacientelist">
            <tr class="success" style="text-align:center">
                <th>Nombre</th>
@@ -27,10 +28,10 @@ Presenta un listado de los doctores que estan disponibles
 				 <td>{{ doctores.codigoEmpleado.nombrePrimero}}</td>
                  <td>{{ doctores.codigoEmpleado.apellidoPrimero}}</td>
                  <td class="opciones">
-                     <a href="{% url 'doctor-view' pk=doctores.codigoDoctor %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-th-list"></span></a>
+                     <a href="{% url 'doctor-view' pk=doctores.codigoDoctor %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
 				 </td>
 				 <td class="opciones">
-                     <a href="{% url 'calendario' pk=doctores.codigoDoctor anio=year mes=month %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-calendar"></span></a>
+                     <a href="{% url 'calendario' pk=doctores.codigoDoctor anio=year mes=month%}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-calendar"></span></a>
 				 </td>
 				 <td class="opciones">
 					<a href="{% url 'doctorcita_list' pk=doctores.codigoDoctor %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-time"></span></a>
@@ -43,6 +44,8 @@ Presenta un listado de los doctores que estan disponibles
 		   {% endfor %}
 		</table>
 	   {% endfor %}
-	   <!--<a href="{% url 'datospersonales-eliminadoslist' %}" class="btn btn-danger" style="float: right"><span class="glyphicon glyphicon-trash"></span> Listado de eliminados</a>-->
-   </div>
+	{% else %}
+	  <h3 class="vacio">NO HAY MEDICOS REGISTRADOS</h3>
+	{% endif %}
+</div>
 {% endblock %}

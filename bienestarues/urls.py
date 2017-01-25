@@ -62,7 +62,7 @@ urlpatterns = [
      url(r'^psicologia/',include('psicologiaapp.urls')),
      
      #url para usuarios
-     url(r'^usuarios/',include('cuentas_usuarioapp.urls')),
+     url(r'^usuarios/',include('cuentasusuariosapp.urls')),
      
      #url para nutricion
      url(r'^nutricion/',include('nutricionapp.urls'))

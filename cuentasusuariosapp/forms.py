@@ -13,7 +13,7 @@ from django.contrib.auth.models import User,Group
 from django.contrib.auth.forms import UserCreationForm,SetPasswordForm,PasswordResetForm
 # apps internas y externas
 from empleadosapp.models import Empleado
-from cuentas_usuarioapp.models import UsuarioEmpleado
+from cuentasusuariosapp.models import UsuarioEmpleado
 
 UserModel = get_user_model()
 

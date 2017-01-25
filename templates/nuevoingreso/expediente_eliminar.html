@@ -178,9 +178,9 @@ Este es la pagina/formulario donde se eliminan el registro de un expediente prov
 		</div>
 	</div>
     
-    <div class="col-md-offset-9 col-md-10">
-        <button id="delete_expedienteprovisional" type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>Eliminar Expediente</button>
-           <a href="{% url 'expedienteprovisonal-list' %}" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span>Volver a la lista</a>
+    <div class="col-md-offset-4 col-md-4 operaciones">
+        <button id="delete_expedienteprovisional" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-trash"></span> Si</button>
+		<a href="{% url 'expedienteprovisonal-list' %}" class="btn btn-danger" title="Volver al Listado"><span class="glyphicon glyphicon-ban-circle"></span> Cancelar</a>
     </div>
 </form>
 {% endblock %}

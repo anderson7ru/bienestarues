@@ -30,9 +30,9 @@ Este es la pagina/formulario donde se ingresan las activiades de enfermeria
 			</div>
 		</div>
 	</div>    
-    <div class="col-md-offset-9 col-md-10">
+	<div class="col-md-offset-4 col-md-4 operaciones">
         <button id="save_actividad" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span>Guardar</button>
-           <a href="{% url 'actividades-list' %}" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span>Volver a la lista</a>
+        <a href="{% url 'actividades-list' %}" class="btn btn-danger" title="Volver al Listado"><span class="glyphicon glyphicon-ban-circle"></span> Cancelar</a>
     </div>
 </form>
 {% endblock %}

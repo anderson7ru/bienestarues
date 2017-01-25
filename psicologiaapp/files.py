@@ -8,7 +8,7 @@ from reportlab.lib.enums import TA_JUSTIFY, TA_RIGHT, TA_CENTER
 from reportlab.lib.units import mm
 import time
 
-from datospersonalesapp.files import header
+from bienestarhome.files import header
 
 PAGE_HEIGHT=11*inch; PAGE_WIDTH=8.5*inch 
 #Anchura : 612 px => 8.5*inch.

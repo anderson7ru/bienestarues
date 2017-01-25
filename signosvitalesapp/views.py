@@ -6,6 +6,8 @@ from django.utils import timezone
 from django.contrib import messages
 import time
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required,user_passes_test
+from bienestarhome.admin import is_jefenfermeria, is_usuario6
 from django.db import connection
 
 #apps internas y externas
@@ -18,12 +20,14 @@ from signosvitalesapp.forms import SignosForm
 
 #Listado de las personas a las que se les han tomado los signos vitales
 @login_required(login_url='logins')
+@user_passes_test(is_jefenfermeria)
 def signosvitales_list(request):
     signos=SignosVitales.objects.order_by('-fechaIngreso','-horaIngreso')
     return render(request,"signosvitales/signosvitales_list.html",{'signos':signos})
 
 #View para agregar los signos vitales a un determinado paciente
 @login_required(login_url='logins')
+@user_passes_test(is_usuario6)
 def signosvitales_nuevo(request,pk):
     paciente = Paciente.objects.get(codigoPaciente=pk)
     doctores = Doctor.objects.all()
@@ -36,7 +40,7 @@ def signosvitales_nuevo(request,pk):
             'talla':request.POST.get('talla'),'temperatura':request.POST.get('temperatura'),'peso':request.POST.get('peso'),'frecuenciaRespiratoria':int(request.POST.get('frecuenciaRespiratoria')),
             'frecuenciaCardiaca':int(request.POST.get('frecuenciaCardiaca'))
         }
-        doctor ={'idDoctor':Doctor.objects.filter(codigoDoctor = request.POST.get('doctor'))
+        consulta ={'idDoctor':Doctor.objects.filter(codigoDoctor = request.POST.get('doctor'))
             
         }
         form = SignosForm(data)
@@ -50,7 +54,7 @@ def signosvitales_nuevo(request,pk):
             signosV.fechaIngreso = timezone.now()
             signosV.horaIngreso = time.strftime("%H:%M:%S") #Formato de 24 horas
             signosV.save()
-            consultaForm = ColaConsultaForm(doctor)
+            consultaForm = ColaConsultaForm(consulta)
             if consultaForm.is_valid():
                 consulta = consultaForm.save(commit=False)
                 consulta.nit = datos.nit
@@ -68,6 +72,7 @@ def signosvitales_nuevo(request,pk):
 	
 #View para consultar los signos vitales de un determinado paciente
 @login_required(login_url='logins')
+@user_passes_test(is_jefenfermeria)
 def signosvitales_detalle(request, pk):
 	signosV = SignosVitales.objects.get(pk=pk) 
 	datos =  Paciente.objects.get(codigoPaciente=signosV.paciente_id)

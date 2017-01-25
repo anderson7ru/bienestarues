@@ -3,7 +3,7 @@ from django.db import models
 from django.utils import timezone
 from django.core.urlresolvers import reverse
 from django.conf import settings
-from smart_selects.db_fields import ChainedForeignKey
+#from smart_selects.db_fields import ChainedForeignKey
 from datospersonalesapp.models import Paciente
 from django.contrib.auth.models import User
 from .validators import valid_extension
@@ -260,3 +260,16 @@ class Examen_Especiales(models.Model):
 
     def __str__(self):
          return '%s %s' % (self.codExamen_Especiales, self.paciente)
+
+class Examen_Gabinete(models.Model):
+    codExamen_Gabinete = models.AutoField(primary_key=True, null=False)#OA-NA-NP
+    paciente = models.ForeignKey(Paciente, on_delete=models.SET_NULL, verbose_name="PACIENTE", default=1, null=True, blank=True) #OB-SA-NP
+    edad = models.PositiveIntegerField(default=0,null=True,blank=True)#OB-SA-NP
+    fechaIngreso=models.DateTimeField("Fecha de Inscripcion",auto_now_add=True,null=True,blank=True) #OA-NA-NP default=timezone.now
+    fechaModificacion=models.DateTimeField("Fecha de Inscripcion",auto_now_add=True, null=True,blank=True) #OA-NA-NP default=timezone.now
+    nombreRecibido=models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="Tomo informacion", editable=False, default=1) #OA-NA-NP
+    tipoExamen= models.CharField("TIPO DE EXAMEN",max_length=25,null=True,blank=True)#OB-SA-NP
+    archivo = models.FileField(blank=True, null=True, upload_to='ExamenGabinete/')
+
+    def __str__(self):
+         return '%s %s' % (self.codExamen_Gabinete, self.paciente)

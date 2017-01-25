@@ -1,10 +1,11 @@
-{% extends "layouts/beta.html" %}
-{% block content %}
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} Reporte de Enfermeria {% endblock %}
+{% block paneltitle %} Primera y Consultas Subsecuentes {% endblock %}
+
+{% block panelcontent %}
 <form id="reporte_enfermeria_Form" action="" method="post">{% csrf_token %}
 <div class="container">
-    <div class="page-header">
-        <h1 class="text-center">Informe de Primera y Consultas Subsecuentes</h1>
-    </div>
     <div class="row">
         <div class="col-md-offset-1 col-md-3" style="padding-top: 7px;">
                 <strong>Fecha de Inicio</strong>
@@ -19,20 +20,20 @@
         </div>
     </div>
 </div>
-<div class="container" style="padding-top: 7px;">
+<div style="padding-top: 7px;">
     <div class="panel panel-info">
         <div class="panel-body">
             <div class="chartfix" id="piechart" style="width: 1100px; height: 600px;"></div>
             <div class="col-md-offset-3 col-md-10" style="padding-top: 7px;">
-                		{% if consulta_list %}
-                		    <strong>Primera y Consulta Subsecuentes del {{fechaInicio}} al {{fechaFin}}</strong>
-				            <div class="row">
-				 	            <div class="col-md-3"><strong>Generar Archivo:</strong></div>
-				 	            <a href="{% url 'tipoConsultaExcel-new' inicio=fechaInicio fin=fechaFin %}" class="btn btn-info" style="float: center"><span class="glyphicon glyphicon-list-alt"></span>&nbsp Excel</a>
-				            </div>
-		                {% else %}
-		                <strong><p>No hay registro para este rango de fechas</p></strong>
-		                {% endif %}
+                        {% if consulta_list %}
+                            <strong>Primera y Consulta Subsecuentes del {{fechaInicio}} al {{fechaFin}}</strong>
+                            <div class="row">
+                                <div class="col-md-3"><strong>Generar Archivo:</strong></div>
+                                <a href="{% url 'tipoConsultaExcel-new' inicio=fechaInicio fin=fechaFin %}" class="btn btn-info" style="float: center"><span class="glyphicon glyphicon-list-alt"></span>&nbsp Excel</a>
+                            </div>
+                        {% else %}
+                        <strong><p>No hay registro para este rango de fechas</p></strong>
+                        {% endif %}
            </div>
         </div>
     </div>

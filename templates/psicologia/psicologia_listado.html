@@ -3,12 +3,14 @@ name: psicologia-list
 Presenta el listado de los pacientes de la clinica de Psicologia
 !-->
 {% extends "layouts/master.html" %}
+{% load user_group %}
 
 {% block pageheader %} Clinica de Psicologia {%endblock%}
 {% block paneltitle %} Listado de Pacientes {% endblock %}
 
 {% block panelcontent%}
 <div class="table-responsive">
+    {%if pacientes%}
     <table class="table table-hover" id="psicologialist">
         <tr class="success">
             <th style="text-align:center;">Paciente</th>
@@ -16,28 +18,33 @@ Presenta el listado de los pacientes de la clinica de Psicologia
             <th style="text-align:center;">Profesion u Ocupacion</th>
             <th style="text-align:center;">Fecha de ingreso</th>
             <th style="text-align:center;">Ver</th>
+            {% if user|has_group:"administradores" or user|has_group:"psicologos" or user|has_group:"desarrolladores" %}
+            {% if user|has_group:"psicologos" or user|has_group:"desarrolladores" %}
             <th style="text-align:center;">Modificar</th>
+            {% endif %}
             <th style="text-align:center;">Ver Procesos Terapeuticos</th>
+            {% endif %}
             <!--<th style="text-align:center;">Ver Registro de Avance</th>-->
         </tr>
-        {%if pacientes%}
         {% for paciente in pacientes %}
         <tr style="text-align:center;">
             <td>{{paciente.paciente.nombrePrimero}} {{paciente.paciente.apellidoPrimero}}</td>
             <td>{{paciente.paciente.edad_paciente}}</td>
             <td>{{paciente.profesion}}</td>
             <td>{{paciente.fecha}}</td>
-            <td><a href="{% url 'psicologia-view' paciente=paciente.paciente.codigoPaciente %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a></td>
+            <td class="opciones"><a href="{% url 'psicologia-view' paciente=paciente.paciente.codigoPaciente %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a></td>
+            {% if user|has_group:"administradores" or user|has_group:"psicologos" or user|has_group:"desarrolladores" %}
+            {% if user|has_group:"psicologos" or user|has_group:"desarrolladores" %}
             <td><a href="{% url 'psicologia-update' paciente=paciente.paciente.codigoPaciente %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span></a></td>
-            <td><a href="{% url 'procesoterapeutico-view' paciente=paciente.paciente.codigoPaciente %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a></td>
+            {% endif %}
+            <td class="opciones"><a href="{% url 'procesoterapeutico-view' paciente=paciente.paciente.codigoPaciente %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-tasks"></span></a></td>
+            {% endif %}
             <!--<td><a href="" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-comment"></span></a></td>-->
         </tr>
         {% endfor %}
-        {%else%}
-        <tr>
-            <td>NO HAY DATOS QUE MOSTRAR...</td>
-        </tr>
-        {%endif%}
     </table>
+    {% else %}
+        <h3 class="vacio">NO HAY DATOS QUE MOSTRAR...</h3>
+    {% endif %}
 </div>
 {% endblock %}

@@ -1,0 +1,124 @@
+<!-- 
+name: empleados-new y empleados-update
+Vista para la creacion y modificacion de empleados
+!-->
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} Empleados de Bienestar Universitario {% endblock %}
+{% block paneltitle %} Edici&oacute;n de Datos del Doctor {% endblock %}
+
+{% block panelcontent %}
+<form id="eea_doctorEditarForm" enctype="multipart/form-data" action="" method="post">{% csrf_token %}
+    <div class="ayuda" style="text-align:right">
+			<p>(*) campos requeridos </p>
+	</div>
+	<div class="panel panel-info" style="margin-top: 20px;">
+        <div class="panel-body"  style="padding-left: 50px; padding-top: 0px;">
+            <h3 class="page-header text-left">DATOS GENERALES DEL DOCTOR</h3>
+			<div class="row">
+				<div class="col-md-4" >
+					<div class="form-group">
+	                    <label for="nombre">Nombre: </label>
+	                    <input type="text" name="nombre" value="{{empleado.get_full_name}}" class="form-control" readonly />
+	                </div>
+				</div>
+				<div class="col-md-3" >
+					<div class="form-group">
+	                    <label for="sexo">Sexo: </label>
+	                    {% if empleado.sexo == 'M' %}
+	                    <input type="text" name="sexo" value="Masculino" class="form-control" readonly />
+	                    {% else %}
+	                    <input type="text" name="sexo" value="Femenino" class="form-control" readonly />
+	                    {% endif %}
+	                </div>
+				</div>
+				<div class="col-md-5" >
+					<div class="form-group">
+						{{ form.especialidad.label_tag }} 
+						<span class="ayuda"> {{ form.especialidad.help_text }} </span>
+						{{ form.especialidad }} 
+					</div>
+				</div>
+			</div>
+			<div class="row" style="padding-top:17px;">
+				<div class="col-md-2" >
+					{{ form.firma.label_tag }} 
+					<span class="ayuda"> {{ form.firma.help_text }} </span>
+				</div>
+				<div class="col-md-4" >
+					<div class="form-group">
+						<span class="btn btn-primary btn-file">
+						<strong>CARGAR ARCHIVO</strong><input type="file" name="firma" >
+						</span>
+					</div>
+				</div>
+				<div class="col-md-2" >
+					{{ form.sello.label_tag }} 
+					<span class="ayuda"> {{ form.sello.help_text }} </span>
+				</div>
+				<div class="col-md-4" >
+					<div class="form-group">
+						<span class="btn btn-primary btn-file">
+						<strong>CARGAR ARCHIVO</strong><input type="file" name="sello" >
+						</span>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	<div class="panel panel-info">
+        <div class="panel-body" style="padding-left: 20px; padding-top: 0px;">
+            <h3 class="page-header text-left">HORARIOS DE ATENCI&Oacute;N</h3>
+			<div class="row" style="padding-top: 17px; ">
+				<div class="col-md-3">
+					<div class="form-group">
+						{{ form.horaInicio.label_tag }} 
+						<span class="ayuda"> {{ form.horaInicio.help_text }} </span>
+						{{ form.horaInicio }} 
+					</div>
+				</div>
+				<div class="col-md-1" >	</div>
+				<div class="col-md-3" >
+					<div class="form-group">
+						{{ form.horaFinal.label_tag }}
+						<span class="ayuda"> {{ form.horaFinal.help_text }} </span>
+						{{ form.horaFinal }}
+					</div>
+				</div>
+				<div class="col-md-1" >	</div>
+				<div class="col-md-3" >
+					<div class="form-group">
+						{{ form.pacienteConsulta.label_tag }} 
+						<span class="ayuda"> {{ form.pacienteConsulta.help_text }} </span>
+						{{ form.pacienteConsulta }} 
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-3" style="padding-top: 15px;">
+					{{ form.dia.label_tag }}
+					<span class="ayuda"> {{ form.dia.help_text }} </span>
+				</div>
+				<div class="col-md-9" style="padding-top: 7px;">
+					<div class="form-group">
+						{% for check in form.dia %}
+							<span> 
+								<label for="{{ check.id_for_label }}">
+									{{ check.choice_label }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									<span class="check">{{ check.tag }}</span>
+								</label>
+							</span>
+						{% endfor %}
+					</div>
+				</div>
+            </div>
+		</div>
+	</div>
+	
+	<div class="col-md-offset-4 col-md-4 operaciones">
+      <button id="save_doctor" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
+	  <a href="{% url 'empleados-list' %}" class="btn btn-danger" title="Volver al Listado"><span class="glyphicon glyphicon-ban-circle"></span> Cancelar</a>
+    </div>
+</form>
+{% endblock %}

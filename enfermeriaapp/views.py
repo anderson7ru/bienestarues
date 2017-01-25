@@ -1,20 +1,22 @@
 from django.shortcuts import render
-from enfermeriaapp.models import Cola_Consulta, Cola_Enfermeria
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect
 from django.utils import timezone
 import time
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required,user_passes_test
 import datetime
 from django.db import connection
 import json
+from bienestarhome.admin import is_archivo1, is_enfermera1, is_usuario9,is_usuario10
+from enfermeriaapp.models import Cola_Consulta, Cola_Enfermeria
 from datospersonalesapp.models import Paciente
 from nuevoingresoapp.models import Expediente_Provisional
 from enfermeriaapp.forms import ColaEnfermeriaForm
 
 # Vista para poner un nuevo paciente en la cola para la toma de signos vitales
 @login_required(login_url='logins')
+@user_passes_test(is_archivo1)
 def cola_enfermeria_nuevo(request,pk):
     info = ""
     pacientes=Paciente.objects.filter(estadoExpediente='A').order_by('facultadE')
@@ -43,12 +45,14 @@ def cola_enfermeria_nuevo(request,pk):
 
 #Muestra el listado de pacientes en cola para tomarles signos vitales
 @login_required(login_url='logins')
+@user_passes_test(is_usuario9)
 def cola_enfermeria_list(request):
     cola=Cola_Enfermeria.objects.order_by('hora')
     return render(request,"enfermeriaapp/cola_enfermeria_list.html",{'cola':cola})
 
 # Vista para borrar manualmente un paciente en la cola para la toma de signos vitales
 @login_required(login_url='logins')
+@user_passes_test(is_enfermera1)
 def cola_enfermeria_borrar(request,pk):
     cola=Cola_Enfermeria.objects.order_by('hora')
     info = ""
@@ -73,6 +77,7 @@ def cola_enfermeria_borrar(request,pk):
 
 #Muestra el listado de pacientes en cola para pasar consulta
 @login_required(login_url='logins')
+@user_passes_test(is_usuario10)
 def cola_consulta_list(request):
     cursor = connection.cursor()
     cursor.execute('SELECT distinct(p.nit) as codigo, p.nombrePrimero as nombre,p.nombreSegundo as nombreSegundo, p.apellidoPrimero as apellido,c.hora,c.idDoctor_id as doctor FROM datospersonalesapp_paciente as p, enfermeriaapp_cola_consulta as c WHERE p.nit = c.nit')

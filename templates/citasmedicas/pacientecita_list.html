@@ -41,19 +41,9 @@ Presenta un listado de todas las consultas pendientes de un paciente
 					Estado Civil:
 					<span class="subrayado">
 						{% if datos.sexo == 'F' %}
-    						{% if datos.estadoCivil == 'CASADO' %}
-    						<strong>CASADA</strong>
-    						{% elif datos.estadoCivil == 'DIVORCIADO' %}
-    						<strong>DIVORCIADA</strong>
-    						{% elif datos.estadoCivil == 'ACOMPANADO' %}
-    						<strong>ACOMPANADA</strong>
-    						{% elif datos.estadoCivil == 'VIUDO' %}
-    						<strong>VIUDA</strong>
-    						{% else %}
-    						<strong>SOLTERA</strong>
-    						{% endif %}
+    						<strong>{{ datos.estadoCivil }}A</strong>
 						{% else %}
-						<strong>{{ datos.estadoCivil }}</strong>
+						<strong>{{ datos.estadoCivil }}O</strong>
 						{% endif %}
 					</span>
 				</div>
@@ -86,6 +76,7 @@ Presenta un listado de todas las consultas pendientes de un paciente
                <th>Fecha</th>
                <th>Hora</th>
                <th>Estado de la cita</th>
+			   <th class="opciones">Reprogramar</th>
            </tr>
            {% for paciente in paciente %}
              <tr>
@@ -102,12 +93,21 @@ Presenta un listado de todas las consultas pendientes de un paciente
 						Reprogramar
 					{% endif %}
 				 </td>
+				 <td class="opciones">
+					<a href="" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-edit"></span></a>
+				 </td>
              </tr>
            {% endfor %}
        </table>
    </div>
    {% else %}
-	<h3 id="vacio1"> NO PRESENTA CITAS PENDIENTES </h3>
+	<h3 class="vacio">EL PACIENTE NO REGISTRA CITAS PENDIENTES</h3>
    {% endif %}
-   <a href="{% url 'datospersonales-list' %}" class="btn btn-primary" style="float: right"><span class="glyphicon glyphicon-list-alt"></span> Ver Lista de Pacientes</a>
+   <a href="{% url 'paciente_list' %}" class="btn btn-primary" title="Volver a Lista de Pacientes en Citas Medicas"><span class="glyphicon glyphicon-arrow-left"></span> </a>
 {% endblock %}
+
+
+
+
+
+

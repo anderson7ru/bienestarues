@@ -1,41 +1,48 @@
 <!-- 
-name:cola_enfemeria-list
+name:cola_enfemeria-list 
 Esta pagina presenta los pacientes en cola para toma de signos vitales
 !-->
 {% extends "layouts/master.html" %}
+{% load user_group %}
 
-{% block pageheader %}
-  Listado de Pacientes Para Toma de Signos Vitales
-{%endblock%}
-
-{% block paneltitle %}
-  Pacientes en Cola
-{% endblock %}
+{% block pageheader %} Listado de Pacientes Para Toma de Signos Vitales {%endblock%}
+{% block paneltitle %} Pacientes en Cola {% endblock %}
 
 {% block panelcontent%}
    <div class="table-responsive">
+     {% if cola %}
        <table class="table table-hover">
            <tr class="success">
-
                <th># Expediente</th>
                <th>Nombre del Paciente</th>
                <th>Hora de Ingreso</th>
-               <th>Enviar a Signos Vitales</th>
+			   {% if user|has_group:"enfermeria" or user|has_group:"administradores" or user|has_group:"desarrolladores" %}
+               {% if not user|has_group:"administradores" %}
+			   <th>Enviar a Signos Vitales</th>
+			   {% endif %}
                <th>Borrar de la Cola</th>
+			   {% endif %}
            </tr>
            {% for cola in cola %}
              <tr>
                  <td>{{ cola.idPaciente.codigoPaciente}}</td>
                  <td>{{ cola.idPaciente.get_full_name}}</td>
                  <td>{{ cola.hora}}</td>
+				 {% if user|has_group:"enfermeria" or user|has_group:"administradores" or user|has_group:"desarrolladores" %}
+				 {% if not user|has_group:"administradores" %}
                  <td class="opciones">
 						<a href="{% url 'signosvitales-new' pk=cola.idPaciente.codigoPaciente %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-share-alt"></span></a>
 				 </td>
+				 {% endif %}
 				 <td class="opciones">
 						<a href="{% url 'cola_enfermeria-delete' pk=cola.idPaciente.codigoPaciente %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-trash"></span></a>
 				 </td>
+				 {% endif %}
              </tr>
            {% endfor %}
        </table>
+	   {% else %}
+		<h3 class="vacio">NO HAY PACIENTES EN COLA</h3>
+	  {% endif %}
    </div>
 {% endblock %}

@@ -40,10 +40,8 @@ Vista para la creacion de usuarios
 				</div>
 			</div>
 			<div class="panel panel-default">
-				
 	    		<div class="panel-heading">Seleccione el tipo de usuario que sera (puede ser mas de 1)</div>
 	    		<div class="panel-body">
-	    			<h4>Grupos de usuario</h4>
 	    			<div id="panel2" class="row">
 				    		{{form.grupos}}    	
 			    	</div>
@@ -52,8 +50,9 @@ Vista para la creacion de usuarios
 		</div>
 	</div>
 	
-	<div class="col-md-offset-2 col-md-10">
-      <button id="save_user" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
+	<div class="col-md-offset-4 col-md-4 operaciones">
+      	<button id="save_user" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
+		<a href="{% url 'home' %}" class="btn btn-danger" title="Salir"><span class="glyphicon glyphicon-ban-circle"></span> Cancelar</a>
     </div>
 </form>
 {% endblock %}

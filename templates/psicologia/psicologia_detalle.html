@@ -3,6 +3,7 @@ name: psicologia-view
 Presenta en detalle la ficha de identificacion de un expediente de psicologia para determinado paciente
 !-->
 {% extends "layouts/master.html" %}
+{% load user_group %}
 
 {% block pageheader %} Ficha de identificaci&oacute;n del expediente de Psicologia {%endblock%}
 {% block paneltitle %} <strong>Expediente: </strong>{{ paciente.codigoPaciente }} {%endblock%}
@@ -66,19 +67,9 @@ Presenta en detalle la ficha de identificacion de un expediente de psicologia pa
                 Estado Civil:
 					<span class="subrayado">
 						{% if paciente.sexo == 'F' %}
-    						{% if paciente.estadoCivil == 'CASADO' %}
-    						<strong>CASADA</strong>
-    						{% elif paciente.estadoCivil == 'DIVORCIADO' %}
-    						<strong>DIVORCIADA</strong>
-    						{% elif paciente.estadoCivil == 'ACOMPANADO' %}
-    						<strong>ACOMPANADA</strong>
-    						{% elif paciente.estadoCivil == 'VIUDO' %}
-    						<strong>VIUDA</strong>
-    						{% else %}
-    						<strong>SOLTERA</strong>
-    						{% endif %}
+    						<strong>{{ paciente.estadoCivil }}A</strong>
 						{% else %}
-						<strong>{{ paciente.estadoCivil }}</strong>
+						<strong>{{ paciente.estadoCivil }}O</strong>
 						{% endif %}
 					</span>
             </div>
@@ -290,9 +281,10 @@ Presenta en detalle la ficha de identificacion de un expediente de psicologia pa
     </div>
 </div>
 <div class="col-md-10 operaciones">
-    <a href="{% url 'psicologia-list' %}" class="btn btn-primary"><span class="glyphicon glyphicon-arrow-left"></span> Volver a la lista de Pacientes</a>
-<a href="{% url 'procesoterapeutico-new' paciente=paciente.codigoPaciente%}" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Crear Proceso Terapeutico</a>
-<a href="{% url 'psicologiapdf-create' paciente=paciente.codigoPaciente%}" class="btn btn-info" target="blank"><span class="glyphicon glyphicon-print"></span> Crear PDF</a>
+    <a href="{% url 'psicologia-list' %}" class="btn btn-primary" title="Volver a Listado de Pacientes"><span class="glyphicon glyphicon-arrow-left"></span> </a>
+    {% if user|has_group:"psicologos" or user|has_group:"desarrolladores" %}            
+    <a href="{% url 'procesoterapeutico-new' paciente=paciente.codigoPaciente%}" class="btn btn-success" title="Crear Proceso Terapeutico"><span class="glyphicon glyphicon-plus"></span> Proceso Terapeutico</a>
+    {% endif %}
+    <a href="{% url 'psicologiapdf-create' paciente=paciente.codigoPaciente %}" class="btn btn-info" ><span class="glyphicon glyphicon-print"></span> Imprimir</a>
 </div>
-
 {% endblock %}

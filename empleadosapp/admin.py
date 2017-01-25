@@ -1,5 +1,5 @@
 from django.contrib import admin
-from empleadosapp.models import Empleado, Doctor, Especialidad
+from empleadosapp.models import Empleado, Doctor, Especialidad, Laboratorista
 
 #filtros para admin
 class EmpleadoAdmin(admin.ModelAdmin):
@@ -11,3 +11,4 @@ class DoctorAdmin(admin.ModelAdmin):
 admin.site.register(Empleado,EmpleadoAdmin)
 admin.site.register(Doctor,DoctorAdmin)
 admin.site.register(Especialidad)
+admin.site.register(Laboratorista)

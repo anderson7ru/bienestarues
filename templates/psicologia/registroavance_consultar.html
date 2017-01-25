@@ -3,6 +3,7 @@ name: registroavance-view
 Presenta el Registro de Avance de un proceso terapeutico determinado
 !-->
 {% extends "layouts/master.html" %}
+{% load user_group %}
 
 {% block pageheader %} Registro de Avances Terapeuticos {%endblock%}
 {% block paneltitle %} <strong>Expediente: </strong>{{ paciente.codigoPaciente }} {%endblock%}
@@ -32,19 +33,24 @@ Presenta el Registro de Avance de un proceso terapeutico determinado
 </div>
 <br />
 <div class="table-responsive">
+    {% if reg %}
     <table border=1 class="table table-hover" border=1 style="border-collapse:collapse;">
         <tr class="success">
            <th style="text-align:center;">Fecha</th>
            <th style="text-align:center;">Paciente</th>
            <th style="text-align:center;">Psicologo</th>
+           {% if user|has_group:"psicologos" or user|has_group:"desarrolladores" %}
            <th style="text-align:center;">Modificar</th>
+           {% endif %}
         </tr>
         {% for item in reg %}
         <tr>
             <td style="text-align:justify;">{{item.fechaRegistro|date:"SHORT_DATE_FORMAT"}}</td>
             <td style="text-align:justify;">{{item.paciente}}</td>
             <td style="text-align:justify;">{{item.psicologo}}</td>
-            <td style="text-align:center;"><a href="{% url 'registroavance-update' proceso=item.codProcesoTerapeutico_id %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-th-large"></span></a></td>
+            {% if user|has_group:"psicologos" or user|has_group:"desarrolladores" %}
+            <td style="text-align:center;"><a href="{% url 'registroavance-update' proceso=item.codProcesoTerapeutico_id %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span></a></td>
+            {% endif %}
         </tr>
         {% empty %}
         <tr style="text-align:center;">
@@ -52,12 +58,14 @@ Presenta el Registro de Avance de un proceso terapeutico determinado
         </tr>
         {% endfor %}
     </table>
+    {% else %}
+        <h3 class="vacio">NO HAY DATOS QUE MOSTRAR....</h3>
+    {% endif %}
 </div>
-<div class="col-md-offset-4 col-md-4 operaciones">
-    <a href="{% url 'psicologia-list' %}" class="btn btn-primary"><span class="glyphicon glyphicon-arrow-left"></span> Volver a la lista de Pacientes</a>
+<div class="col-md-10 operaciones">
+    <a href="{% url 'psicologia-list' %}" class="btn btn-primary" title="Volver a la lista de Pacientes"><span class="glyphicon glyphicon-arrow-left"></span> </a>
     {% if reg %}
-    <a href="{% url 'registroavancepdf-create' proceso=proc.codProcesoTerapeutico %}" class="btn btn-info" target="blank"><span class="glyphicon glyphicon-print"></span> Generar Archivo PDF</a>
+    <a href="{% url 'registroavancepdf-create' proceso=proc.codProcesoTerapeutico %}" class="btn btn-info" ><span class="glyphicon glyphicon-print"></span> Imprimir</a>
     {%endif%}
 </div>
-
 {% endblock %}

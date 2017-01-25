@@ -1,6 +1,8 @@
 {% load staticfiles %}
+{% load user_group %}
+{% load user_doctor %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es-sv" >
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,126 +16,313 @@
     
     <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
     <link href="{% static "css/hometweaks.css" %}" rel="stylesheet">
+	<link href="{% static 'css/estilopersonalizado.css' %}" rel="stylesheet">
   </head>
   
-  <body>
+  <body onload="nobackbutton();">
     <nav class="navbar navbar-inverse navbar-static-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Servicios M&eacute;dicos <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="#">Consulta General</a></li>
-                <li><a href="#">Medicina Interna</a></li>
-                <li><a href="#">Dermatolog&iacute;a</a></li>
-                <li><a href="#">Ginecolog&iacute;a</a></li>
-                <li><a href="#">Oftalmolog&iacute;a</a></li>
-                <li><a href="#">Ortopedia</a></li>
-                <li><a href="#">Otorrinolaringolog&iacute;a</a></li>
-                <li><a href="#">Psicolog&iacute;a</a></li>
-                <li><a href="#">Nutrici&oacute;n</a></li>
-                <li><a href="#">Fisioterapia</a></li>
-              </ul>
-            </li>
-            <li><a href="#">Aspirantes Nuevo Ingreso</a></li>
-            <!--<li><a href="#">Visto Bueno</a></li>-->
-            
-            <!--<li><a href="#">¿Qui&eacute;nes Somos?</a></li>-->
-            <li><a href="#">Misi&oacute;n y Visi&oacute;n</a></li>
-            <li><a href="#">Objetivos y Valores</a></li>
-            
-            <li><a href="#">Laboratorio Cl&iacute;nico</a></li>
-            <li><a href="#">Enfermer&iacute;a</a></li>
-            <!--<li><a href="#">Farmacia</a></li>-->
-            
-            <!--<li><a href="#">Otros Servicios</a></li>-->
-            <!--<li><a href="#">Galer&iacute;a de Fotos</a></li>-->
-            <!--<li><a href="#">Documentos</a></li>-->
-            
-            <li><a href="#">Trabajo Social</a></li>
-            <!--<li><a href="#">Control de Calidad</a></li>-->
-            <li><a href=""><b>Bienvenid@ </b>{% firstof user.get_short_name user.get_username %}</a></li> 
-			      <li><a href="">Ayuda</a> </li> 
-			      <li><a href="{% url 'logouts' %}">Cerrar Sesi&oacute;n</a> </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+		<div class="container">
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					{% if  user|has_group:"medicos" or user|has_group:"desarrolladores" %}
+					<li class="dropdown">
+					  <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Consulta <span class="caret"></span></a>
+					  <ul class="dropdown-menu">
+						<li class="dropdown-header">Consulta Medica</li>
+						<li><a href="{% url 'cola_consulta-list' %}">Cola Consulta</a></li>
+					  </ul>
+					</li>
+					{% endif %}
+					{% if user|has_group:"medicos" or user|has_group:"administradores" %}
+					<li class="dropdown">
+					  <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Especialidades <span class="caret"></span></a>
+					  <ul class="dropdown-menu">
+						<li class="dropdown-header">Planificacion Familiar</li>
+						<li><a href="{% url 'planificacionfamiliar-list' %}">Listado de pacientes</a></li>
+						<li role="separator" class="divider"></li>
+						<li class="dropdown-header">Psicologia</li>
+						<li><a href="{% url 'psicologia-list' %}">Consultar Expediente</a></li>
+						<li role="separator" class="divider"></li>
+						<li class="dropdown-header">Nutricion</li>
+						<li><a href="{% url 'nutricion-list' %}">Consultar Expediente</a></li>
+					  </ul>
+					</li>
+					{% endif %}
+					{% if  user|has_group:"ginecologos" or user|has_group:"desarrolladores" %}
+					<li class="dropdown">
+					  <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ginecolog&iacute;a <span class="caret"></span></a>
+					  <ul class="dropdown-menu">
+						<li class="dropdown-header">Planificacion Familiar</li>
+						<li><a href="{% url 'planificacionfamiliar-list' %}">Listado de pacientes</a></li>
+						<li><a href="{% url 'planificacionfamiliar-new' %}">Nueva Inscripcion</a></li>
+					  </ul>
+					</li>
+					{% endif %}
+					{% if  user|has_group:"ginecologos" %}
+					<li class="dropdown">
+					  <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Especialidades <span class="caret"></span></a>
+					  <ul class="dropdown-menu">
+						<li class="dropdown-header">Psicologia</li>
+						<li><a href="{% url 'psicologia-list' %}">Consultar Expediente</a></li>
+						<li role="separator" class="divider"></li>
+						<li class="dropdown-header">Nutricion</li>
+						<li><a href="{% url 'nutricion-list' %}">Consultar Expediente</a></li>
+					  </ul>
+					</li>
+					{% endif %}
+					{% if user|has_group:"psicologos" or user|has_group:"desarrolladores" %}
+					<li class="dropdown">
+					  <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Psicolog&iacute;a <span class="caret"></span></a>
+					  <ul class="dropdown-menu">
+						<li class="dropdown-header">Clinica de Psicologia</li>
+						<li><a href="{% url 'psicologia-list' %}">Consultar Expediente</a></li>
+					  </ul>
+					</li>
+					{% endif %}
+					{% if user|has_group:"psicologos" %}
+					<li class="dropdown">
+					  <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Especialidades <span class="caret"></span></a>
+					  <ul class="dropdown-menu">
+						<li class="dropdown-header">Planificacion Familiar</li>
+						<li><a href="{% url 'planificacionfamiliar-list' %}">Listado de pacientes</a></li>
+						<li role="separator" class="divider"></li>
+						<li class="dropdown-header">Nutricion</li>
+						<li><a href="{% url 'nutricion-list' %}">Consultar Expediente</a></li>
+					  </ul>
+					</li>
+					{% endif %}
+					{% if user|has_group:"nutricionistas" or user|has_group:"desarrolladores" %}
+					<li class="dropdown">
+					  <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Nutrici&oacute;n <span class="caret"></span></a>
+					  <ul class="dropdown-menu">
+						<li class="dropdown-header">Clinica de Nutricion</li>
+						<li><a href="{% url 'nutricion-list' %}">Consultar Expediente</a></li>
+					  </ul>
+					</li>
+					{% endif %}
+					{% if user|has_group:"nutricionistas" %}
+					<li class="dropdown">
+					  <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Especialidades <span class="caret"></span></a>
+					  <ul class="dropdown-menu">
+						<li class="dropdown-header">Planificacion Familiar</li>
+						<li><a href="{% url 'planificacionfamiliar-list' %}">Listado de pacientes</a></li>
+						<li role="separator" class="divider"></li>
+						<li class="dropdown-header">Psicologia</li>
+						<li><a href="{% url 'psicologia-list' %}">Consultar Expediente</a></li>
+					  </ul>
+					</li>
+					{% endif %}
+					{% if user|has_group:"medicos" or user|has_group:"ginecologos" or user|has_group:"psicologos" or user|has_group:"nutricionistas" %}
+					<li class="dropdown">
+					  <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Citas <span class="caret"></span></a>
+					  <ul class="dropdown-menu">
+						<li class="dropdown-header">Citas</li>
+						<li><a href="{% url 'doctorcita_list' pk=user|id_doctor %}">Pendientes</a></li>
+						<li role="separator" class="divider"></li>
+						<li class="dropdown-header">Cancelaciones</li>
+						<li><a href="{% url 'cancelacion_new' pk=user|id_doctor %}">Nueva Cancelacion</a></li>
+						<li><a href="{% url 'doctorcancel_list' pk=user|id_doctor %}">Cancelaciones</a></li>
+					  </ul>
+					</li>
+					{% endif %}
+					{% if user|has_group:"jefe_archivo" or user|has_group:"archivo" or user|has_group:"administradores" or user|has_group:"desarrolladores" %}
+					<li class="dropdown">
+					  <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Archivo <span class="caret"></span></a>
+					  <ul class="dropdown-menu inverse">
+						<li class="dropdown-header">Ficha de Expedientes</li>
+						<li><a href="{% url 'datospersonales-list' %}">Listado de Expedientes</a></li>
+						{% if not user|has_group:"jefe_archivo" %}
+						<li><a href="{% url 'datospersonales-new' %}">Crear Expediente</a></li>
+						{% endif %}
+						<li><a href="{% url 'datospersonales-busqueda' %}">Buscar Expediente</a></li>
+						<li><a href="{% url 'datospersonales-eliminadoslist' %}">Expedientes Inactivos</a></li>
+						<li><a href="{% url 'importar_bd-new' %}">Importar BD Nuevo Ingreso</a></li>
+					  </ul>
+					</li>
+						{% if not user|has_group:"desarrolladores" %}
+						<li class="dropdown">
+						  <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Personal <span class="caret"></span></a>
+						  <ul class="dropdown-menu inverse">
+							<li class="dropdown-header">Personal de Bienestar</li>
+							<li><a href="{% url 'empleados-new' %}">Nuevo Empleado</a></li>
+							<li><a href="{% url 'empleados-list' %}">Listado del Personal</a></li>
+						  </ul>
+						</li>
+						{% endif %}
+						{% if not user|has_group:"jefe_archivo" %}
+						<li class="dropdown">
+						  <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Citas <span class="caret"></span></a>
+						  <ul class="dropdown-menu">
+							<li class="dropdown-header">Pacientes</li>
+							<li><a href="{% url 'paciente_list' %}">Listado de pacientes</a></li>
+							<li role="separator" class="divider"></li>
+							<li class="dropdown-header">Medicos</li>
+							<li><a href="{% url 'doctor-list' %}">Listado de Doctores</a></li>
+						  </ul>
+						</li>
+						{% endif %}
+						{% if user|has_group:"archivo" %}
+						<li class="dropdown">
+						  <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Nuevo Ingreso <span class="caret"></span></a>
+						  <ul class="dropdown-menu">
+							<li class="dropdown-header">Expediente Provisional</li>
+							<li><a href="{% url 'expedienteprovisonal-list' %}">Consultar Expedientes</a></li>
+						  </ul>
+						</li>
+						{% endif %}
+					{% endif %}
+					{% if user|has_group:"direccion" or user|has_group:"jefe_enfermeria" or user|has_group:"administradores" or user|has_group:"desarrolladores" %}
+					<li class="dropdown">
+					  <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Datos y Estad&iacute;sticas <span class="caret"></span></a>
+					  <ul class="dropdown-menu">
+						<li class="dropdown-header">Reportes de Enfermeria</li>
+						<li><a href="{% url 'censo-reporte' %}">Censo de Actividades</a></li>
+						<li><a href="{% url 'morbilidad-reporte' %}">Morbilidad</a></li>
+						<li><a href="{% url 'pacientes_por_medico-reporte' %}">Pacientes Atendidos Por Medico</a></li>
+						<li><a href="{% url 'consulta_especialidad-reporte' %}">Consultas Por Especialidad</a></li>
+						<li><a href="{% url 'referencias-reporte' %}">Referencias</a></li>
+						<li><a href="{% url 'tipo_consulta-reporte' %}">Primera y Consulta Subsecuente</a></li>
+						<li><a href="{% url 'visto_bueno-reporte' %}">Visto Bueno</a></li>
+						<li role="separator" class="divider"></li>
+						<li class="dropdown-header">Reportes de Archivo</li>
+						<li><a href="{% url 'consulta-general-procedencia-reporte' %}">Consulta General Segun Procedencia</a></li>
+						<li><a href="{% url 'consulta-general-genero-reporte' %}">Consulta General Segun Genero</a></li>
+						<li><a href="{% url 'consulta-general-paciente-reporte' %}">Consulta General por Paciente</a></li>
+					  </ul>
+					</li>
+						{% if user|has_group:"direccion" or user|has_group:"administradores" or user|has_group:"desarrolladores" %}
+							{% if user|has_group:"direccion" or user|has_group:"desarrolladores" %}
+							<li class="dropdown">
+							  <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Personal <span class="caret"></span></a>
+							  <ul class="dropdown-menu inverse">
+								<li class="dropdown-header">Personal de Bienestar</li>
+								<li><a href="{% url 'empleados-new' %}">Nuevo Empleado</a></li>
+								<li><a href="{% url 'empleados-list' %}">Listado del Personal</a></li>
+							  </ul>
+							</li>
+							{% endif %}
+						<li class="dropdown">
+						  <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Usuarios <span class="caret"></span></a>
+						  <ul class="dropdown-menu inverse">
+							<li class="dropdown-header">Usuarios del Sistema</li>
+							<li><a href="{% url 'empleadosuario-new' %}">Nuevo Usuario</a></li>
+						  </ul>
+						</li>
+						{% endif %}
+						{% if user|has_group:"jefe_enfermeria" %}
+						<li class="dropdown">
+						  <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Enfermer&iacute;a <span class="caret"></span></a>
+						  <ul class="dropdown-menu">
+							<li class="dropdown-header">Actividades de Enfermeria</li>
+							<li><a href="{% url 'actividad-new' %}">Crear Nueva Actividad</a></li>
+							<li><a href="{% url 'actividades-list' %}">Ver Listado de Actividades</a></li>
+							<li role="separator" class="divider"></li>
+							<li class="dropdown-header">Censo de Labores Diarias</li>
+							<li><a href="{% url 'censo-new' %}">Registrar Censo</a></li>
+							<li><a href="{% url 'censo-list' %}">Consolidado de Labores Diarias</a></li>
+						  </ul>
+						</li>
+						{% endif %}
+					{% endif %}
+					{% if user|has_group:"enfermeria" or user|has_group:"administradores" or user|has_group:"desarrolladores" %}
+					<li class="dropdown">
+					  <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Enfermer&iacute;a <span class="caret"></span></a>
+					  <ul class="dropdown-menu">
+						<li class="dropdown-header">Actividades de Enfermeria</li>
+						<li><a href="{% url 'actividad-new' %}">Crear Nueva Actividad</a></li>
+					  </ul>
+					</li>
+					<li class="dropdown">
+					  <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Nuevo Ingreso <span class="caret"></span></a>
+					  <ul class="dropdown-menu">
+						<li class="dropdown-header">Expediente Provisional</li>
+						<li><a href="{% url 'expedienteprovisonal-new' %}">Nuevo Expediente</a></li>
+						<li><a href="{% url 'expedienteprovisonal-list' %}">Consultar Expedientes</a></li>
+					  </ul>
+					</li>
+						{% if not user|has_group:"enfermeria" %}
+						<!--
+						<li class="dropdown">
+						  <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Laboratorio Clinico <span class="caret"></span></a>
+						  <ul class="dropdown-menu">
+							<li class="dropdown-header">Gestion</li>
+							<li><a href="{% url 'laboratorio-list' %}">Listado de Pacientes</a></li>
+							<li role="separator" class="divider"></li>
+							<li class="dropdown-header">Listado de Resultados de Examenes</li>
+							<li><a href="{% url 'hematologia-list' %}">Hematologia</a></li>
+							<li><a href="{% url 'examen_heces-list' %}">Examen de Heces</a></li>
+							<li><a href="{% url 'examen_orina-list' %}">Examen de Orina</a></li>
+							<li><a href="{% url 'examen_general-list' %}">Examen Generales de Nuevo Ingreso</a></li>
+							<li><a href="{% url 'examen_quimica-list' %}">Examen de Quimica Sanguinea</a></li>
+							<li><a href="{% url 'examen_especiales-list' %}">Examenes Especiales</a></li>
+						  </ul>
+						</li> -->
+						{% endif %}
+					{% endif %}
+					{% if user|has_group:"laboratorio" %}
+					<li class="dropdown">
+					  <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Examenes de Laboratorio <span class="caret"></span></a>
+					  <ul class="dropdown-menu">
+						<li class="dropdown-header">Gestion</li>
+						<li><a href="{% url 'laboratorio-list' %}">Listado de Pacientes</a></li>
+					  </ul>
+					</li>
+					<li class="dropdown">
+					  <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Resultado de Examenes <span class="caret"></span></a>
+					  <ul class="dropdown-menu">
+						<li class="dropdown-header">Listado de Resultados de Examenes</li>
+						<li><a href="{% url 'hematologia-list' %}">Hematologia</a></li>
+						<li><a href="{% url 'examen_heces-list' %}">Examen de Heces</a></li>
+						<li><a href="{% url 'examen_orina-list' %}">Examen de Orina</a></li>
+						<li><a href="{% url 'examen_general-list' %}">Examen Generales de Nuevo Ingreso</a></li>
+						<li><a href="{% url 'examen_quimica-list' %}">Examen de Quimica Sanguinea</a></li>
+						<li><a href="{% url 'examen_especiales-list' %}">Examenes Especiales</a></li>
+					  </ul>
+					</li>
+					{% endif %}
+					<li class="dropdown">
+					  <a href="{% url 'home' %}">Inicio</a>
+					</li>
+					<li class="dropdown">
+					  <a href=""><b>Bienvenid@ </b>{% firstof user.get_short_name user.get_username %}</a>
+					</li>
+					<li class="dropdown">
+					  <a href="" title="Ayuda"><span class="glyphicon glyphicon-question-sign"></span></a>
+					</li>
+					<li class="dropdown">
+					  <a href="{% url 'logouts' %}" title="Cerrar Sesi&oacute;n"><span class="glyphicon glyphicon-log-out"></span></a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
     
-    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-      <!-- Indicators -->
-      <ol class="carousel-indicators">
-        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-      </ol>
-    
-      <!-- Wrapper for slides -->
-      <div class="carousel-inner" role="listbox">
-        <div class="item active">
-          <img src="{% static "images/ocean.jpg" %}" alt="First slide">
-          <div class="carousel-caption">
-            <h1>Example headline.</h1>
-            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-            <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
-            <!-- ... -->
-          </div>
-        </div>
-        <div class="item">
-          <img src="{% static "images/sun.jpg" %}" alt="Second slide">
-          <div class="carousel-caption">
-            <h1>Example headline.</h1>
-            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-            <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
-            <!-- ... -->
-          </div>
-        </div>
-        <div class="item">
-          <img src="{% static "images/sunrise.jpg" %}" alt="Third slide">
-          <div class="carousel-caption">
-            <h1>Example headline.</h1>
-            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-            <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
-            <!-- ... -->
-          </div>
-        </div>
-      </div>
-    
-      <!-- Controls -->
-      <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
-    </div>
-    
+        
     <div class="container-fluid">
-      <div class="row">
-        <h1 class="text-center">Secretar&iacute;a de Bienestar Universitario</h1>
+      {% if messages %}
+	  <div class='row'>
+		<div class='col-xs-12'>
+		{% for message in messages %}
+		{% if message.tags == "success" %} <p class="alert alert-success"><span class="glyphicon glyphicon-ok-sign"></span> {{ message }}</p>{% endif %}
+		{% if message.tags == "info" %} <p class="alert alert-info"><span class="glyphicon glyphicon-info-sign"></span> {{ message }}</p>{% endif %}
+		{% if message.tags == "warning" %} <p class="alert alert-warning"><span class="glyphicon glyphicon-warning-sign"></span> {{ message }}</p>{% endif %}
+		{% if message.tags == "error" %} <p class="alert alert-danger"><span class="glyphicon glyphicon-remove-sign"></span> {{ message }}</p>{% endif %}
+		{% endfor %}
+		</div>
+	  </div>
+	  {% endif %}
+	  <div class="row">
+        
       </div>
-      <div class="row">
-        <div class="col-lg-4">
-          <img src="{% static "images/newminerva.png" %}" alt="prev image" class="img-rounded center-block">
+      <div class="row" style="margin-top:100px;">
+        <div class="col-md-3 col-xs-3">
+          <img src='{% static "images/newminerva.png" %}' alt="prev image" class="img-rounded center-block">
         </div>
-        <div class="col-lg-4">
-          <!--<h2>Heading</h2>-->
-          <!--<p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>-->
-          <!--<p><a class="btn btn-lg btn-success" href="#" role="button">Sign up today</a></p>-->
+        <div class="col-md-6 col-xs-6">
+          <h3 class="text-center" style="color: rgb(74, 82, 158);">SISTEMA INFORM&Aacute;TICO PARA <br />LA GESTI&Oacute;N DEL EXPEDIENTE CL&Iacute;NICO Y <br />CONTROL DE CITAS DE CONSULTAS M&Eacute;DICAS <br />DE BIENESTAR UNIVERSITARIO DE <br />LA UNIVERSIDAD DE EL SALVADOR</h3>
         </div>
-        <div class="col-lg-4">
-          <img src="{% static "images/newmedical.png" %}" alt="next image" class="img-rounded center-block">
+        <div class="col-md-3 col-xs-3">
+          <img src='{% static "images/newmedical.png" %}' alt="next image" class="img-rounded center-block">
         </div>
       </div>
       <div class="row">
@@ -142,27 +331,27 @@
     </div>
     
     <footer class="footer">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-4">
-            <h4 class="text-right">Final 25 Av. Norte</h4>
-            <h4 class="text-right">Ciudad Universitaria</h4>
-            <h4 class="text-right">Secretar&iacute;a de Bienestar Universitario</h4>
-          </div>
-          <div class="col-lg-4">
-            <h4 class="text-center">Todos los derechos reservados</h4>
-            <h4 class="text-center">Bienestar Universitario - Universidad de El Salvador</h4>
-            <h4 class="text-center">El Salvador</h4>
-          </div>
-          <div class="col-lg-4">
-            <!-- minerva logo here-->
-            <h4 class="text-right"><em>"Hacia la libertad por la cultura"</em></h4>
-          </div>
-        </div>
-      </div>
-    </footer>
-    
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 col-xs-4">
+					<h6>Final 25 Av. Norte</h6>
+					<h6>Ciudad Universitaria</h6>
+					<h6>BIENESTAR UNIVERSITARIO</h6>
+				</div>
+				<div class="col-md-4 col-xs-4">
+					<h6>Todos los derechos reservados</h6>
+					<h6>UNIVERSIDAD DE EL SALVADOR</h6>
+					<h6>EL SALVADOR</h6>
+				</div>
+				<div class="col-md-4 col-xs-4">
+					<img src='{% static "images/newminerva.png" %}' alt="UES" style="width:30px; height:40px;">
+					<h6><em>"Hacia la libertad por la cultura"</em></h6>
+				</div>
+			</div>
+		</div>
+	</footer>
     <script src="{% static "js/jquery.min.js" %}"></script>
     <script src="{% static "js/bootstrap.min.js" %}"></script>
+    <script src="{% static "js/custom.js" %}"></script>
   </body>
 </html>

@@ -142,7 +142,7 @@ class ChainedSelect(Select):
             final_attrs['class'] = 'form-control chained'
         
         output = js
-        output += super(ChainedSelect, self).render(name, value, final_attrs, choices=final_choices)
+        output += super(ChainedSelect, self).render(name, value, final_attrs)
         
         return mark_safe(output)
 

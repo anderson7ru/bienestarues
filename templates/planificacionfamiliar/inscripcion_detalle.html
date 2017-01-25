@@ -5,7 +5,7 @@ Presenta la ficha de inscripcion de las pacientes
 {% extends "layouts/master.html" %}
 
 {% block pageheader %} Gu&iacute;a de atencion en planificaci&oacute;n familiar {%endblock%}
-{% block paneltitle %} <strong>Expediente: </strong>{{ paciente.paciente }}</span> {%endblock%}
+{% block paneltitle %} <strong>Expediente: </strong>{{ paciente.paciente.get_codigoPaciente }}</span> {%endblock%}
 
 {% block panelcontent %}
     <div class="panel panel-info">
@@ -15,7 +15,7 @@ Presenta la ficha de inscripcion de las pacientes
 				<div class="col-md-5" >
 					Paciente: 
 					<span class="subrayado">
-						<strong>{{ paciente.paciente }}</strong>
+						<strong>{{ paciente.paciente.get_codigoPaciente }}</strong>
 					</span>
 				</div>
 				<div class="col-md-6" >
@@ -57,24 +57,10 @@ Presenta la ficha de inscripcion de las pacientes
 					</span>
 					A&ntilde;os
 				</div>
-				<div class="col-md-3" >
+				<div class="col-md-4" >
 					Estado Civil:
 					<span class="subrayado">
-						{% if datos.sexo == 'F' %}
-    						{% if datos.estadoCivil == 'CASADO' %}
-    						<strong>CASADA</strong>
-    						{% elif datos.estadoCivil == 'DIVORCIADO' %}
-    						<strong>DIVORCIADA</strong>
-    						{% elif datos.estadoCivil == 'ACOMPANADO' %}
-    						<strong>ACOMPANADA</strong>
-    						{% elif datos.estadoCivil == 'VIUDO' %}
-    						<strong>VIUDA</strong>
-    						{% else %}
-    						<strong>SOLTERA</strong>
-    						{% endif %}
-						{% else %}
-						<strong>{{ datos.estadoCivil }}</strong>
-						{% endif %}
+						<strong>{{ datos.estadoCivil }}A</strong>
 					</span>
 				</div>
 				<div class="col-md-4" >
@@ -93,7 +79,7 @@ Presenta la ficha de inscripcion de las pacientes
 				</div>
 			</div>
 			<div class="row"  style="padding-top: 17px;">
-				<div class="col-xs-5" >
+				<div class="col-xs-6" >
 					<p>Direcci&oacute;n:
 					<span class="subrayado">
 						<strong>{{ datos.direccion }}</strong>
@@ -135,6 +121,7 @@ Presenta la ficha de inscripcion de las pacientes
 					<span class="subrayado">
 						<strong>{{ paciente.aniosEscolaridad }}</strong>
 					</span>
+					A&ntilde;os
 				</div>
 			</div>
 		</div>
@@ -1158,12 +1145,23 @@ Presenta la ficha de inscripcion de las pacientes
             <h3 class="page-header text-left">8.Responsable</h3>
 			<div class="row">
 				<div class="col-md-10" >
-					Fecha de proxima consulta:
+					Proxima consulta:
 					<span class="subrayado">
-						{% if paciente.fechaProximaConsulta  %}
-						<strong>{{ paciente.fechaProximaConsulta|date:"SHORT_DATE_FORMAT" }}</strong>
+						{% if paciente.proximaConsulta  %}
+						<strong>{{ paciente.proximaConsulta }}</strong>
+							{% if paciente.proximaConsultaLapso == 'N' %}
+							<strong>Ninguno</strong>
+							{% elif paciente.proximaConsultaLapso == 'D' %}
+							<strong>Dias</strong>
+							{% elif paciente.proximaConsultaLapso == 'S' %}
+							<strong>Semanas</strong>
+							{% elif paciente.proximaConsultaLapso == 'M' %}
+							<strong>Meses</strong>
+							{% else %}
+							<strong>A&ntilde;os</strong>
+							{% endif %}
 						{% else %}
-						<strong>-----</strong>
+						<strong>SIN CITA</strong>
 						{% endif %}
 					</span>
 				</div>
@@ -1173,7 +1171,7 @@ Presenta la ficha de inscripcion de las pacientes
 					Nombre de persona responsable:
 					<span class="subrayado">
 						{% if paciente.nombreResponsable  %}
-						<strong>{{ paciente.nombreResponsable }}</strong>
+						<strong>{{ paciente.nombreResponsable.get_full_name }}</strong>
 						{% else %}
 						<strong>-----</strong>
 						{% endif %}
@@ -1184,18 +1182,16 @@ Presenta la ficha de inscripcion de las pacientes
 				<div class="col-md-10" >
 					Cargo:
 					<span class="subrayado">
-						{% if paciente.cargo  %}
-							{% if paciente.cargo == 'M' %}
-							<strong>Medico</strong>
-							{% elif paciente.cargo == 'E' %}
-							<strong>Enfermera</strong>
-							{% elif paciente.cargo == 'A' %}
-							<strong>Auxiliar enfermeria</strong>
-							{% else %}
-							<strong>Tecno materno infantil</strong>
-							{% endif %}
+						{% if cargo.codigoEmpleado.cargo == 'D' %}
+						<strong>Doctor</strong>
+						{% elif cargo.codigoEmpleado.cargo == 'E' %}
+						<strong>Enfermera</strong>
+						{% elif cargo.codigoEmpleado.cargo == 'A' %}
+						<strong>Personal de Archivo</strong>
+						{% elif cargo.codigoEmpleado.cargo == 'P' %}
+						<strong>Personal Administrativo</strong>
 						{% else %}
-						<strong>-----</strong>
+						<strong>Otro</strong>
 						{% endif %}
 					</span>
 				</div>
@@ -1203,7 +1199,7 @@ Presenta la ficha de inscripcion de las pacientes
 		</div>
 	</div>
 	<hr />
-	<div class="col-md-offset-2 col-md-10">
-        <a href="{% url 'planificacionfamiliar-list' %}" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Volver a la lista</a>
-        </div>
+	<div class="col-md-10 operaciones">
+        <a href="{% url 'planificacionfamiliar-list' %}" class="btn btn-primary" title="Volver al Listado Anterior" style="float: left; "><span class="glyphicon glyphicon-arrow-left"></span> </a>
+    </div>
 {%endblock%}

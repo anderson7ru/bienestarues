@@ -1,0 +1,15 @@
+<!-- 
+name: 
+Vista ver errores
+!-->
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} SIN ACCESO {% endblock %}
+{% block paneltitle %} ERROR 403 {% endblock %}
+
+{% block panelcontent %}
+<div style="margin: 50px 0; text-align: center; font-size: 3rem;">
+ <img src="/static/images/error403.png" style="height: auto; width: 400px;" alt="prev image" class="img-rounded center-block" >
+ <p>Usted no tiene permiso para ingresar a la p&aacute;gina solicitada</p>
+</div>
+{% endblock %}
