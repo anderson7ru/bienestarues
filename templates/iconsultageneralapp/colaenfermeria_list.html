@@ -1,0 +1,32 @@
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} Cola de Enfermeria {%endblock%}
+{% block paneltitle %} Pacientes en Espera {% endblock %}
+
+{% block panelcontent%}
+   <div class="table-responsive">
+       <table class="table table-hover" id="pacientelist">
+           <tr class="success">
+               <th># ID</th>
+               <th># Expediente</th>
+               <th>Nombre del paciente</th>
+               <th>Signos Vitales</th>
+               <th>Consulta</th>
+           </tr>
+           {% for paciente in colaenfermeria %}
+             <tr>
+                 <td>{{ paciente.id }}</td>
+                 <td>{{ paciente.num_expediente }}</td>
+                 <td>{{ paciente.nombre_paciente }}</td>
+                 <td>
+                     <a href="{% url 'signosvitales-new'%}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-list-alt"></span></a>
+				 </td>
+				 <td>
+                     <a href="{% url 'consultageneral-new' pk=paciente.num_expediente %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-inbox"></span></a>
+				 </td>
+             </tr>
+           {% endfor %}
+       </table>
+       <a href="{% url 'datospersonales-list' %}" class="btn btn-success"><span class="glyphicon glyphicon-chevron-left"></span> Volver</a>
+   </div>
+{% endblock %}

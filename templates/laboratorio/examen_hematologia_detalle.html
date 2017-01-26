@@ -1,0 +1,125 @@
+{% extends "layouts/master.html" %}
+
+{% block pageheader %}
+	EXAMEN DE HEMATOLOGÍA 
+{%endblock%}
+{% block paneltitle %}
+  Resultados del Examen de Hematología
+{% endblock %}
+{% block panelcontent %}
+    <div class="panel panel-info">
+    	<div class="panel-body">
+    	<h4><strong>RESULTADOS REGISTRADOS</strong></h4>
+    			<div class="row">
+				 	<div class="col-md-2"><strong>Paciente:</strong></div>
+				 	<div class="col-md-4">{{ hematologia.paciente.get_full_name}}</div>
+				</div>
+				<div class="row">
+					<div class="col-md-2"><strong>Edad:</strong></div>
+					<div class="col-md-4">{{ hematologia.edad}} Años</div>
+					<br>
+					<div class="col-md-2"></div>
+					<div class="col-md-4"></div>
+					<div class="col-md-2"><strong><u>DIFERENCIAL</u></strong></div>
+				</div>
+		{% if hematologia.hematocrito or hematologia.neutrofilos or hematologia.eritrosedimentacion or hematologia.hemoglobina or hematologia.linfocitos or hematologia.gotaGruesa or hematologia.globulosBlancos or hematologia.monocitos or hematologia.globulosRojos or hematologia.eosinofilos or hematologia.mcv or hematologia.basofilos or hematologia.mch or hematologia.mchc or hematologia.plaquetas %}
+			{% if hematologia.hematocrito or hematologia.neutrofilos or hematologia.eritrosedimentacion  %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Hematocrito:</strong></div>
+				  <div class="col-md-2">{{ hematologia.hematocrito }} %</div>
+				  <div class="col-md-2"><strong>Neutrofilos:</strong></div>
+				  <div class="col-md-2">{{ hematologia.neutrofilos }} %</div>
+				  <div class="col-md-2"><strong>Eritrosedimentacion:</strong></div>
+				  <div class="col-md-2">{{ hematologia.eritrosedimentacion }}</div>
+				</div>
+				
+			{% endif %}
+			{% if hematologia.hemoglobina or hematologia.linfocitos or hematologia.gotaGruesa  %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Hemoglobina:</strong></div>
+				  <div class="col-md-2">{{ hematologia.hemoglobina }} g/dl</div>
+				  <div class="col-md-2"><strong>Linfocitos:</strong></div>
+				  <div class="col-md-2">{{ hematologia.linfocitos }} %</div>
+				  <div class="col-md-2"><strong>Gota Gruesa:</strong></div>
+				  <div class="col-md-2">{{ hematologia.gotaGruesa }}</div>
+				</div>
+			{% endif %}
+			{% if hematologia.globulosBlancos or hematologia.monocitos %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Globulos Blancos:</strong></div>
+				  <div class="col-md-2">{{ hematologia.globulosBlancos }} xmmc</div>
+				  <div class="col-md-2"><strong>Monocitos:</strong></div>
+				  <div class="col-md-2">{{ hematologia.monocitos }} %</div>
+				</div>
+			{% endif %}
+			{% if hematologia.globulosRojos or hematologia.eosinofilos %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Globulos Rojos:</strong></div>
+				  <div class="col-md-2">{{ hematologia.globulosRojos }} xmmc</div>
+				  <div class="col-md-2"><strong>Eosinofilos:</strong></div>
+				  <div class="col-md-2">{{ hematologia.eosinofilos }} %</div>
+				</div>
+			{% endif %}
+			{% if hematologia.mcv or hematologia.basofilos %}
+				<div class="row">
+				  <div class="col-md-2"><strong>MCV:</strong></div>
+				  <div class="col-md-2">{{ hematologia.mcv }}</div>
+				  <div class="col-md-2"><strong>Basofilos:</strong></div>
+				  <div class="col-md-2">{{ hematologia.basofilos }} %</div>
+				</div>
+			{% endif %}
+			{% if hematologia.mch %}
+				<div class="row">
+				  <div class="col-md-2"><strong>MCH:</strong></div>
+				  <div class="col-md-2">{{ hematologia.mch }}</div>
+				</div>
+			{% endif %}
+			{% if hematologia.mchc %}
+				<div class="row">
+				  <div class="col-md-2"><strong>MCHC:</strong></div>
+				  <div class="col-md-2">{{ hematologia.mchc }}</div>
+				</div>
+			{% endif %}
+			{% if hematologia.plaquetas %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Plaquetas:</strong></div>
+				  <div class="col-md-2">{{ hematologia.plaquetas }}</div>
+				</div>
+			{% endif %}
+		{% else %}
+			<p>No se registraron resultados para este examen</p>
+		{% endif %}
+		</div>
+	</div>
+	<div class="panel panel-info">
+		<div class="panel-body" > 
+		<h4><strong>RESULTADOS ESCANEADOS</strong></h4>
+		{% if hematologia.archivo %}
+			{% if hematologia.archivo %}
+				<div class="row">
+				 	<div class="col-md-2"><strong>Archivo Escaneado:</strong></div>
+				 	<div class="col-md-8">{{ hematologia.archivo }} <a href="{% url 'laboratorioapp.views.abrir_archivo_hematologia' pk=hematologia.codExamen_Hematologia %}" class="btn btn-info btn-md "><span class="glyphicon glyphicon-download-alt"></span>&nbspDescargar</a></div>
+				</div>
+			{% endif %}
+		{% else %}
+			<p>No se escaneo archivo para este examen</p>
+		{% endif %}
+		</div>
+	</div>
+	<div style="clear:both; margin-left:10px; ">
+		<hr/>
+		<div class="row">
+		  <div class="col-md-7"><strong>Información Ingresada Por:</strong> {{ hematologia.nombreRecibido }}</div>
+		  <div class="col-md-5"><strong>Fecha:</strong> {{ hematologia.fechaIngreso|date:"SHORT_DATE_FORMAT" }}</div>
+		</div>
+	</div>
+	<div class="col-md-offset-8 col-md-8">
+		<div class="col-lg-3">
+	      <a href="{% url 'examen_hematologia_pdf' pk=hematologia.codExamen_Hematologia %}" class="btn btn-info btn-block">
+	         <span class="glyphicon glyphicon-file"></span>&nbspCrear PDF
+	      </a> 
+	  	</div>
+        <a href="{% url 'laboratorioapp.views.hematologia_list' %}" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span>&nbspVolver a la lista</a>
+     </div>
+{%endblock%}
+

@@ -1,0 +1,1209 @@
+<!-- 
+name: planificacionfamiliar-view
+Presenta la ficha de inscripcion de las pacientes
+!-->
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} Gu&iacute;a de atencion en planificaci&oacute;n familiar {%endblock%}
+{% block paneltitle %} <strong>Expediente: </strong>{{ paciente.paciente }}</span> {%endblock%}
+
+{% block panelcontent %}
+    <div class="panel panel-info">
+        <div class="panel-body"  style="padding-left: 50px; padding-top: 0px;">
+            <h3 class="page-header text-left">1.Datos Generales del paciente</h3>
+			<div class="row">
+				<div class="col-md-5" >
+					Paciente: 
+					<span class="subrayado">
+						<strong>{{ paciente.paciente }}</strong>
+					</span>
+				</div>
+				<div class="col-md-6" >
+					Fecha:
+					<span class="subrayado">
+						<strong>{{ paciente.fechaIngreso }}</strong>
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-2" >
+					<span class="subrayado">
+						<strong>{{ datos.apellidoPrimero }}</strong>
+					</span><br>
+					Primer Apellido
+				</div>
+				<div class="col-md-2" >
+					<span class="subrayado">
+						{% if datos.apellidoSegundo %}
+						<strong>{{ datos.apellidoSegundo }}</strong>
+						{% else %}
+						<strong>-----</strong>
+						{% endif %}
+					</span><br>
+					Segundo Apellido
+				</div>
+				<div class="col-md-6" >
+					<span class="subrayado">
+						<strong>{{ datos.nombrePrimero }} {{ datos.nombreSegundo }}</strong>
+					</span><br>
+					Nombres
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-2" >
+					Edad: 
+					<span class="subrayado">
+						<strong>{{ paciente.edad }}</strong>
+					</span>
+					A&ntilde;os
+				</div>
+				<div class="col-md-3" >
+					Estado Civil:
+					<span class="subrayado">
+						{% if datos.sexo == 'F' %}
+    						{% if datos.estadoCivil == 'CASADO' %}
+    						<strong>CASADA</strong>
+    						{% elif datos.estadoCivil == 'DIVORCIADO' %}
+    						<strong>DIVORCIADA</strong>
+    						{% elif datos.estadoCivil == 'ACOMPANADO' %}
+    						<strong>ACOMPANADA</strong>
+    						{% elif datos.estadoCivil == 'VIUDO' %}
+    						<strong>VIUDA</strong>
+    						{% else %}
+    						<strong>SOLTERA</strong>
+    						{% endif %}
+						{% else %}
+						<strong>{{ datos.estadoCivil }}</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-4" >
+					Ocupacion:
+					<span class="subrayado">
+						{% if datos.estadoUes == 'EST' %}
+						<strong>Estudiante</strong>
+						{% elif datos.estadoUes == 'DOC' %}
+						<strong>Docente</strong>
+						{% elif datos.estadoUes == 'PAD' %}
+						<strong>Pers.Administrativo</strong>
+						{% else %}
+						<strong>Otro</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-xs-5" >
+					<p>Direcci&oacute;n:
+					<span class="subrayado">
+						<strong>{{ datos.direccion }}</strong>
+					</span></p>
+					<p>Departamento:
+					<span class="subrayado">
+						<strong>{{ datos.codDepartamento }}</strong>
+					</span></p>
+				    <p>Municipio:
+					<span class="subrayado">
+						<strong>{{ datos.codMunicipio }}</strong>
+					</p>
+				</div>
+				<div class="col-md-4" >
+					INSCRIPCION:
+					<p>1era vez en la vida
+					<span class="subrayado">
+						{% if paciente.primeraVida == 'S' %}
+						<strong>Si</strong>
+						{% else %}
+						<strong>No</strong>
+						{% endif %}
+					</span>
+					</p>
+					<p>1era vez en la Institucion
+					<span class="subrayado">
+						{% if paciente.primeraInstitucion == 'S' %}
+						<strong>Si</strong>
+						{% else %}
+						<strong>No</strong>
+						{% endif %}
+					</span>
+					</p>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-10" >
+					A&ntilde;os de escolaridad:
+					<span class="subrayado">
+						<strong>{{ paciente.aniosEscolaridad }}</strong>
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="panel panel-info">
+        <div class="panel-body"  style="padding-left: 50px; padding-top: 0px;">
+            <h3 class="page-header text-left">2.Antecedentes obstetricos</h3>
+			<div class="row">
+				<div class="col-md-2" >
+					Embarazos:
+					<span class="subrayado">
+						<strong>{{ paciente.embarazos }}</strong>
+					</span>
+				</div>
+				<div class="col-md-2" >
+					Partos a Termino:
+					<span class="subrayado">
+						<strong>{{ paciente.partosTermino }}</strong>
+					</span>
+				</div>
+				<div class="col-md-2" >
+					Prematuros:
+					<span class="subrayado">
+						<strong>{{ paciente.prematuros }}</strong>
+					</span>
+				</div>
+				<div class="col-md-2" >
+					Abortos:
+					<span class="subrayado">
+						<strong>{{ paciente.abortos }}</strong>
+					</span>
+				</div>
+				<div class="col-md-2" >
+					Vivos:
+					<span class="subrayado">
+						<strong>{{ paciente.vivos }}</strong>
+					</span>
+				</div>
+			</div>
+			<div class="row" style="padding-top: 17px;">
+				<div class="col-md-2" >
+					Nacidos Vivos:
+					<span class="subrayado">
+						<strong>{{ paciente.nacidosVivos }}</strong>
+					</span>
+				</div>
+				<div class="col-md-2" >
+					Nacidos Muertos:
+					<span class="subrayado">
+						<strong>{{ paciente.nacidosMuertos }}</strong>
+					</span>
+				</div>
+				<div class="col-md-2" >
+					Parto via vaginal:
+					<span class="subrayado">
+						<strong>{{ paciente.partoVaginal }}</strong>
+					</span>
+				</div>
+				<div class="col-md-3" >
+					Partos operatorios:
+					<span class="subrayado">
+						<strong>{{ paciente.partoOpereratorio }}</strong>
+					</span>
+				</div>
+			</div>
+			<div class="row" style="padding-top: 17px;">
+				<div class="col-md-2" >
+					FUP:
+					<span class="subrayado">
+						{% if paciente.fup  %}
+						<strong>{{ paciente.fup|date:"SHORT_DATE_FORMAT" }}</strong>
+						{% else %}
+						<strong>Ninguno</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-4" >
+					Esta Lactando:
+					<span class="subrayado">
+						{% if paciente.lactando == 'S' %}
+						<strong>Si</strong>
+						{% else %}
+						<strong>No</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div style="padding-left:15px;"> TERMINACION DEL ULTIMO EMBARAZO:</div>
+				<div class="col-md-2" style="padding-top:17px">
+					Producto vivo:
+					<span class="subrayado">
+						{% if paciente.ueProductoVivo == 'S' %}
+						<strong>Si</strong>
+						{% else %}
+						<strong>No</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-2" style="padding-top:17px">
+					<span class="subrayado">
+						{% if paciente.ueTerminacion  %}
+							{% if paciente.ueTerminacion == 'A' %}
+							<strong>Aborto</strong>
+							{% elif paciente.ueTerminacion == 'V' %}
+							<strong>Parto Vaginal</strong>
+							{% elif paciente.ueTerminacion == 'O' %}
+							<strong>Parto Operatorio</strong>
+							{% else %}
+							<strong>Ninguno</strong>
+							{% endif %}
+						{% else %}
+						<strong>Ninguno</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="panel panel-info">
+        <div class="panel-body"  style="padding-left: 50px; padding-top: 0px;">
+            <h3 class="page-header text-left">3.Antecedentes ginecologicos</h3>
+			<div class="row">
+				<div class="col-md-3" >
+					Menarquia:
+					<span class="subrayado">
+						<strong>{{ paciente.menarquia }}</strong>
+					</span>
+					A&ntilde;os
+				</div>
+				<div class="col-md-3" >
+					FUR:
+					<span class="subrayado">
+						<strong>{{ paciente.fur|date:"SHORT_DATE_FORMAT" }}</strong>
+					</span>
+				</div>
+				<div class="col-md-3" >
+					Edad del primer coito:
+					<span class="subrayado">
+						<strong>{{ paciente.edadPrimeraVez }}</strong>
+					</span>
+					A&ntilde;os
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-3" >
+					Dismenorea:
+					<span class="subrayado">
+						{% if paciente.dismenorrea == 'S' %}
+						<strong>Si</strong>
+						{% else %}
+						<strong>No</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-3" >
+					<strong>Ciclos menstruales:</strong>
+					<span class="subrayado">
+						{% if paciente.cicloMenstrual == 'R' %}
+						<strong>Regulares</strong>
+						{% else %}
+						<strong>Irregulares</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-3" >
+					Duracion del ciclo:
+					<span class="subrayado">
+						<strong>{{ paciente.duracionCiclo }}</strong>
+					</span>
+					dias
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-3" >
+					Sangramientos:
+					<span class="subrayado">
+						{% if paciente.sangramientos == 'E' %}
+						<strong>Escasos</strong>
+						{% elif paciente.sangramientos == 'M' %}
+						<strong>Moderados</strong>
+						{% else %}
+						<strong>Abundantes</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-3" >
+					Duracion del sangramiento:
+					<span class="subrayado">
+						<strong>{{ paciente.duracionSangramiento }}</strong>
+					</span>
+					dias
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-3" >
+					Fecha del ultimo PAP:
+					<span class="subrayado">
+						{% if paciente.fechaPap  %}
+						<strong>{{ paciente.fechaPap|date:"SHORT_DATE_FORMAT" }}</strong>
+						{% else %}
+						<strong>Ninguno</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-xs-6" >
+					Resultado:
+					<span class="subrayado">
+						{% if paciente.resultado  %}
+						<strong>{{ paciente.resultado }}</strong>
+						{% else %}
+						<strong>-----</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-xs-12" >
+					Observaciones:
+					<span class="subrayado">
+						{% if paciente.agObservaciones  %}
+						<strong>{{ paciente.agObservaciones }}</strong>
+						{% else %}
+						<strong>-----</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="panel panel-info">
+        <div class="panel-body"  style="padding-left: 20px; padding-top: 0px;">
+            <h3 class="page-header text-left">4.Antecedentes personales</h3>
+			<div class="row">
+				<div class="col-md-3" >
+					Cefale intensa:
+					<span class="subrayado">
+						{% if paciente.cefaleaIntensa == 'S' %}
+						<strong>Si</strong>
+						{% else %}
+						<strong>No</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-3" >
+					Trastorno cardiovascular:
+					<span class="subrayado">
+						{% if paciente.trastCardiovascular == 'S' %}
+						<strong>Si</strong>
+						{% else %}
+						<strong>No</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-2" >
+					HTA:
+					<span class="subrayado">
+						{% if paciente.hta == 'S' %}
+						<strong>Si</strong>
+						{% else %}
+						<strong>No</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-3" >
+					Diabetes:
+					<span class="subrayado">
+						{% if paciente.diabetes == 'S' %}
+						<strong>Si</strong>
+						{% else %}
+						<strong>No</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-3" >
+					Trastornos hepaticos:
+					<span class="subrayado">
+						{% if paciente.trastHepaticos == 'S' %}
+						<strong>Si</strong>
+						{% else %}
+						<strong>No</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-3" >
+					Trastorno convulsivo:
+					<span class="subrayado">
+						{% if paciente.trastConvulsivo == 'S' %}
+						<strong>Si</strong>
+						{% else %}
+						<strong>No</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-2" >
+					Varices:
+					<span class="subrayado">
+						{% if paciente.varices == 'S' %}
+						<strong>Si</strong>
+						{% else %}
+						<strong>No</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-3" >
+					Tabaquismo:
+					<span class="subrayado">
+						{% if paciente.tabaquismo == 'S' %}
+						<strong>Si</strong>
+						{% else %}
+						<strong>No</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-3" >
+					Cirugia Pelvica:
+					<span class="subrayado">
+						{% if paciente.cirugiaPelv == 'S' %}
+						<strong>Si</strong>
+						{% else %}
+						<strong>No</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-3" >
+					Infeccion Pelvica:
+					<span class="subrayado">
+						{% if paciente.infeccionPelv == 'S' %}
+						<strong>Si</strong>
+						{% else %}
+						<strong>No</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-2" >
+					Alergias:
+					<span class="subrayado">
+						{% if paciente.alergias == 'S' %}
+						<strong>Si</strong>
+						{% else %}
+						<strong>No</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-2" >
+					VIH+:
+					<span class="subrayado">
+						{% if paciente.vih == 'S' %}
+						<strong>Si</strong>
+						{% else %}
+						<strong>No</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-2" >
+					ITS:
+					<span class="subrayado">
+						{% if paciente.its  %}
+						<strong>Si</strong>
+						{% else %}
+						<strong>No</strong>
+						{% endif %}
+					</span>
+				</div>				
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-xs-12" >
+					Observaciones:
+					<span class="subrayado">
+						{% if paciente.apObservaciones   %}
+						<strong>{{ paciente.apObservaciones }}</strong>
+						{% else %}
+						<strong>-----</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-11" >
+					Ha utilizado metodos anticonceptivos:
+					<span class="subrayado">
+						{% if paciente.metAnticonceptivos == 'S' %}
+						<strong>Si</strong>
+						{% else %}
+						<strong>No</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-3" >
+					Metodo utilizado:
+					<span class="subrayado">
+						{% if paciente.metUtilizado  %}
+						<strong>{{ paciente.metUtilizado }}</strong>
+						{% else %}
+						<strong>-----</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-4" >
+					Por cuanto tiempo:
+					<span class="subrayado">
+						{% if paciente.metTiempo  %}
+						<strong>{{ paciente.metTiempo }}</strong>
+						{% else %}
+						<strong>-----</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-11" >
+					Porque dejo de usarlo:
+					<span class="subrayado">
+						{% if paciente.metJustificar  %}
+						<strong>{{ paciente.metJustificar }}</strong>
+						{% else %}
+						<strong>-----</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">				
+				<div class="col-md-11" >
+					Donde lo obtuvo:
+					<span class="subrayado">
+						{% if paciente.metLugar %}
+						<strong>{{ paciente.metLugar }}</strong>
+						{% else %}
+						<strong>-----</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="panel panel-info">
+        <div class="panel-body"  style="padding-left: 50px; padding-top: 0px;">
+            <h3 class="page-header text-left">5.Examen fisico</h3>
+			<div class="row">
+				<div class="col-md-2" >
+					Temperatura:
+					<span class="subrayado">
+						<strong>{{ paciente.temperatura }}</strong>
+					</span>
+				</div>
+				<div class="col-md-2" >
+					Pulso:
+					<span class="subrayado">
+						<strong>{{ paciente.pulso }}</strong>
+					</span>
+				</div>
+				<div class="col-md-2" >
+					Peso:
+					<span class="subrayado">
+						<strong>{{ paciente.peso }}</strong>
+					</span>
+				</div>
+				<div class="col-md-3" >
+					T.A.:
+					<span class="subrayado">
+						<strong>{{ paciente.presionArterial }}</strong>
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-1" >
+					Cabeza:
+				</div>
+				<div class="col-md-10">
+					<span class="subrayado">
+						{% if paciente.naCabeza == 'N' %}
+						<strong>Normal</strong>
+						{% else %}
+						<strong>Anormal</strong>
+						{% endif %}
+					</span>
+					<span class="subrayado">
+						{% if paciente.cabeza  %}
+						<strong>{{ paciente.cabeza }}</strong>
+						{% else %}
+						<strong>-----</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-1" >
+					Cuello:
+				</div>
+				<div class="col-md-10" >
+					<span class="subrayado">
+						{% if paciente.naCuello  == 'N' %}
+						<strong>Normal</strong>
+						{% else %}
+						<strong>Anormal</strong>
+						{% endif %}
+					</span>
+					<span class="subrayado">
+						{% if paciente.cuello  %}
+						<strong>{{ paciente.cuello }}</strong>
+						{% else %}
+						<strong>-----</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-1" >
+					Mamas:
+				</div>
+				<div class="col-md-10" >
+					<span class="subrayado">
+						{% if paciente.naMamas == 'N' %}
+						<strong>Normal</strong>
+						{% else %}
+						<strong>Anormal</strong>
+						{% endif %}
+					</span>
+					<span class="subrayado">
+						{% if paciente.mamas  %}
+						<strong>{{ paciente.mamas }}</strong>
+						{% else %}
+						<strong>-----</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-1" >
+					Torax:
+				</div>
+				<div class="col-md-10" >
+					<span class="subrayado">
+						{% if paciente.naTorax  == 'N' %}
+						<strong>Normal</strong>
+						{% else %}
+						<strong>Anormal</strong>
+						{% endif %}
+					</span>
+					<span class="subrayado">
+						{% if paciente.torax  %}
+						<strong>{{ paciente.torax }}</strong>
+						{% else %}
+						<strong>-----</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-1" >
+					Abdomen:
+				</div>
+				<div class="col-md-10" >
+					<span class="subrayado">
+						{% if paciente.naAbdomen == 'N' %}
+						<strong>Normal</strong>
+						{% else %}
+						<strong>Anormal</strong>
+						{% endif %}
+					</span>
+					<span class="subrayado">
+						{% if paciente.abdomen  %}
+						<strong>{{ paciente.abdomen }}</strong>
+						{% else %}
+						<strong>-----</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-1" >
+					Miembros:
+				</div>
+				<div class="col-md-10" >
+					<span class="subrayado">
+						{% if paciente.naMiembros == 'N' %}
+						<strong>Normal</strong>
+						{% else %}
+						<strong>Anormal</strong>
+						{% endif %}
+					</span>
+					<span class="subrayado">
+						{% if paciente.miembros  %}
+						<strong>{{ paciente.miembros }}</strong>
+						{% else %}
+						<strong>-----</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="panel panel-info">
+        <div class="panel-body"  style="padding-left: 50px; padding-top: 0px;">
+            <h3 class="page-header text-left">6.Examen ginecologico</h3>
+			<div class="row">
+				<div class="col-md-3" >
+					Genitales Externos:
+					<span class="subrayado">
+						{% if paciente.genitalesExternos == 'N' %}
+						<strong>Normal</strong>
+						{% else %}
+						<strong>Anormal</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-2" >
+					Cistocele
+					<span class="subrayado">
+						{% if paciente.cistocele == 'S' %}
+						<strong>Si</strong>
+						{% else %}
+						<strong>No</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-2" >
+					Grado
+					<span class="subrayado">
+						{% if paciente.gradoCistocele %}
+						<strong>{{ paciente.gradoCistocele }}</strong>
+						{% else %}
+						<strong>---</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-2" >
+					Rectocele
+					<span class="subrayado">
+						{% if paciente.rectocele == 'S' %}
+						<strong>Si</strong>
+						{% else %}
+						<strong>No</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-2" >
+					Grado:
+					<span class="subrayado">
+						{% if paciente.gradoRectocele %}
+						<strong>{{ paciente.gradoRectocele }}</strong>
+						{% else %}
+						<strong>---</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-2" style="padding-right: 0px;">
+					Prolapso Uterino:
+					<span class="subrayado">
+						{% if paciente.prolapsoUterino == 'S' %}
+						<strong>Si</strong>
+						{% else %}
+						<strong>No</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-2" >
+					Grado:					
+					<span class="subrayado">
+						{% if paciente.gradoProlapsoUterino  %}
+						<strong>{{ paciente.gradoProlapsoUterino }}</strong>
+						{% else %}
+						<strong>-----</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-3" >
+					Vagina:
+					<span class="subrayado">
+						{% if paciente.vagina == 'N' %}
+						<strong>Normal</strong>
+						{% else %}
+						<strong>Anormal</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-2" >
+					Secrecion en vagina:
+				</div>
+				<div class="col-md-9" >
+					<span class="subrayado">
+						{% if paciente.snSecrecionVagina == 'S' %}
+						<strong>Si</strong>
+						{% else %}
+						<strong>No</strong>
+						{% endif %}
+					</span>
+					<span class="subrayado">
+						{% if paciente.secrecionVagina  %}
+						<strong>{{ paciente.secrecionVagina }}</strong>
+						{% else %}
+						<strong>-----</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row" style="padding-top: 17px;">
+				<div style="padding-left:20px;"> CUELLO UTERINO:</div>
+				<div class="col-md-3" style="padding-top: 17px;">
+					Palpacion:
+					<span class="subrayado">
+						{% if paciente.cuPalpacion == 'N' %}
+						<strong>Normal</strong>
+						{% else %}
+						<strong>Anormal</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-3" style="padding-top: 17px;">
+					Consistencia:
+					<span class="subrayado">
+						{% if paciente.cuConsistencia == 'N' %}
+						<strong>Normal</strong>
+						{% else %}
+						<strong>Anormal</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-2" style="padding-top: 17px;">
+					Movilidad
+					<span class="subrayado">
+						{% if paciente.cuMovilidad == 'N' %}
+						<strong>Normal</strong>
+						{% else %}
+						<strong>Anormal</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-3" style="padding-top: 17px;">
+					Dolor a la movilizacion
+					<span class="subrayado">
+						{% if paciente.cuDolorMov == 'S' %}
+						<strong>Si</strong>
+						{% else %}
+						<strong>No</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-3" >
+					Sangra al contacto:
+					<span class="subrayado">
+						{% if paciente.sangrarTacto == 'S' %}
+						<strong>Si</strong>
+						{% else %}
+						<strong>No</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-3" >
+					Toma PAP
+					<span class="subrayado">
+						{% if paciente.tomaPap == 'S' %}
+						<strong>Si</strong>
+						{% else %}
+						<strong>No</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-xs-10" >
+					Observaciones:
+					<span class="subrayado">
+						{% if paciente.cuObservaciones  %}
+						<strong>{{ paciente.cuObservaciones }}</strong>
+						{% else %}
+						<strong>-----</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div style="padding-left:20px;"> UTERO:</div>
+				<div class="col-md-3" style="padding-top: 17px;">
+					Posicion:
+					<span class="subrayado">
+						{% if paciente.uteroPosicion == 'A' %}
+						<strong>A</strong>
+						{% elif paciente.uteroPosicion == 'M' %}
+						<strong>M</strong>
+						{% else %}
+						<strong>P</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-3" style="padding-top: 17px;">
+					Tamano:
+					<span class="subrayado">
+						{% if paciente.uTamano == 'N' %}
+						<strong>Normal</strong>
+						{% else %}
+						<strong>Anormal</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-2" style="padding-right: 0px; padding-top: 17px;">
+					Consistencia:
+					<span class="subrayado">
+						{% if paciente.uConsistencia == 'N' %}
+						<strong>Normal</strong>
+						{% else %}
+						<strong>Anormal</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-3" style="padding-top: 17px;">
+					Movilidad
+					<span class="subrayado">
+						{% if paciente.uMovilidad == 'N' %}
+						<strong>Normal</strong>
+						{% else %}
+						<strong>Anormal</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-3" >
+					Dolor a la movilizacion:
+					<span class="subrayado">
+						{% if paciente.uDolorMov == 'S' %}
+						<strong>Si</strong>
+						{% else %}
+						<strong>No</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-1" >
+					Tumores:
+				</div>
+				<div class="col-md-10" >
+					<span class="subrayado">
+						{% if paciente.usnTumores == 'S' %}
+						<strong>Si</strong>
+						{% else %}
+						<strong>No</strong>
+						{% endif %}
+					</span>
+					<span class="subrayado">
+						{% if paciente.uTumores  %}
+						<strong>{{ paciente.uTumores }}</strong>
+						{% else %}
+						<strong>-----</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-3" >
+					Anexos libres:
+					<span class="subrayado">
+						{% if paciente.anexosLibres == 'S' %}
+						<strong>Si</strong>
+						{% else %}
+						<strong>No</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-3" >
+					Engrosados:
+					<span class="subrayado">
+						{% if paciente.engrosados == 'S' %}
+						<strong>Si</strong>
+						{% else %}
+						<strong>No</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-4" >
+					Dolor a la palpitacion:
+					<span class="subrayado">
+						{% if paciente.aDolorPalpitacion == 'S' %}
+						<strong>Si</strong>
+						{% else %}
+						<strong>No</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-1" >
+					Tumores:
+				</div>
+				<div class="col-md-10" >
+					<span class="subrayado">
+						{% if paciente.asnTumores == 'S' %}
+						<strong>Si</strong>
+						{% else %}
+						<strong>No</strong>
+						{% endif %}
+					</span>
+					<span class="subrayado">
+						{% if paciente.aTumores  %}
+						<strong>{{ paciente.aTumores }}</strong>
+						{% else %}
+						<strong>-----</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-3" >
+					Fondo de saco:
+					<span class="subrayado">
+						{% if paciente.fondoSaco == 'N' %}
+						<strong>Normal</strong>
+						{% else %}
+						<strong>Anormal</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="panel panel-info">
+        <div class="panel-body"  style="padding-left: 50px; padding-top: 0px;">
+            <h3 class="page-header text-left">7.Metodo indicado</h3>
+			<div class="row">
+				<div class="col-md-10" >
+					Fecha de inicio de metodo:
+					<span class="subrayado">
+						{% if paciente.fechaInicioMetodo|date:"SHORT_DATE_FORMAT"  %}
+						<strong>{{ paciente.fechaInicioMetodo  }}</strong>
+						{% else %}
+						<strong>-----</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-10" >
+					Anticonceptivo:
+					{% if paciente.anticonceptivo  %}
+						{% if paciente.anticonceptivo == 'O' %}
+						<span class="subrayado"><strong>Oral</strong></span>
+						&nbsp;&nbsp;&nbsp;Nombre:
+						<span class="subrayado">
+							{% if paciente.miONombre  %}
+							<strong>{{ paciente.miONombre }}</strong>
+							{% else %}
+							<strong>-----</strong>
+							{% endif %}
+						</span>
+						{% elif paciente.anticonceptivo == 'D' %}
+						<span class="subrayado"><strong>DIU</strong></span>
+						{% elif paciente.anticonceptivo == 'I' %}
+						<span class="subrayado"><strong>Inyectable</strong></span>
+						{% elif paciente.anticonceptivo == 'C' %}
+						<span class="subrayado"><strong>Condones</strong></span>
+						{% elif paciente.anticonceptivo == 'N' %}
+						<span class="subrayado"><strong>Norplant</strong></span>
+						{% elif paciente.anticonceptivo == 'E' %}
+						<span class="subrayado"><strong>Esterilizaciones</strong></span>
+						{% else %}
+						<span class="subrayado"><strong>Otros</strong></span>
+						&nbsp;&nbsp;&nbsp;Otros:
+						<span class="subrayado">
+							{% if paciente.miOtros  %}
+							<strong>{{ paciente.miOtros }}</strong>
+							{% else %}
+							<strong>-----</strong>
+							{% endif %}
+						</span>
+						{% endif %}
+					{% else %}
+						<span class="subrayado"><strong>-----</strong></span>
+					{% endif %}
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-xs-10" >
+					Diagnostico:
+					<span class="subrayado">
+						{% if paciente.diagnostico  %}
+						<strong>{{ paciente.diagnostico }}</strong>
+						{% else %}
+						<strong>-----</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-xs-10" >
+					Indicaciones:
+					<span class="subrayado">
+						{% if paciente.indicaciones  %}
+						<strong>{{ paciente.indicaciones }}</strong>
+						{% else %}
+						<strong>-----</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="panel panel-info">
+        <div class="panel-body"  style="padding-left: 50px; padding-top: 0px;">
+            <h3 class="page-header text-left">8.Responsable</h3>
+			<div class="row">
+				<div class="col-md-10" >
+					Fecha de proxima consulta:
+					<span class="subrayado">
+						{% if paciente.fechaProximaConsulta  %}
+						<strong>{{ paciente.fechaProximaConsulta|date:"SHORT_DATE_FORMAT" }}</strong>
+						{% else %}
+						<strong>-----</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-10" >
+					Nombre de persona responsable:
+					<span class="subrayado">
+						{% if paciente.nombreResponsable  %}
+						<strong>{{ paciente.nombreResponsable }}</strong>
+						{% else %}
+						<strong>-----</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-10" >
+					Cargo:
+					<span class="subrayado">
+						{% if paciente.cargo  %}
+							{% if paciente.cargo == 'M' %}
+							<strong>Medico</strong>
+							{% elif paciente.cargo == 'E' %}
+							<strong>Enfermera</strong>
+							{% elif paciente.cargo == 'A' %}
+							<strong>Auxiliar enfermeria</strong>
+							{% else %}
+							<strong>Tecno materno infantil</strong>
+							{% endif %}
+						{% else %}
+						<strong>-----</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<hr />
+	<div class="col-md-offset-2 col-md-10">
+        <a href="{% url 'planificacionfamiliar-list' %}" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Volver a la lista</a>
+        </div>
+{%endblock%}

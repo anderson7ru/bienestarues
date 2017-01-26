@@ -1,0 +1,115 @@
+{% extends "layouts/master.html" %}
+
+{% block pageheader %}
+	EXAMEN DE HECES 
+{%endblock%}
+{% block paneltitle %}
+  Resultados del Examen de Heces
+{% endblock %}
+{% block panelcontent %}
+    <div class="panel panel-info">
+    	<div class="panel-body">
+    	<h4><strong>RESULTADOS REGISTRADOS</strong></h4>
+    			<div class="row">
+				 	<div class="col-md-2"><strong>Paciente:</strong></div>
+				 	<div class="col-md-4">{{ examen_heces.paciente.get_full_name}}</div>
+				</div>
+				<div class="row">
+					<div class="col-md-2"><strong>Edad:</strong></div>
+					<div class="col-md-4">{{ examen_heces.edad}} Años</div>
+					<br>
+					<br>
+				</div>
+		{% if examen_heces.color or examen_heces.hematies or examen_heces.consistencia or examen_heces.leucocitos or examen_heces.mucus or examen_heces.protoActivos or examen_heces.macro or examen_heces.protoQuistes or examen_heces.micro or examen_heces.metazoarios or examen_heces.observaciones %}
+			{% if examen_heces.color or examen_heces.hematies %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Color:</strong></div>
+				  <div class="col-md-2">{{ examen_heces.color }} </div>
+				  <div class="col-md-2"><strong>Hematies:</strong></div>
+				  <div class="col-md-2">{{ examen_heces.hematies }} /c</div>
+				</div>
+				
+			{% endif %}
+			{% if examen_heces.consitencia or examen_heces.leucocitos %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Consistencia:</strong></div>
+				  <div class="col-md-2">{{ examen_heces.consistencia }} </div>
+				  <div class="col-md-2"><strong>Leucocitos:</strong></div>
+				  <div class="col-md-2">{{ examen_heces.leucocitos }} /c</div>
+				</div>
+			{% endif %}
+			{% if examen_heces.mucus %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Mucus:</strong></div>
+				  <div class="col-md-2">{{ examen_heces.mucus }} </div>
+				</div>
+			{% endif %}
+				<div class="row">
+					<br>
+					<div class="col-md-1"></div>
+					<div class="col-md-1"></div>
+					<div class="col-md-2"><strong><u>PROTOZOARIOS</u></strong></div>
+					<div class="col-md-2"></div>
+					<div class="col-md-3"><strong><u>RESTOS ALIMENTICIOS</u></strong></div>
+				</div>
+			{% if examen_heces.protoActivos or examen_heces.macro %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Activos:</strong></div>
+				  <div class="col-md-2">{{ examen_heces.protoActivos }} </div>
+				  <div class="col-md-2"><strong>Macro:</strong></div>
+				  <div class="col-md-2">{{ examen_heces.macro }} </div>
+				</div>
+			{% endif %}
+			{% if examen_heces.protoQuistes or examen_heces.micro %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Quistes:</strong></div>
+				  <div class="col-md-2">{{ examen_heces.protoQuistes }}</div>
+				  <div class="col-md-2"><strong>Micro:</strong></div>
+				  <div class="col-md-2">{{ examen_heces.micro }} </div>
+				</div>
+			{% endif %}
+			{% if examen_heces.metazoarios %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Metazoarios:</strong></div>
+				  <div class="col-md-2">{{ examen_heces.metazoarios }}</div>
+				</div>
+			{% endif %}
+			<br>
+			{% if examen_heces.observaciones %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Observaciones:</strong></div>
+				  <div class="col-md-10">{{ examen_heces.observaciones }}</div>
+				</div>
+			{% endif %}
+		{% else %}
+			<p>No se registraron resultados para este examen</p>
+		{% endif %}
+		</div>
+	</div>
+	<div class="panel panel-info">
+		<div class="panel-body" >
+		<h4><strong>RESULTADOS ESCANEADOS</strong></h4>
+		{% if examen_heces.archivo %}
+			{% if examen_heces.archivo %}
+				<div class="row">
+				 	<div class="col-md-2"><strong>Archivo Escaneado:</strong></div>
+				 	<div class="col-md-8">{{ examen_heces.archivo }} <a href="{% url 'laboratorioapp.views.abrir_archivo_heces' pk=examen_heces.codExamen_Heces %}" class="btn btn-info btn-md "><span class="glyphicon glyphicon-download-alt"></span>&nbspDescargar</a></div>
+				</div>
+				
+			{% endif %}
+		{% else %}
+			<p>No se escaneo archivo para este examen</p>
+		{% endif %}
+		</div>
+	</div>
+	<div style="clear:both; margin-left:10px; ">
+		<hr/>
+		<div class="row">
+		  <div class="col-md-7"><strong>Información Ingresada Por:</strong> {{ examen_heces.nombreRecibido }}</div>
+		  <div class="col-md-5"><strong>Fecha:</strong> {{ examen_heces.fechaIngreso|date:"SHORT_DATE_FORMAT" }}</div>
+		</div>
+	</div>
+	<div class="col-md-offset-10 col-md-10">
+        <a href="{% url 'laboratorioapp.views.examen_heces_list' %}" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span>&nbspVolver a la lista</a>
+    </div>
+{%endblock%}

@@ -1,0 +1,97 @@
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} Nutricion {% endblock %}
+{% block paneltitle %} Ficha de identificaci&oacute;n del expediente cl&iacute;nico de Nutrici&oacute;n {% endblock %}
+
+{% block panelcontent %}
+{{form.errors}}
+<form id="datosnutricionales_form" method="post" role="form"> {%csrf_token%}
+    <div class="ayuda" style="text-align:right">
+			<p>(*) campos requeridos </p>
+	</div>
+	<div class="panel panel-info">
+	    <div class="panel-body">
+	        
+	        
+	        	<div class="panel panel-info">
+	            	<div class="panel-heading">Preferencias Alimentarias</div>
+	            	<div class="panel-body">
+	            		<div class="row">
+	            			
+	            			<div class="col-xs-5">
+	            				<div class="form-group">
+	            					<label for="">Grupo del Alimento</label>
+	            					<span class="ayuda">(*)</span>
+	            					<select class="form-control" id="grupos_id" name="grupos_id">
+	            						{% for g in grupos %}
+	            						<option value="{{g.nombre}}">{{g.nombre}}</option>
+	            						{% endfor %}
+	            					</select>
+	            				</div>
+	            				<div class="form-group">
+	            					<label for="">Alimentos del grupo</label>
+	            					<span class="ayuda">(*)</span>
+	            					<select name="from[]" id="alimentos_id" multiple="multiple" class="form-control">
+	            					</select>
+	            				</div>
+	            			</div>
+	            			
+	            			<div class="col-xs-2">
+        						<button type="button" id="multi_d_rightAll" class="btn btn-default btn-block" style="margin-top: 20px;"><i class="glyphicon glyphicon-forward"></i></button>
+        						<button type="button" id="multi_d_rightSelected" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+        						<button type="button" id="multi_d_leftSelected" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+        						<button type="button" id="multi_d_leftAll" class="btn btn-default btn-block"><i class="glyphicon glyphicon-backward"></i></button>
+        
+        						<hr style="margin: 40px 0 60px;" />
+        
+						        <button type="button" id="multi_d_rightAll_2" class="btn btn-default btn-block"><i class="glyphicon glyphicon-forward"></i></button>
+						        <button type="button" id="multi_d_rightSelected_2" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+						        <button type="button" id="multi_d_leftSelected_2" class="btn btn-default btn-block"><i class="glyphicon glyphicon-chevron-left"></i></button>
+						        <button type="button" id="multi_d_leftAll_2" class="btn btn-default btn-block"><i class="glyphicon glyphicon-backward"></i></button>
+						    </div>
+						    
+						    <div class="col-xs-5">
+						    	<b>Alimenots Preferidos</b>
+						    	{{form.alimentosPreferidos}}
+						    	<br/><hr/><br/>
+						        <b>Alimentos Rechazados o Intolerados</b>
+						        {{form.alimentosIntolerados}}
+						    </div>
+						    
+	            		</div>
+	            	</div>
+	            </div>
+	    
+	        
+	    </div>
+	</div>    
+</form>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#grupos_id").on("change", getAlimentos);
+	});
+	function getAlimentos(){
+		var grupoId = $("#grupos_id").val();
+		if (grupoId) {
+			//borra las opciones anteriores
+			$("#alimentos_id").html("");
+			var request = $.ajax({
+				type: "POST",
+				url: "{% url 'getAlimentos' %}",
+				data: {
+					"grupos_id": grupoId,
+				},
+			});
+			request.done(function(response){
+				//aca agrego los resultados en el select
+				$("#alimentos_id").html(response.alimentos);
+				$("#alimentos_id").trigger("change");
+			});
+		} 
+		else {
+			$("#alimentos_id").html("<option value='' selected='selected'>---------</option>");
+			$("#alimentos_id").trigger("change");
+		}
+	}
+</script>
+{% endblock %}

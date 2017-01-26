@@ -1,0 +1,113 @@
+<!-- 
+name: pacientecita_list
+Presenta un listado de todas las consultas pendientes de un paciente
+!-->
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} Citas Medicas {%endblock%}
+{% block paneltitle %} Listado de citas del paciente: {{ datos.codigoPaciente }} {% endblock %}
+
+{% block panelcontent%}
+   <div class="panel panel-info" style="margin-top: 20px;">
+        <div class="panel-body"  style="padding-left: 50px; padding-top: 0px;">
+            <h3 class="page-header text-left">Datos Generales del paciente</h3>
+			<div class="row">
+				<div class="col-md-6" >
+					Nombre:
+					<span class="subrayado">
+						<strong>{{ datos.get_full_name }}</strong>
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-3" >
+					Edad: 
+					<span class="subrayado">
+						<strong>{{ datos.edad_paciente }}</strong>
+					</span>
+					A&ntilde;os
+				</div>
+				<div class="col-md-3" >
+					Sexo: 
+					<span class="subrayado">
+						{% if datos.sexo == 'F' %}
+						<strong>Femenino</strong>
+						{% else %}
+						<strong>Masculino</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-3" >
+					Estado Civil:
+					<span class="subrayado">
+						{% if datos.sexo == 'F' %}
+    						{% if datos.estadoCivil == 'CASADO' %}
+    						<strong>CASADA</strong>
+    						{% elif datos.estadoCivil == 'DIVORCIADO' %}
+    						<strong>DIVORCIADA</strong>
+    						{% elif datos.estadoCivil == 'ACOMPANADO' %}
+    						<strong>ACOMPANADA</strong>
+    						{% elif datos.estadoCivil == 'VIUDO' %}
+    						<strong>VIUDA</strong>
+    						{% else %}
+    						<strong>SOLTERA</strong>
+    						{% endif %}
+						{% else %}
+						<strong>{{ datos.estadoCivil }}</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-3" >
+					Ocupacion:
+					<span class="subrayado">
+						{% if datos.estadoUes == 'EST' %}
+						<strong>Estudiante</strong>
+						{% elif datos.estadoUes == 'DOC' %}
+						<strong>Docente</strong>
+						{% elif datos.estadoUes == 'PAD' %}
+						<strong>Pers.Administrativo</strong>
+						{% else %}
+						<strong>Otro</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% if paciente %}
+	{% for i in datoEspecialidad %}
+		<h4 id="subtitulo">{{ i.1 }}</h4>
+	{% endfor %}
+	<div class="table-responsive">
+       <table class="table table-hover" id="empleadoslist">
+           <tr class="success">
+               <th>Doctor</th>
+               <th>Especialidad</th>
+               <th>Fecha</th>
+               <th>Hora</th>
+               <th>Estado de la cita</th>
+           </tr>
+           {% for paciente in paciente %}
+             <tr>
+                 <td>{{ paciente.codigoDoctor.codigoEmpleado.nombrePrimero }} {{ paciente.codigoDoctor.codigoEmpleado.apellidoPrimero }}</td>
+                 <td>{{ paciente.codigoDoctor.especialidad.especialidad }}</td>
+                 <td>{{ paciente.fechaConsulta }}</td>
+                 <td>{{ paciente.horaConsulta  }}</td>
+                 <td>
+					{% if paciente.estadoConsulta  == 'N' %}
+						Normal
+					{% elif paciente.estadoConsulta  == 'C' %}
+						Cancelada
+					{% else %}
+						Reprogramar
+					{% endif %}
+				 </td>
+             </tr>
+           {% endfor %}
+       </table>
+   </div>
+   {% else %}
+	<h3 id="vacio1"> NO PRESENTA CITAS PENDIENTES </h3>
+   {% endif %}
+   <a href="{% url 'datospersonales-list' %}" class="btn btn-primary" style="float: right"><span class="glyphicon glyphicon-list-alt"></span> Ver Lista de Pacientes</a>
+{% endblock %}

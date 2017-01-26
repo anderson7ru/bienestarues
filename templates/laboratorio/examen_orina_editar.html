@@ -1,0 +1,468 @@
+<!-- 
+name: examen_orina-new y examen_orina-update
+Vista para la creacion y modificacion de examen de laboratorio de orina
+!-->
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} LABORATORIO CLINICO {% endblock %}
+{% block paneltitle %} EXAMEN DE ORINA {% endblock %}
+
+{% block panelcontent %}
+<form id="examen_orina" action="" enctype="multipart/form-data" method="post">{% csrf_token %}
+	<div class="row" >
+		<div class="col-md-3" style="padding-top: 0px;">
+			<div class="form-group">
+				<div class="input-group">
+						<label for="l_eleccion" ><strong>&nbsp&nbspSUBIR ARCHIVO:&nbsp&nbsp</strong></label>
+	    				<input type="checkbox" id="l_eleccion" value="cargarArchivo"  name="eleccion" onclick="color.disabled=!color.disabled; aspecto.disabled=!aspecto.disabled;
+	    				ph.disabled=!ph.disabled; densidad.disabled=!densidad.disabled; nitritos.disabled=!nitritos.disabled;
+	    				proteinas.disabled=!proteinas.disabled; cetonicos.disabled=!cetonicos.disabled; glucosa.disabled=!glucosa.disabled; 
+	    				bilirrubina.disabled=!bilirrubina.disabled; urobilinigeno.disabled=!urobilinigeno.disabled; sangre.disabled=!sangre.disabled;
+	    				esterasaLeucocitaria.disabled=!esterasaLeucocitaria.disabled; leucocitos.disabled=!leucocitos.disabled; hematies.disabled=!hematies.disabled; epiteliales.disabled=!epiteliales.disabled;
+	    				cristales.disabled=!cristales.disabled; cilindros.disabled=!cilindros.disabled; observaciones.disabled=!observaciones.disabled;
+	    				bacterias.disabled=!bacterias.disabled;archivo.disabled=!archivo.disabled;"> <br>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-7" style="padding-top: 0px;">
+				<div class="form-group">
+					<div class="input-group">
+			    		<label for="l_archivo"><strong>SELECCIONAR UN ARCHIVO</strong></label>
+						<span class="ayuda"> (*) </span>
+					</div>
+					<div class="input-group">
+						<span class="btn btn-primary btn-file">
+    			        <strong>CARGAR ARCHIVO</strong><input type="file" name="archivo" disabled>
+			           	</span>
+					</div>
+				</div>
+		</div>
+	</div>
+
+    <div class="ayuda" style="text-align:right">
+			<p>(*) campos requeridos </p>
+	</div>
+	<div class="panel panel-info">
+        <div class="panel-body" style="padding-left: 20px; padding-top: 0px;">
+        	<br>
+        	<table border="0" cellspacing="0" cellpadding="0" align="right">
+        			<tr>
+			    		<td style="padding-right: 20px; padding-top: 0px;"><strong>N° EXPEDIENTE:</strong></td>
+			    		<td style="padding-right: 20px; padding-top: 0px;"><input type="text" class="form-control" id="id_codigoPaciente" name="codigoPaciente" value="{{ paciente.codigoPaciente }}" READONLY/></td>
+			    	</tr>
+			    	<tr>
+			    		<td style="padding-right: 20px; padding-top: 20px;"><strong>FECHA:</strong></td>
+			    		<td style="padding-right: 20px; padding-top: 20px;"><input class="form-control" id="id_fechaIngreso" name="fechaIngreso" type="text" value="{% now 'SHORT_DATETIME_FORMAT' %}" READONLY/></td>
+			    	</tr>
+			</table>
+			<br>
+            <h3 class="page-header text-left"><strong>DATOS DEL PACIENTE</strong></h3>
+			<div class="row">
+				<table border="0" cellspacing="0" cellpadding="0">
+					<tr>
+			    		<td style="width:110px"><strong>&nbsp&nbsp&nbsp&nbspPACIENTE:</strong></td>
+			    		<td style="width:628px"><input type="text" class="form-control" id="id_paciente" name="paciente" value="{{ paciente.get_full_name }}" required="True" READONLY/></td>
+			    	
+			    		
+			    		<td style="width:134px"><strong>EDAD:</strong></td>
+			    		<td style="width:196px">
+			    			<div class="input-group">
+			    			<input type="number" class="form-control" id="id_edad" name="edad" value="{{ paciente.edad_paciente }}" required="True" READONLY/>
+			    		    <span class="input-group-addon">Años</span>
+			    		    </div>
+			    		</td>
+					</tr>
+				</table>
+            </div>
+        </div>
+	</div>
+	<div class="panel panel-info">
+        <div class="panel-body" style="padding-left: 20px; padding-top: 0px;">
+            <h3 class="page-header text-left"><strong>RESULTADOS DEL EXAMEN</strong></h3>
+			<div class="row">
+				<div class="col-md-offset-2 col-md-4" style="padding-top: 0px;">
+			    		<label for="l_fisicoQuimico"><strong><u>EXAMEN FÍSICO QUÍMICO</u></strong></label>
+					</div>
+					<div class="col-md-offset-2 col-md-4" style="padding-top: 0px;">
+			    		<label for="l_sedimento"><strong><u>EXAMEN MICROSCÓPICO DEL SEDIMENTO</u></strong></label>
+					</div>
+			</div>
+            <div class="row">
+				<div class="col-md-2" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_color"><strong>COLOR:</strong></label>
+						<span class="ayuda"> (*) </span>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+							<select id="id_color" class="form-control" name="color">
+                        		<option value="">---------------------------------------</option>
+								<option value="AMARILLO">AMARILLO</option>
+								<option value="AMARILLO CLARO">AMARILLO CLARO</option>
+								<option value="AMARILLO OSCURO">AMARILLO OSCURO</option>
+								<option value="INCOLORO">INCOLORO</option>
+								<option value="ROJO">ROJO</option>
+								<option value="NARANJA">NARANJA</option>
+								<option value="AMBAR">AMBAR</option>
+								<option value="CAFE">CAFE</option>
+								<option value="ROSADO">ROSADO</option>
+								<option value="NEGRO">NEGRO</option>
+								<option value="AZUL">AZUL</option>
+								<option value="VERDE">VERDE</option>
+							</select>
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_leucocitos"><strong>LEUCOCITOS:</strong></label>
+						<span class="ayuda"> (*) </span>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="text" class="form-control" id="id_leucocitos" name="leucocitos" required/>
+			    		<span class="input-group-addon">/c</span>
+			    		</div>
+					</div>
+				</div>
+            </div>
+			
+            <div class="row">
+				<div class="col-md-2" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_aspecto"><strong>ASPECTO:</strong></label>
+						<span class="ayuda"> (*) </span>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+							<select id="id_aspecto" class="form-control" name="aspecto" required>
+                        		<option value="">---------------------------------------</option>
+								<option value="LIMPIO">LIMPIO</option>
+								<option value="LEVE TURBIO">LEVE TURBIO</option>
+								<option value="TURBIO">TURBIO</option>
+							</select>
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_hematies"><strong>HEMATIES:</strong></label>
+						<span class="ayuda"> (*) </span>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="text" class="form-control" id="id_hematies" name="hematies" required/>
+			    		<span class="input-group-addon">/c</span>
+			    		</div>
+					</div>
+				</div>
+            </div>
+            <div class="row">
+				<div class="col-md-2" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_ph"><strong>PH:</strong></label>
+						<span class="ayuda"> (*) </span>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="number" class="form-control" step="0.01" id="id_ph" name="ph" required/>
+			    		<span class="input-group-addon"></span>
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_epiteliales"><strong>CELULAS EPITELIALES:</strong></label>
+						<span class="ayuda"> (*) </span>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+							<select id="id_epiteliales" class="form-control" name="epiteliales">
+								<option value="">---------------------------------------</option>
+								<option value="ESCASAS">ESCASAS</option>
+								<option value="MODERADAS">MODERADAS</option>
+								<option value="ABUNDANTES">ABUNDANTES</option>
+							</select>
+			    		</div>
+					</div>
+				</div>
+            </div>
+            <div class="row">
+				<div class="col-md-2" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_densidad"><strong>DENSIDAD:</strong></label>
+						<span class="ayuda"> (*) </span>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="number" class="form-control" id="id_densidad" name="densidad" required/>
+			    		<span class="input-group-addon"></span>
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_cristales"><strong>CRISTALES:</strong></label>
+						<span class="ayuda"> (*) </span>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+							<select id="id_cristales" class="form-control" name="cristales">
+								<option value="">---------------------------------------</option>
+								<option value="NO SE OBSERVAN">NO SE OBSERVAN</option>
+								<option value="SC">SULFATOS DE CALCIO</option>
+								<option value="OC">OXALATOS DE CALCIO</option>
+								<option value="UA">URATOS AMORFOS</option>
+								<option value="AU">ACIDO URICO</option>
+								<option value="FT">FOSFATOS TRIPLES</option>
+								<option value="FA">FOSFATOS AMORFOS</option>
+							</select>
+			    		</div>
+					</div>
+				</div>
+            </div>
+            <div class="row">
+				<div class="col-md-2" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_nitritos"><strong>NITRITOS:</strong></label>
+						<span class="ayuda"> (*) </span>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+							<select id="id_nitritos" class="form-control" name="nitritos">
+                        		<option value="">---------------------------------------</option>
+								<option value="NEGATIVO">NEGATIVO</option>
+								<option value="POSITIVO">POSITIVO</option>
+							</select>
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_cilindros"><strong>CILINDROS:</strong></label>
+						<span class="ayuda"> (*) </span>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+							<select id="id_cilindros" class="form-control" name="cilindros">
+								<option value="">---------------------------------------</option>
+								<option value="NO SE OBSERVAN">NO SE OBSERVAN</option>
+								<option value="CL">CILINDRO LEUCOCIDARIO</option>
+								<option value="CG">CILINDRO GRANULOSO</option>
+								<option value="CE">CILINDRO ERITROCITARIO</option>
+							</select>
+			    		</div>
+					</div>
+				</div>
+            </div>
+            <div class="row">
+				<div class="col-md-2" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_proteinas"><strong>PROTEINAS:</strong></label>
+						<span class="ayuda"> (*) </span>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="number" class="form-control" id="id_proteinas" name="proteinas" required/>
+			    		<span class="input-group-addon">mg/dl</span>
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_bacterias"><strong>BACTERIAS Y LEVADURAS:</strong></label>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+							<select id="id_bacterias" class="form-control" name="bacterias">
+								<option value="">----------------------------------------</option>
+								<option value="ESCASAS">ESCASAS</option>
+								<option value="MODERADAS">MODERADAS</option>
+								<option value="ABUNDANTES">ABUNDANTES</option>
+							</select>
+			    		</div>
+					</div>
+				</div>
+            </div>
+            <div class="row">
+				<div class="col-md-2" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_cetonicos"><strong>C. CETONICOS:</strong></label>
+						<span class="ayuda"> (*) </span>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="text" class="form-control" id="id_cetonicos" name="cetonicos" required/>
+			    		<span class="input-group-addon">mg/dl</span>
+			    		</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_observaciones"><strong>OBSERVACIONES:</strong></label>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<textarea class="form-control" rows="3" cols="60" name="observaciones" ></textarea>
+			    		</div>
+					</div>
+				</div>
+            </div>
+            <div class="row">
+				<div class="col-md-2" style="padding-top: 0px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_glucosa"><strong>GLUCOSA:</strong></label>
+						<span class="ayuda"> (*) </span>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 0px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="number" class="form-control" id="id_glucosa" name="glucosa" required/>
+			    		<span class="input-group-addon">mg/dl</span>
+			    		</div>
+					</div>
+				</div>
+            </div>
+            <div class="row">
+				<div class="col-md-2" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_bilirrubina"><strong>BILIRRUBINA:</strong></label>
+						<span class="ayuda"> (*) </span>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="number" step="0.01" class="form-control" id="id_bilirrubina" name="bilirrubina" required/>
+			    		<span class="input-group-addon">mg/dl</span>
+			    		</div>
+					</div>
+				</div>
+            </div>
+            <div class="row">
+				<div class="col-md-2" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_urobiligeno"><strong>UROBILINIGENO:</strong></label>
+						<span class="ayuda"> (*) </span>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="number" step="0.1" class="form-control" id="id_urobiligeno" name="urobilinigeno" required/>
+			    		<span class="input-group-addon">mg/dl</span>
+			    		</div>
+					</div>
+				</div>
+            </div>
+            <div class="row">
+				<div class="col-md-2" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_sangre"><strong>SANGRE:</strong></label>
+						<span class="ayuda"> (*) </span>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="number" class="form-control" id="id_sangre" name="sangre" required/>
+			    		<span class="input-group-addon">ery/ul</span>
+			    		</div>
+					</div>
+				</div>
+            </div>
+            <div class="row">
+				<div class="col-md-2" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<label for="id_esterasaLeucocitaria"><strong>ESTERASA LEUCOCITARIA:</strong></label>
+						<span class="ayuda"> (*) </span>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<div class="input-group">
+						<input type="number" class="form-control" id="id_esterasaLeucocitaria" name="esterasaLeucocitaria" required/>
+			    		<span class="input-group-addon">Leuc/ul</span>
+			    		</div>
+					</div>
+				</div>
+            </div>
+
+
+		</div>
+	</div>
+    
+    <div class="col-md-offset-2 col-md-10">
+      <button id="save_examenOrina" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
+      <a href="{% url 'laboratorio-list' %}" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Volver a la lista</a>
+    </div>
+</form>
+{{informacion}}
+{% endblock %}

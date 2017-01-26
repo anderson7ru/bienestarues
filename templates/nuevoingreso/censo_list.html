@@ -1,0 +1,36 @@
+<!-- 
+name: censo de labores de enfermeria-list
+Esta pagina presenta el listado del registro de consolidado de actividades diarias de enfermeria
+!-->
+{% extends "layouts/master.html" %}
+
+{% block pageheader %}
+  Consolidado Diario de Labores de Enfermeria
+{%endblock%}
+
+{% block paneltitle %}
+  Censo de Enfermeria
+{% endblock %}
+
+{% block panelcontent%}
+   <div class="table-responsive">
+       <a href="{% url 'censo-new' %} " class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Nuevo</a>
+       <table class="table table-hover">
+           <tr class="success">
+
+               <th>Codigo</th>
+               <th>Nombre de la Actividad</th>
+               <th>Cantidad</th>
+               <th>Fecha</th>
+           </tr>
+           {% for censo in censo %}
+             <tr>
+                 <td>{{ censo.codCenso}}</td>
+                 <td>{{ censo.actividad.get_actividad}}</td>
+                 <td>{{ censo.cantidad}}</td>
+                 <td>{{ censo.fechaActividad|date:"SHORT_DATE_FORMAT"}}</td>
+             </tr>
+           {% endfor %}
+       </table>
+   </div>
+{% endblock %}

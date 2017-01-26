@@ -1,0 +1,96 @@
+{% extends "layouts/master.html" %}
+
+{% block pageheader %}
+	Expediente Temporal: Datos del Paciente 
+{%endblock%}
+{% block paneltitle %}
+  Expediente Provisional
+{% endblock %}
+{% block panelcontent %}
+	<div class="panel panel-info">
+        <div class="panel-body" style="padding-left: 20px; padding-top: 0px;">
+	    	<h4>DATOS PERSONALES</h4>
+	    	<div class="row">
+			  <div class="col-md-2"><strong>Nombre:</strong></div>
+			  <div class="col-md-4">{{ expediente.nombrePrimero }} {{ expediente.nombreSegundo }} {{ expediente.apellidoPrimero }} {{ expediente.apellidoSegundo }}</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-md-2"><strong>Fecha de Nacimiento:</strong></div>
+				<div class="col-md-4">{{ expediente.fechaNacimiento|date:"SHORT_DATE_FORMAT" }}</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2"><strong>SEXO:</strong></div>
+				<div class="col-md-4">{{ expediente.sexo }}</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2"><strong>NIT:</strong></div>
+				<div class="col-md-4">{{ expediente.nit }}</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2"><strong>Facultad:</strong></div>
+				<div class="col-md-4">{{ expediente.facultad }}</div>
+			</div>
+			{% if expediente.telefono or expediente.correo %}
+				<div class="row">
+					{% if expediente.telefono %}
+						<div class="col-md-2"><strong>Telefono:</strong></div>
+						<div class="col-md-4">{{ expediente.telefono }}</div>
+					{% endif %}
+	    			{% if expediente.correo %}
+						<div class="col-md-2"><strong>Correo:</strong></div>
+						<div class="col-md-4">{{ expediente.correo }}</div>
+					{% endif %}
+				</div>
+			{% endif %}
+		</div>
+	</div>
+	<div class="panel panel-info">
+        <div class="panel-body" style="padding-left: 20px; padding-top: 0px;">
+			<h4>SIGNOS VITALES</h4>
+			{% if expediente.talla or expediente.temperatura or expediente.presionArterial or expediente.peso or expediente.frecuenciaRespiratoria or expediente.frecuenciaCardiaca or expediente.Observaciones %}
+				{% if expediente.talla or expediente.temperatura or expediente.presionArterial  %}
+					<div class="row">
+					  <div class="col-md-2"><strong>Talla:</strong></div>
+					  <div class="col-md-2">{{ expediente.talla }}</div>
+					  <div class="col-md-3"><strong>Temperatura:</strong></div>
+					  <div class="col-md-2">{{ expediente.temperatura }}</div>
+					  <div class="col-md-2"><strong>Presion Arterial:</strong></div>
+					  <div class="col-md-1">{{ expediente.presionArterial }}</div>
+					</div>
+					
+				{% endif %}
+				{% if expediente.peso or expediente.frecuenciaRespiratoria or expediente.frecuenciaCardiaca  %}
+					<div class="row">
+					  <div class="col-md-2"><strong>Peso:</strong></div>
+					  <div class="col-md-2">{{ expediente.peso }}</div>
+					  <div class="col-md-3"><strong>Frecuencia Respiratoria:</strong></div>
+					  <div class="col-md-2">{{ expediente.frecuenciaRespiratoria }}</div>
+					  <div class="col-md-2"><strong>Frecuencia Cardiaca:</strong></div>
+					  <div class="col-md-1">{{ expediente.frecuenciaCardiaca }}</div>
+					</div>
+				{% endif %}
+				{% if expediente.Observaciones %}
+					<div class="row">
+					  <div class="col-md-2"><strong>Observaciones:</strong></div>
+					  <div class="col-md-6">{{ expediente.Observaciones }}</div>
+					</div>
+				{% endif %}
+			{% else %}
+				<p>El paciente no ha presentado datos de signos vitales</p>
+			{% endif %}
+		</div>
+	</div>
+
+	<div style="clear:both; margin-left:10px; ">
+		<hr/>
+		<div class="row">
+		  <div class="col-md-7"><strong>Recibio:</strong> {{ expediente.nombreRecibido }}</div>
+		  <div class="col-md-5"><strong>Fecha:</strong> {{ expediente.fechaIngreso|date:"SHORT_DATE_FORMAT" }}</div>
+		</div>
+	</div>
+	<div class="col-md-offset-2 col-md-10">
+        <a href="{% url 'nuevoingresoapp.views.Expediente_Provisional_list' %}" class="btn btn-primary" style="float: center"><span class="glyphicon glyphicon-list-alt"></span>Volver a la lista</a>
+        <a href="{% url 'datospersonalesprovisional-new' nit=expediente.nit %}" class="btn btn-success" style="float: center"><span class="glyphicon glyphicon-send"></span>Enviar a Expediente Permanente</a>
+    </div>
+{%endblock%}

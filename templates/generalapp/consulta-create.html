@@ -1,0 +1,166 @@
+{% extends "layouts/beta.html" %}
+
+{% block content %}
+
+<div class="container">
+    <div class="page-header">
+        <h1 class="text-center">Crear Consulta</h1>
+    </div>
+</div>
+
+<!-- debug: visualizamos los errores del formulario -->
+{% if consultaform.non_field_errors %}
+<div class="container">
+    <div class="alert alert-danger" role="alert">
+        {{ consultaform.non_field_errors }}
+    </div>
+</div>
+{% endif %}
+
+{% if consultaform.errors %}
+<div class="container">
+    <div class="alert alert-danger" role="alert">
+        {{ consultaform.errors }}
+    </div>
+</div>
+{% endif %}
+<!-- fin debug -->
+
+<div class="container">
+    <p class="text-right required-mark">(*) Campos Requeridos</p>
+</div>
+
+<!-- formulario de consulta -->
+<form action="" method="post" role="form" data-toggle="validator">
+    {% csrf_token %}
+    <div class="container">
+        <div class="panel panel-info">
+            <div class="panel-body">
+                <!-- campos de control -->
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            {{ consultaform.cod_expediente.label_tag }}
+                            <span class="required-mark">(*)</span>
+                            {{ consultaform.cod_expediente }}
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            {{ consultaform.cod_doctor.label_tag }}
+                            <span class="required-mark">(*)</span>
+                            {{ consultaform.cod_doctor }}
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            {{ consultaform.nit_paciente.label_tag }}
+                            <span class="required-mark">(*)</span>
+                            {{ consultaform.nit_paciente }}
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- fin campos de control -->
+                
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group"></div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            {{ consultaform.tipo_consulta.label_tag }}
+                            <span class="required-mark">(*)</span>
+                            {{ consultaform.tipo_consulta }}
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group"></div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    {{ consultaform.consulta_por.label_tag }}
+                    <span class="required-mark">(*)</span>
+                    {{ consultaform.consulta_por }}
+                    <div class="help-block with-errors"></div>
+                </div>
+                <div class="form-group">
+                    {{ consultaform.presenta_enfermedad.label_tag }}
+                    {{ consultaform.presenta_enfermedad }}
+                </div>
+                
+                <div class="form-group">
+                    {{ consultaform.antecedentes_personales.label_tag }}
+                    {{ consultaform.antecedentes_personales }}
+                </div>
+                <div class="form-group">
+                    {{ consultaform.antecedentes_familiares.label_tag }}
+                    {{ consultaform.antecedentes_familiares }}
+                </div>
+                
+                <div class="form-group">
+                    {{ consultaform.exploracion_clinica.label_tag }}
+                    <span class="required-mark">(*)</span>
+                    {{ consultaform.exploracion_clinica }}
+                    <div class="help-block with-errors"></div>
+                </div>
+                <div class="form-group">
+                    {{ consultaform.diagnostico_principal.label_tag }}
+                    {{ consultaform.diagnostico_principal }}
+                </div>
+                <div class="form-group">
+                    {{ consultaform.otros_diagnosticos.label_tag }}
+                    {{ consultaform.otros_diagnosticos }}
+                </div>
+                <div class="form-group">
+                    {{ consultaform.tratamiento.label_tag }}
+                    {{ consultaform.tratamiento }}
+                </div>
+                
+                <div class="form-group">
+                    {{ consultaform.observaciones.label_tag }}
+                    {{ consultaform.observaciones }}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- opciones para la consulta -->
+    <div class="container">
+        <div class="panel panel-info">
+            <div class="panel-body text-center">
+                <a href="{% url 'consulta-inicio' nkey=request.session.pacientenit dkey=request.session.doctorpk %}" class="btn btn-primary" role="button" aria-label="Back">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Volver
+                </a>
+                <button type="submit" class="btn btn-success" aria-label="Floppy">
+                    <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Guardar Consulta
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
+
+{% endblock %}
+
+<!-- script que maneja el autocomplete del campo diagnostico_principal -->
+{% block headscripts %}
+    {% if morbs_list %}
+        <script type="text/javascript">
+            $(document).ready(function () {
+                var morbilidades = [
+                    {% for morb in morbs_list %}
+                        { value: '{{ morb.dec10 }}', data: '{{ morb.id10 }}' },
+                    {% endfor %}
+                ];
+                
+                $('#id_diagnostico_principal').autocomplete({
+                    lookup: morbilidades,
+                });
+            });
+        </script>
+    {% endif %}
+{% endblock %}

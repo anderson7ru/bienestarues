@@ -1,0 +1,73 @@
+<!--
+    name: paciente-busqueda
+    Template para hacer busqueda avanzada de pacientes
+-->
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} Archivo de Expedientes Activos {%endblock%}
+{% block paneltitle %} Pacientes de Bienestar Universitario {% endblock %}
+
+{% block panelcontent%}
+<div class="panel panel-info">
+    <div class="panel-body">
+        <div class="row">
+            <form id="dpa_pacienteBusquedaForm" action="" method="POST">{% csrf_token %}
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {{form.consulta}}
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <input type="submit" class="btn btn-success" value="Buscar"><span class="glyphicons glyphicons-search"></input>
+                </div>
+            </form>
+        </div>
+    </div>   
+</div>
+<div class="panel-body">
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <tr class="success">
+               <th>Codigo</th>
+               <th>Facultad</th>
+               <th>Nombre</th>
+               <th>Apellido</th>
+               <th>Ver</th>
+			   <th>Modificar</th>
+			   <!--<th>Cola</th>-->
+			   <th>Eliminar</th>
+			   <th>Ver Citas Medicas</th>
+            </tr>
+            {% if data %}
+                {% for obj in data %}
+                <tr>
+                    <td>{{obj.codigoPaciente}}</td>
+                    <td>{{obj.facultadE}}</td>
+                    <td>{{obj.nombrePrimero}}</td>
+                    <td>{{obj.apellidoPrimero}}</td>
+                    <td>
+                     <a href="{% url 'datospersonales-view' pk=obj.codigoPaciente %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-th-large"></span></a>
+                 </td>
+                 <td>
+                     <a href="{% url 'datospersonales-update' pk=obj.codigoPaciente %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span></a>
+                 </td>
+                 <td>
+                    <a href="{% url 'datospersonales-delete' pk=obj.codigoPaciente %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-trash"></span></a>
+                 </td>
+                 <td>
+				    <a href="{% url 'pacientecita_list' pk=obj.codigoPaciente %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-time"></span></a>
+				 </td>
+                </tr>
+                {% endfor %}
+
+            {% else %}
+            <tr>
+                <td>NO HAY DATOS QUE MOSTRAR...</td>
+            </tr>
+            {% endif %}
+        </table>
+        <a href="{% url 'datospersonales-list' %}" class="btn btn-primary" style="float: left"><span class="glyphicon glyphicon-list-alt"></span> Ver Lista de Pacientes</a>
+        <a href="{% url 'datospersonales-eliminadoslist' %}" class="btn btn-danger" style="float: right"><span class="glyphicon glyphicon-trash"></span> Listado de eliminados</a>
+    </div>
+</div>
+{% endblock %}

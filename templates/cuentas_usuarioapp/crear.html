@@ -1,0 +1,66 @@
+<!-- Para crear el nuevo usuario -->
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} Gestion de Usuarios {% endblock %}
+{% block paneltitle %} Sistema informatico de Bienestar Universitario {% endblock %}
+
+{% block panelcontent %}
+<form id="crearUsuarioForm" method="POST" role="form">{% csrf_token %}
+	<div class="ayuda" style="text-align:right">
+			<p>(*) campos requeridos </p>
+	</div>
+	<div class="panel panel-info">
+	    <div class="panel-body">
+	    
+	    	<div id="panel1" class="row">
+	    		<div class="col-md-3">
+	    			<label for="username">Nombre de Usuario:</label>
+	    			<span class="ayuda">(*)</span>
+	    			{{form.username}}
+	    		</div>
+	    		<div class="col-md-3">
+	    			<label for="password1">Contrase&ntilde;a:</label>
+	    			<span class="ayuda">(*)</span>
+	    			{{form.password1}}
+	    		</div>
+	    		<div class="col-md-3">
+	    			<label for="password2">Repita Contrase&ntilde;a:</label>
+	    			<span class="ayuda">(*)</span>
+	    			{{form.password2}}
+	    		</div>
+	    	</div>
+	    	<br />
+	    	<div id="panel3" class="row">
+	    		<div class="col-md-3">
+	    			<label for="nombres">Nombres: </label>
+	    			<span class="ayuda">(*)</span>
+	    			{{form.nombres}}
+	    		</div>
+	    		<div class="col-md-3">
+	    			<label for="apellidos">Apellidos:</label>
+	    			<span class="ayuda">(*)</span>
+	    			{{form.apellidos}}
+	    		</div>
+	    		<div class="col-md-3">
+	    			<label for="email">Email:</label>
+	    			<span class="ayuda"></span>
+	    			{{form.email}}
+	    		</div>
+	    	</div>
+	    	<br />
+	    	<div class="panel panel-default">
+	    		<div class="panel-heading">Seleccione el tipo de usuario que sera (puede ser mas de 1)</div>
+	    		<div class="panel-body">
+	    			<div id="panel2" class="row">
+				    		{{form.grupos}}    	
+			    	</div>
+	    		</div>
+	    	</div>
+	    	
+	    	<button id="guardar_psicologia" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
+	    	
+	    	
+	    </div>
+	</div>    
+</form>
+{% endblock %}

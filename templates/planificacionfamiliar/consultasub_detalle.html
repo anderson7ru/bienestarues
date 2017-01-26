@@ -1,0 +1,245 @@
+<!-- 
+name: planificacionfamiliar-subview
+Presenta la consulta subsecuente de una paciente
+!-->
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} Gu&iacute;a de atencion en planificaci&oacute;n familiar {%endblock%}
+{% block paneltitle %} <strong>Expediente: </strong>{{ datos.codigoPaciente }}</span> {%endblock%}
+
+{% block panelcontent %}
+    <div class="panel panel-info">
+        <div class="panel-body"  style="padding-left: 50px; padding-top: 0px;">
+            <h3 class="page-header text-left">CONSULTA SUBSECUENTE</h3>
+			<div class="row">
+				<div class="col-md-4" >
+					No Expediente: 
+					<span class="subrayado">
+						<strong>{{ datos.codigoPaciente }}</strong>
+					</span>
+				</div>
+				<div class="col-md-6" >
+					Fecha:
+					<span class="subrayado">
+						<strong>{{ paciente.fechaIngreso|date:"SHORT_DATE_FORMAT" }}</strong>
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-2" >
+					<span class="subrayado">
+						<strong>{{ datos.apellidoPrimero }}</strong>
+					</span><br>
+					Primer Apellido
+				</div>
+				<div class="col-md-2" >
+					<span class="subrayado">
+						{% if datos.apellidoSegundo %}
+						<strong>{{ datos.apellidoSegundo }}</strong>
+						{% else %}
+						<strong>-----</strong>
+						{% endif %}
+					</span><br>
+					Segundo Apellido
+				</div>
+				<div class="col-md-6" >
+					<span class="subrayado">
+						<strong>{{ datos.nombrePrimero }} {{ datos.nombreSegundo }}</strong>
+					</span><br>
+					Nombres
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-3" >
+					Edad: 
+					<span class="subrayado">
+						<strong>{{ paciente.edad }}</strong>
+					</span>
+					A&ntilde;os
+				</div>
+				<div class="col-md-3" >
+					Peso:
+					<span class="subrayado">
+						<strong>{{ paciente.peso }}</strong>
+					</span>
+					libras
+				</div>
+				<div class="col-md-4" >
+					PA:
+					<span class="subrayado">
+						<strong>{{ paciente.presionArterial }}</strong>
+					</span>
+					mmHg.
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-3" >
+					Metodo utilizado:
+					<span class="subrayado">
+						{% if paciente.metUtilizado  %}
+						<strong>{{ paciente.metUtilizado }}</strong>
+						{% else %}
+						<strong>-----</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-4" >
+					Tiempo de uso:
+					<span class="subrayado">
+						{% if paciente.metTiempo  %}
+						<strong>{{ paciente.metTiempo }}</strong>
+						{% else %}
+						<strong>-----</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-xs-11" >
+					Historia y Hallazgos:
+					<span class="subrayado">
+						{% if paciente.histHallazgos  %}
+						<strong>{{ paciente.histHallazgos }}</strong>
+						{% else %}
+						<strong>-----</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-2" style="padding-right: 0px;" >
+					Continua con el metodo:
+				</div>
+				<div class="col-md-2">
+					<span class="subrayado">
+						{% if paciente.metContinuacion == 'S' %}
+						<strong>Si</strong>
+						{% else %}
+						<strong>No</strong>
+						{% endif %}
+					</span>
+				</div>
+				<div class="col-md-4" >
+					Cambia a:
+					<span class="subrayado">
+						{% if paciente.nombreCambio  %}
+						<strong>{{ paciente.nombreCambio }}</strong>
+						{% else %}
+						<strong>-----</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-xs-10" >
+					Motivo del cambio:
+					<span class="subrayado">
+						{% if paciente.motivoCambio  %}
+						<strong>{{ paciente.motivoCambio }}</strong>
+						{% else %}
+						<strong>-----</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-xs-10" >
+					Diagnostico:
+					<span class="subrayado">
+						{% if paciente.diagnostico  %}
+						<strong>{{ paciente.diagnostico }}</strong>
+						{% else %}
+						<strong>-----</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-5" >
+					Toma PAP
+					<span class="subrayado">
+						{% if paciente.tomaPap == 'S' %}
+						<strong>Si</strong>
+						{% else %}
+						<strong>No</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-5" >
+					Tipo de consulta
+					<span class="subrayado">
+						{% if paciente.tipoConsulta == 'N' %}
+						<strong>Control Normal</strong>
+						{% elif paciente.tipoConsulta == 'M' %}
+						<strong>Morbilidad</strong>
+						{% else %}
+						<strong>Falla de metodo</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-xs-10" >
+					Indicaciones:
+					<span class="subrayado">
+						{% if paciente.indicaciones  %}
+						<strong>{{ paciente.indicaciones }}</strong>
+						{% else %}
+						<strong>-----</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row" style="padding-top: 17px;">
+				<div class="col-md-10" >
+					Fecha de proxima consulta:
+					<span class="subrayado">
+						{% if paciente.fechaProximaConsulta  %}
+						<strong>{{ paciente.fechaProximaConsulta|date:"SHORT_DATE_FORMAT" }}</strong>
+						{% else %}
+						<strong>-----</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-10" >
+					Nombre de persona responsable:
+					<span class="subrayado">
+						{% if paciente.nombreResponsable  %}
+						<strong>{{ paciente.nombreResponsable }}</strong>
+						{% else %}
+						<strong>-----</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-10" >
+					Cargo:
+					<span class="subrayado">
+						{% if paciente.cargo  %}
+							{% if paciente.cargo == 'M' %}
+							<strong>Medico</strong>
+							{% elif paciente.cargo == 'E' %}
+							<strong>Enfermera</strong>
+							{% elif paciente.cargo == 'A' %}
+							<strong>Auxiliar enfermeria</strong>
+							{% else %}
+							<strong>Tecno materno infantil</strong>
+							{% endif %}
+						{% else %}
+						<strong>-----</strong>
+						{% endif %}
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<hr />
+	<div class="col-md-offset-2 col-md-10">
+        <a href="{% url 'planificacionfamiliar-listsub' pk=paciente.pacienteInscrito_id %}" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Volver a la lista</a>
+        </div>
+{%endblock%}

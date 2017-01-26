@@ -1,0 +1,80 @@
+<!-- 
+name: empleados-new y empleados-update
+Vista para la creacion y modificacion de empleados
+!-->
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} Empleados de Bienestar Universitario {% endblock %}
+{% block paneltitle %} Edici&oacute;n de empleado {% endblock %}
+
+{% block panelcontent %}
+<form id="eea_empleadosEditarForm" action="" method="post">{% csrf_token %}
+    <div class="ayuda" style="text-align:right">
+			<p>(*) campos requeridos </p>
+	</div>
+	<div class="panel panel-info">
+        <div class="panel-body" style="padding-left: 20px; padding-top: 0px;">
+            <div class="row">
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.nombrePrimero.label_tag }} 
+						<span class="ayuda"> {{ form.nombrePrimero.help_text }} </span>
+						{{ form.nombrePrimero }} 
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.nombreSegundo.label_tag }}
+						<span class="ayuda"> {{ form.nombreSegundo.help_text }} </span>
+						{{ form.nombreSegundo }}
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.apellidoPrimero.label_tag }} 
+						<span class="ayuda"> {{ form.apellidoPrimero.help_text }} </span>
+						{{ form.apellidoPrimero }} 
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.apellidoSegundo.label_tag }}
+						<span class="ayuda"> {{ form.apellidoSegundo.help_text }} </span>
+						{{ form.apellidoSegundo }}
+					</div>
+				</div>
+            </div>
+			<div class="row">
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.sexo.label_tag }} 
+						<span class="ayuda"> {{ form.sexo.help_text }} </span>
+						{{ form.sexo }} 
+					</div>
+				</div>
+				<div class="col-md-1"></div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.fechaNacimiento.label_tag }}
+						<span class="ayuda"> {{ form.fechaNacimiento.help_text }} </span>
+						{{ form.fechaNacimiento }}
+					</div>
+				</div>
+				<div class="col-md-1"></div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.cargo.label_tag }} 
+						<span class="ayuda"> {{ form.cargo.help_text }} </span>
+						{{ form.cargo }} 
+					</div>
+				</div>
+            </div>
+		</div>
+	</div>
+	
+    <div class="col-md-offset-2 col-md-10">
+      <button id="save_empleado" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
+      <a href="{% url 'empleados-list' %}" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Volver a la lista</a>
+    </div>
+</form>
+{% endblock %}

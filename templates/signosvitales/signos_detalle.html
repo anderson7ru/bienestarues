@@ -1,0 +1,88 @@
+<!-- 
+name: signosvitales-view
+Presenta en detalle los signos vitales de un paciente
+!-->
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} Signos Vitales {%endblock%}
+{% block paneltitle %} <strong>Expediente: </strong>{{ datos.codigoPaciente }} {%endblock%}
+
+{% block panelcontent %}
+    <div class="panel panel-info">
+        <div class="panel-body" style="padding-left: 50px; padding-top: 0px;">
+            <div class="row">
+				<div class="col-md-4" style="padding-top: 17px;">
+					Nombre:
+					<span class="subrayado">
+						<strong>{{ datos.get_full_name}}</strong>
+					</span>
+				</div>
+				<div class="col-md-3" style="padding-top: 17px;">
+					Edad:
+					<span class="subrayado">
+						<strong>{{ signos.edad}}</strong>
+					</span>
+					A&ntilde;os
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4" style="padding-top: 17px;">
+					Fecha de Ingreso:
+					<span class="subrayado">
+						<strong>{{ signos.fechaIngreso|date:"SHORT_DATE_FORMAT" }}</strong>
+					</span>
+				</div>
+				<div class="col-md-5" style="padding-top: 17px;">
+					Hora de Ingreso:
+					<span class="subrayado">
+						<strong>{{ signos.horaIngreso }}</strong>
+					</span>
+				</div>
+			</div>
+			<div class="row" style="padding-top: 17px;" >
+				<div class="col-md-2">
+                    Presion Arterial:
+					<span class="subrayado">
+						<strong>{{ signos.presionArterial }} mmHg</strong>
+					</span>
+                </div>
+                <div class="col-md-2">
+                    Frecuencia Cardiaca:
+					<span class="subrayado">
+						<strong>{{ signos.frecuenciaCardiaca }} lat/min</strong>
+					</span>
+                </div>
+                <div class="col-md-2">
+                    Temperatura:
+					<span class="subrayado">
+						<strong>{{ signos.temperatura }} &ordm;C</strong>
+					</span>
+                </div>
+				<div class="col-md-2">
+                    Peso:
+					<span class="subrayado">
+						<strong>{{ signos.peso }} Lb</strong>
+					</span>
+                </div>
+                <div class="col-md-2">
+                    Talla:
+					<span class="subrayado">
+						<strong>{{ signos.talla }} m</strong>
+					</span>
+                </div>
+				{% if signos.frecuenciaRespiratoria %}
+                <div class="col-md-2">
+                     Frecuencia Respiratoria:
+					 <span class="subrayado">
+						<strong>{{ signos.frecuenciaRespiratoria }} resp/min</strong>
+					</span>
+                </div>
+                {% endif %}
+            </div>
+		</div>
+	</div>
+	<hr />
+	<div class="col-md-offset-2 col-md-10">
+        <a href="{% url 'signosvitales-list' %}" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Volver a la lista</a>
+        </div>
+{%endblock%}

@@ -1,0 +1,298 @@
+<!-- 
+name: psicologia-view
+Presenta en detalle la ficha de identificacion de un expediente de psicologia para determinado paciente
+!-->
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} Ficha de identificaci&oacute;n del expediente de Psicologia {%endblock%}
+{% block paneltitle %} <strong>Expediente: </strong>{{ paciente.codigoPaciente }} {%endblock%}
+
+{% block panelcontent %}
+<div class="panel panel-info">
+    <div class="panel-body">
+        <h3 class="page-header text-center">I- Datos Personales</h3>
+        
+        <div class="row" id="nombre">
+				<div class="col-md-3">
+					<div style="text-align:center;">
+						<strong>{{ paciente.nombrePrimero }}</strong><br />
+						<span class="up">Primer Nombre</span>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div style="text-align:center;">
+						{% if paciente.nombreSegundo %}
+						<strong>{{ paciente.nombreSegundo }}</strong><br />
+						{% else %}
+						<strong>---------</strong><br />
+						{% endif %}
+						<span class="up">Segundo Nombre</span>
+					</div>
+				</div>
+				<div class="col-md-3" >
+					<div style="text-align:center;">
+						<strong>{{ paciente.apellidoPrimero }}</strong><br />
+						<span class="up">Primer Apellido</span>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div style="text-align:center;">
+						{% if paciente.apellidoSegundo %}
+						<strong>{{ paciente.apellidoSegundo }}</strong><br />
+						{% else %}
+						<strong>---------</strong><br />
+						{% endif %}
+						<span class="up">Segundo Apellido</span>
+					</div>
+				</div>
+        </div>
+        <br /><br />
+        <div class="row" id="edad" style="text-align:center;">
+            <div class="col-md-3">
+                Edad:
+                <span class="subrayado"><strong>{{paciente.edad_paciente}}</strong></span>
+            </div>
+            <div class="col-md-3">
+                Sexo:
+					<span class="subrayado">
+						{% if paciente.sexo == 'F' %}
+						<strong>Femenino</strong>
+						{% else %}
+						<strong>Masculino</strong>
+						{% endif %}
+					</span>
+            </div>
+            <div class="col-md-3">
+                Estado Civil:
+					<span class="subrayado">
+						{% if paciente.sexo == 'F' %}
+    						{% if paciente.estadoCivil == 'CASADO' %}
+    						<strong>CASADA</strong>
+    						{% elif paciente.estadoCivil == 'DIVORCIADO' %}
+    						<strong>DIVORCIADA</strong>
+    						{% elif paciente.estadoCivil == 'ACOMPANADO' %}
+    						<strong>ACOMPANADA</strong>
+    						{% elif paciente.estadoCivil == 'VIUDO' %}
+    						<strong>VIUDA</strong>
+    						{% else %}
+    						<strong>SOLTERA</strong>
+    						{% endif %}
+						{% else %}
+						<strong>{{ paciente.estadoCivil }}</strong>
+						{% endif %}
+					</span>
+            </div>
+            <div class="col-md-3">
+                Numero de Hijos:
+                <span class="subrayado">
+                    <strong>{{ psico.numero_hijos }}</strong>
+                </span>
+            </div>
+        </div>
+        <br /><br />
+        <div class="row" style="text-align:center;">
+            <div class="col-md-6">
+                Direccion:
+                <span class="subrayado">
+                    <strong>{{paciente.direccion}}, {{paciente.codMunicipio}}, {{paciente.codDepartamento}}</strong>
+                </span>
+            </div>
+            <div class="col-md-4">
+                Profesion u Ocupacion:
+                <span class="subrayado">
+                    <strong>{{psico.profesion}}</strong>
+                </span>
+            </div>
+        </div>
+        <br /><br />
+        {% if paciente.nombrePadre or paciente.nombreMadre %}
+        <div class="row" style="text-align:center;">
+            {% if  paciente.nombrePadre %}
+            <div class="col-md-5">
+                Nombre del Padre: 
+                <span class="subrayado">
+                    <strong>{{paciente.nombrePadre}}</strong>
+                </span>
+            </div>
+            {% endif %}
+            {% if  paciente.nombreMadre %}
+            <div class="col-md-5">
+                Nombre de la Madre: 
+                <span class="subrayado">
+                    <strong>{{paciente.nombreMadre}}</strong>
+                </span>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+        <br />
+        <div class="row" style="text-align:center;" id="responsable">
+            <div class="col-md-3">
+                Responsable:
+                <span class="subrayado">
+                    <strong>{{paciente.emergencia}}</strong>
+                </span>
+            </div>
+            <div class="col-md-6">
+                Direccion del Responsable:
+                <span class="subrayado">
+                    <strong>{{psico.direccionResponsable}}</strong>
+                </span>
+            </div>
+            <div class="col-md-3">
+                Telefono :
+                <span class="subrayado">
+                    <strong>{{paciente.telefonoEmergencia}}</strong>
+                </span>
+            </div>
+        </div>
+        <br /><br />
+        <div class="row" style="text-align:center;" id="fechaPrimeraC">
+            <div class="col-md-6">
+                Fecha de la Primera Consulta:
+                <span class="subrayado">
+                    <strong>{{psico.fecha_primeraConsulta}}</strong>
+                </span>
+            </div>
+            <div class="col-md-6">
+                Referido Por:
+                <span class="subrayado">
+                    {% if sexoD == 'F' %}
+                    <strong>Dra. {{psico.referido}}</strong>
+                    {% else %}
+                    <strong>Dr. {{psico.referido}}</strong>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+        <br /><br />
+        <div class="row" style="text-align:center;" id="fechahoy">
+            <div class="col-md-4">
+                Fecha:
+                <span class="subrayado">
+                    <strong>{{ psico.fecha}} </strong>
+                </span>
+            </div>
+            <div class="col-md-4">
+                Religion que profesa:
+                <span class="subrayado">
+                    <strong>{{psico.religion}}</strong>
+                </span>
+            </div>
+            <div class="col-md-4">
+                Cuantos Componen la Familia:
+                <span class="subrayado">
+                    <strong>{{psico.familia}}</strong>
+                </span>
+            </div>
+        </div>
+        <br /><br />
+        <div class="row" style="text-align:center;" id="motivo">
+            <div class="col-md-12">
+                <h3 class="page-header text-center">II- Motivo de la Consulta:</h3>
+                <span class="subrayado">
+                    <strong>{{psico.motivo}}</strong>
+                </span>
+            </div>
+        </div>
+        <br /><br />
+        {%if usuario.id == 2%} 
+        <div class="row" style="text-align:center;" id="antecedentes">
+            <div class="col-md-12">
+                <h3 class="page-header text-center">III- Antecedentes del Problema:</h3>
+                <span class="subrayado">
+                    <strong>{{psico.antecedentes}}</strong>
+                </span>
+            </div>
+        </div>
+        {%endif%}
+        <h3 class="page-header text-center">IV- Observaciones</h3>
+        <div class="row" style="text-align:center;" id="observaciones">
+            <div class="col-md-7">
+                Apariencia Externa:
+                <span class="subrayado">
+                    <strong>{{psico.apariencia}}</strong>
+                </span>
+            </div>
+            <div class="col-md-5">
+                Voz:
+                <span class="subrayado">
+                    <strong>{{psico.voz}}</strong>
+                </span>
+            </div>
+        </div>
+        <br /><br />
+        <div class="row" style="text-align:center;" id="patrones">
+            <div class="col-md-4">
+                Patrones de Habla:
+                <span class="subrayado">
+                    <strong>{{psico.patrones}}</strong>
+                </span>
+            </div>
+            <div class="col-md-4">
+                Expresiones Faciales:
+                <span class="subrayado">
+                    <strong>{{psico.expresionesF}}</strong>
+                </span>
+            </div>
+            <div class="col-md-4">
+                Ademanes:
+                <span class="subrayado">
+                    <strong>{{psico.ademanes}}</strong>
+                </span>
+            </div>
+        </div>
+        <br /><br />
+        <div class="row" style="text-align:center;" id="actitudes_tx">
+            <div class="col-md-12">
+                Actitudes Hacia el TX:
+                <span class="subrayado">
+                    <strong>{{psico.actitudes_tx}}</strong>
+                </span>
+            </div>
+        </div>
+        <br /><br />
+        <div class="row" style="text-align:center;" id="impresion_dx">
+            <div class="col-md-12">
+                <h3 class="page-header text-center">V- Impresion DX:</h3>
+                <span class="subrayado">
+                    <strong>{{psico.impresion_dx}}</strong>
+                </span>
+            </div>
+        </div>
+        <br /><br />
+        <div class="row" style="text-align:center;" id="plan_tx">
+            <div class="col-md-12">
+                <h3 class="page-header text-center">VI- Plan de TX:</h3>
+                <span class="subrayado">
+                    <strong>{{psico.plan_tx}}</strong>
+                </span>
+            </div>
+        </div>
+        <br /><br />
+        <div class="row" style="text-align:center;" id="pronostico">
+            <div class="col-md-12">
+                <h3 class="page-header text-center">VII- Pronostico:</h3>
+                <span class="subrayado">
+                    <strong>{{psico.pronostico}}</strong>
+                </span>
+            </div>
+        </div>
+        <br /><br />
+        <div class="row" style="text-align:center;" id="fechaProxCita">
+            <div class="col-md-4">
+                Fecha de Proxima Cita:
+                <span class="subrayado">
+                    <strong>{{psico.fecha_proximaCita}}</strong>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-10 operaciones">
+    <a href="{% url 'psicologia-list' %}" class="btn btn-primary"><span class="glyphicon glyphicon-arrow-left"></span> Volver a la lista de Pacientes</a>
+<a href="{% url 'procesoterapeutico-new' paciente=paciente.codigoPaciente%}" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Crear Proceso Terapeutico</a>
+<a href="{% url 'psicologiapdf-create' paciente=paciente.codigoPaciente%}" class="btn btn-info" target="blank"><span class="glyphicon glyphicon-print"></span> Crear PDF</a>
+</div>
+
+{% endblock %}

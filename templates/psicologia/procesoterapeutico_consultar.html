@@ -1,0 +1,65 @@
+<!-- 
+name: procesoterapeutico-view
+Presenta en detalle la ficha del Proceso terapeutico de psicologia para determinado paciente
+!-->
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} Proceso Terapeutico {%endblock%}
+{% block paneltitle %} <strong>Expediente: </strong>{{ paciente.codigoPaciente }} {%endblock%}
+
+{% block panelcontent %}
+<div class="row">
+    <div class="col-md-4">
+        Paciente:
+        <span class="subrayado">
+            {{paciente.nombrePrimero}} {{paciente.apellidoPrimero}}
+        </span>
+    </div>
+    <div class="col-md-4">
+        Psicologo:
+        <span class="subrayado"><!--Se requiere de la gestion de usuarios para jalar el nombre del psicologo-->
+            {{ usuario.first_name }} {{ usuario.last_name }}
+        </span>
+    </div>
+</div>
+<br />
+<div class="table-responsive">
+    <table class="table table-hover" border=1>
+    <tr class="success" border=1>
+        <th style="text-align:center;">Fecha</th>
+        <th style="text-align:center;">Objetivo Terapeutico</th>
+        <th style="text-align:center;">Tecnicas</th>
+        <th style="text-align:center;">Observaciones</th>
+        <th style="text-align:center;">Crear Registro de Avance</th>
+        <th style="text-align:center;">Ver Registro de Avance</th>
+    </tr>
+    {% for item in proc %}
+    <tr style="text-align:center;">
+        <td>{{item.fecha|date:"SHORT_DATE_FORMAT"}}</td>
+        <td>{{item.objetivo}}</td>
+        {% if item.tecnicas == 'conv' %}
+        <td>Conv. Terapeutica</td>
+        {% elif item.tecnicas == 'observacion' %}
+        <td>Observacion</td>
+        {% elif item.tecnicas == 'entrevista' %}
+        <td>Entrevista</td>
+        {% elif item.tecnicas == 'prueba' %}
+        <td>Prueba Pca</td>
+        {% elif item.tecnicas == 'relajacion' %}
+        <td>Tecnica de relajacion</td>
+        {% else %}
+        <td>Musicoterapia</td>
+        {% endif %}
+        <td>{{item.observaciones}}</td>
+        <td><a href="{% url 'registroavance-new' proceso=item.codProcesoTerapeutico %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-comment"></span></a></td>
+        <td><a href="{% url 'registroavance-view' proceso=item.codProcesoTerapeutico %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-th-large"></span></a></td>
+    </tr>
+    {% endfor %}
+</table>    
+</div>
+<div class="col-md-offset-4 col-md-4 operaciones">
+    <a href="{% url 'psicologia-list' %}" class="btn btn-primary"><span class="glyphicon glyphicon-arrow-left"></span> Volver a la lista de Pacientes</a>
+    <a href="{% url 'procesoterapeuticopdf-create' paciente=paciente.codigoPaciente %}" class="btn btn-info" target="blank"><span class="glyphicon glyphicon-print"></span> Generar Archivo PDF</a>
+</div>
+
+{% endblock %}

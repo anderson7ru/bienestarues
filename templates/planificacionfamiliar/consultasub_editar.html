@@ -1,0 +1,217 @@
+<!-- 
+name: planificacionfamiliar-subnew
+Presenta el formulario para la creacion de consultas subsecuentes
+!-->
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} Gu&iacutea de Atenci&oacuten en Planificaci&oacute;n Familiar {%endblock%}
+{% block paneltitle %} Consulta Subsecuente {% endblock %}
+
+{% block panelcontent%}
+<form id="pfa_consultasubEditarForm" action="" method="post">{% csrf_token %}
+    <div class="ayuda" style="text-align:right">
+		<p>(*) campos requeridos </p>
+	</div>
+	<div class="panel panel-info">
+        <div class="panel-body" style="padding-left: 20px; padding-top: 25px;">
+            <div class="row">
+				<div class="col-md-1" >
+					<label>Paciente </label>
+				</div>
+				<div class="col-md-2" >
+					<input class="form-control" type="text" value="{{ datos.codigoPaciente }}" READONLY/>
+				</div>
+				<div class="col-md-2"></div>
+				<div class="col-md-1">
+					<label>Fecha</label>
+				</div>
+				<div class="col-md-3">
+					<input class="form-control" type="text" value="{% now 'SHORT_DATE_FORMAT' %}" READONLY/>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-1" >
+					<label>Nombre </label>
+				</div>
+				<div class="col-md-5" >
+					<input class="form-control" type="text" value="{{ datos.get_full_name }}" READONLY/>
+				</div>
+				<div class="col-md-1" >
+					<label>Edad </label>
+				</div>
+				<div class="col-md-2" >
+					<input class="form-control" type="text" value="{{ datos.edad_paciente }} A&ntilde;os" READONLY/>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 17px;">
+				<div class="col-md-1" style="padding-right: 0px;">
+					{{ form.peso.label_tag }}
+					<span class="ayuda"> {{ form.peso.help_text }} </span>
+				</div>
+				<div class="col-md-2" >
+					<div class="form-group">
+						{{ form.peso }}
+					</div>
+				</div>
+				<div class="col-md-2" ></div>
+				<div class="col-md-1" >
+					{{ form.presionArterial.label_tag }}
+					<span class="ayuda"> {{ form.presionArterial.help_text }} </span>
+				</div>
+				<div class="col-md-2" >
+					<div class="form-group">
+						{{ form.presionArterial }}
+					</div>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 7px;">
+				<div class="col-md-2" style="padding-right: 0px;">
+					{{ form.metUtilizado.label_tag }}
+					<span class="ayuda"> {{ form.metUtilizado.help_text }} </span>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group">
+						{{ form.metUtilizado }}
+					</div>
+				</div>
+				<div class="col-md-2" >
+					{{ form.metTiempo.label_tag }}
+					<span class="ayuda"> {{ form.metTiempo.help_text }} </span>
+				</div>
+				<div class="col-md-2" >
+					<div class="form-group">
+						{{ form.metTiempo }}
+					</div>
+				</div>
+				<div class="col-md-1" style="padding-left:0px;">
+					semanas
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 7px;">
+				<div class="col-md-3" >
+					{{ form.histHallazgos.label_tag }}
+					<span class="ayuda"> {{ form.histHallazgos.help_text }} </span>
+				</div>
+				<div class="col-md-5" >
+					<div class="form-group">
+						{{ form.histHallazgos }}
+					</div>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 7px;">
+				<div class="col-md-3" >
+					{{ form.metContinuacion.label_tag }}
+					<span class="ayuda"> {{ form.metContinuacion.help_text }} </span>
+				</div>
+				<div class="col-md-2" >
+					{% for radio in form.metContinuacion %}
+					<span> {{ radio }} </span>
+					{% endfor %}
+				</div>
+				<div class="col-md-1"  style="padding-right: 0px;padding-left: 0px;">
+					{{ form.nombreCambio.label_tag }}
+					<span class="ayuda"> {{ form.nombreCambio.help_text }} </span>
+				</div>
+				<div class="col-md-3" >
+					<div class="form-group">
+						{{ form.nombreCambio }}
+					</div>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 7px;">
+				<div class="col-md-2" style="padding-right: 0px;">
+					{{ form.motivoCambio.label_tag }}
+					<span class="ayuda"> {{ form.motivoCambio.help_text }} </span>
+				</div>
+				<div class="col-md-7" >
+					<div class="form-group">
+						{{ form.motivoCambio }}
+					</div>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 7px;">
+				<div class="col-md-2" >
+					{{ form.diagnostico.label_tag }}
+					<span class="ayuda"> {{ form.diagnostico.help_text }} </span>
+				</div>
+				<div class="col-md-7" >
+					<div class="form-group">
+						{{ form.diagnostico }}
+					</div>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 7px;">
+				<div class="col-md-3" >
+					<div class="form-group">
+						{{ form.tomaPap.label_tag }}
+						<span class="ayuda"> {{ form.tomaPap.help_text }} </span>
+						{% for radio in form.tomaPap %}
+						<span>&nbsp;&nbsp;&nbsp;&nbsp; {{ radio }} </span>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 7px;">
+				<div class="col-md-10" >
+					<div class="form-group">
+						{{ form.tipoConsulta.label_tag }}
+						<span class="ayuda"> {{ form.tipoConsulta.help_text }} </span>
+						{% for radio in form.tipoConsulta %}
+						<span>&nbsp;&nbsp;&nbsp;&nbsp; {{ radio }} </span>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 7px;">
+				<div class="col-md-2" >
+					{{ form.indicaciones.label_tag }}
+					<span class="ayuda"> {{ form.indicaciones.help_text }} </span>
+				</div>
+				<div class="col-md-7" style="padding-left: 25px;">
+					<div class="form-group">
+						{{ form.indicaciones }}
+					</div>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 7px;">
+				<div class="col-md-3" >
+					{{ form.fechaProximaConsulta.label_tag }}
+					<span class="ayuda"> {{ form.fechaProximaConsulta.help_text }} </span>
+				</div>
+				<div class="col-md-4" >
+					<div class="form-group">
+						{{ form.fechaProximaConsulta }}
+					</div>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 7px;">
+				<div class="col-md-3" >
+					{{ form.nombreResponsable.label_tag }}
+					<span class="ayuda"> {{ form.nombreResponsable.help_text }} </span>
+				</div>
+				<div class="col-md-4" >
+					<div class="form-group">
+						{{ form.nombreResponsable }}
+					</div>
+				</div>
+			</div>
+			<div class="row"  style="padding-top: 7px;">
+				<div class="col-md-3" >
+					{{ form.cargo.label_tag }}
+					<span class="ayuda"> {{ form.cargo.help_text }} </span>
+				</div>
+				<div class="col-md-4" >
+					<div class="form-group">
+						{{ form.cargo }}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+		
+    <div class="col-md-offset-2 col-md-10">
+       <button id="save_inscripcionplanificacion" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
+       <a href="{% url 'planificacionfamiliar-listsub' pk=principal.pk %}" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Volver a la lista</a>
+    </div>
+    </form>
+{%endblock%}

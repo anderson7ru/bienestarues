@@ -1,0 +1,41 @@
+<!-- 
+name: paciente-list
+Presenta un listado de los pacientes que poseen consultas en bienestar universitario
+!-->
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} Citas Medicas {%endblock%}
+{% block paneltitle %} Pacientes con consultas en Bienestar Universitario {% endblock %}
+
+{% block panelcontent%}
+<div class="table-responsive">
+	{% if datospaciente %}
+	{% for i in datoFacult %}
+	    <h4 id="subtitulo">{{ i.1 }}</h4>
+		<table class="table table-hover" id="pacientelist">
+			<tr class="success">
+				<th>Codigo</th>
+				<th>Nombre</th>
+				<th>Apellido</th>
+				<th class="opciones">Ver Citas</th>
+			</tr>
+			{% for paciente in datospaciente %}
+			  {% if i.0 == paciente.3 %}
+			  <tr>
+				 <td>{{ paciente.0 }}</td>
+				 <td>{{ paciente.1}}</td>
+				 <td>{{ paciente.2}}</td>
+				 <td class="opciones">
+					<a href="{% url 'pacientecita_list' pk=paciente.0 %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-th-list"></span></a>
+				 </td>
+			  </tr>
+			  {% endif %}
+		   {% endfor %}
+		</table>
+	{% endfor %}
+   {% else %}
+	   <h3 id="vacio1"> NO HAY PACIENTES PENDIENTES </h3>
+   {% endif %}
+	<a href="{% url 'doctor-list' %}" class="btn btn-primary" style="float: right"><span class="glyphicon glyphicon-list-alt"></span> Volver al Listado de Doctores</a>
+</div>
+{% endblock %}

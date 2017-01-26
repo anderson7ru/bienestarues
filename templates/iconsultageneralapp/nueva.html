@@ -1,0 +1,429 @@
+{% extends "layouts/beta.html" %}
+
+{% block content %}
+<form data-toggle="validator" role="form" action="" method="post">
+    {% csrf_token %}
+    
+    <div class="container">
+        <h1 class="page-header text-center">Datos Personales</h1>
+    </div>
+    <div class="container">
+        <div class="panel panel-info">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            {{ datospersonalesform.num_expediente.label_tag }}
+                            <input class="form-control" id="id_num_expediente" name="num_expediente" type="text" value="{{ paciente.codigoPaciente }}" disabled>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            {{ datospersonalesform.nombre_paciente.label_tag }}
+                            <input class="form-control" id="id_nombre_paciente" name="nombre_paciente" type="text" value="{{ paciente.get_full_name }}" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            {{ datospersonalesform.fecha_nacimiento_paciente.label_tag }}
+                            <input class="form-control" id="id_fecha_nacimiento_paciente" name="fecha_nacimiento_paciente" type="text" value="{{ paciente.fechaNacimiento }}" disabled>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            {{ datospersonalesform.sexo_paciente.label_tag }}
+                            <input class="form-control" id="id_sexo_paciente" name="sexo_paciente" type="text" value="{{ paciente.sexo }}" disabled>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            {{ datospersonalesform.edad_paciente.label_tag }}
+                            <input class="form-control" id="id_edad_paciente" name="edad_paciente" type="text" value="{{ paciente.edad_paciente }}" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            {{ datospersonalesform.domicilio_paciente.label_tag }}
+                            <input class="form-control" id="id_domicilio_paciente" name="domicilio_paciente" type="text" value="{{ paciente.direccion }}" disabled>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            {{ datospersonalesform.telefono_paciente.label_tag }}
+                            <input class="form-control" id="id_telefono_paciente" name="telefono_paciente" type="text" value="{{ paciente.telefono }}" disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <h1 class="page-header text-center">Signos Vitales</h1>
+    </div>
+    <div class="container">
+        <div class="panel panel-info">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {{ signosvitalesform.presion_arterial_paciente.label_tag }}
+                                    <div class="input-group">
+                                        <input aria-describedby="id_presion_arterial_paciente_addon" class="form-control" id="id_presion_arterial_paciente" name="presion_arterial_paciente" type="text" value="{{ signos.presionArterial }}" disabled>
+                                        <span class="input-group-addon" id="id_presion_arterial_paciente_addon">mmHg</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {{ signosvitalesform.frecuencia_cardiaca_paciente.label_tag }}
+                                    <div class="input-group">
+                                        <input aria-describedby="id_presion_arterial_paciente_addon" class="form-control" id="id_frecuencia_cardiaca_paciente" name="frecuencia_cardiaca_paciente" type="text" value="{{ signos.frecuenciaCardiaca }}" disabled>
+                                        <span class="input-group-addon" id="id_frecuencia_cardiaca_paciente_addon">lat/min</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {{ signosvitalesform.frecuencia_respiratoria_paciente.label_tag }}
+                                    <div class="input-group">
+                                        <input aria-describedby="id_presion_arterial_paciente_addon" class="form-control" id="id_frecuencia_respiratoria_paciente" name="frecuencia_respiratoria_paciente" type="text" value="{{ signos.frecuenciaRespiratoria }}" disabled>
+                                        <span class="input-group-addon" id="id_frecuencia_respiratoria_paciente_addon">resp/min</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {{ signosvitalesform.temperatura_paciente.label_tag }}
+                                    <div class="input-group">
+                                        <input aria-describedby="id_presion_arterial_paciente_addon" class="form-control" id="id_temperatura_paciente" name="temperatura_paciente" type="text" value="{{ signos.temperatura }}" disabled>
+                                        <span class="input-group-addon" id="id_temperatura_paciente_addon">°C</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {{ signosvitalesform.peso_paciente.label_tag }}
+                                    <div class="input-group">
+                                        <input aria-describedby="id_presion_arterial_paciente_addon" class="form-control" id="id_peso_paciente" name="peso_paciente" type="text" value="{{ signos.peso }}" disabled>
+                                        <span class="input-group-addon" id="id_peso_paciente_addon">kg</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {{ signosvitalesform.talla_paciente.label_tag }}
+                                    <div class="input-group">
+                                        <input aria-describedby="id_presion_arterial_paciente_addon" class="form-control" id="id_talla_paciente" name="talla_paciente" type="text" value="{{ signos.talla }}" disabled>
+                                        <span class="input-group-addon" id="id_talla_paciente_addon">m</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <h1 class="page-header text-center">Consulta General</h1>
+    </div>
+    <div class="container">
+        <div class="panel panel-info">
+            <div class="panel-body">
+                <div class="form-group">
+                    {{ consultaform.num_expediente.label_tag }}
+                    {{ consultaform.num_expediente }}
+                    <div class="help-block with-errors"></div>
+                </div>
+                <div class="form-group">
+                    {{ consultaform.num_doctor.label_tag }}
+                    {{ consultaform.num_doctor }}
+                    <div class="help-block with-errors"></div>
+                </div>
+                <div class="form-group">
+                    {{ consultaform.consulta_por.label_tag }}
+                    {{ consultaform.consulta_por }}
+                    <div class="help-block with-errors"></div>
+                </div>
+                <div class="form-group">
+                    {{ consultaform.presenta_enfermedad.label_tag }}
+                    {{ consultaform.presenta_enfermedad }}
+                </div>
+                <div class="form-group">
+                    {{ consultaform.antecedentes_personales.label_tag }}
+                    {{ consultaform.antecedentes_personales }}
+                </div>
+                <div class="form-group">
+                    {{ consultaform.antecedentes_familiares.label_tag }}
+                    {{ consultaform.antecedentes_familiares }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ consultaform.examen_fisico.id_for_label }}">Examen f&iacute;sico:</label>
+                    {{ consultaform.examen_fisico }}
+                    <div class="help-block with-errors"></div>
+                </div>
+                <div class="form-group">
+                    <label for="{{ consultaform.diagnostico.id_for_label }}">Diagn&oacute;stico:</label>
+                    {{ consultaform.diagnostico }}
+                    <div class="help-block with-errors"></div>
+                </div>
+                <div class="form-group">
+                    {{ consultaform.tratamiento.label_tag }}
+                    {{ consultaform.tratamiento }}
+                    <div class="help-block with-errors"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <h1 class="page-header text-center">Receta M&eacute;dica</h1>
+    </div>
+    <div class="container">
+        {{ recetaformset.management_form }}
+        {% for magicform in recetaformset %}
+            {{ magicform.id }}
+            <div class="panel panel-info">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                {{ magicform.num_expediente.label_tag }}
+                                {{ magicform.num_expediente }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                {{ magicform.num_doctor.label_tag }}
+                                {{ magicform.num_doctor }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="{{ magicform.nombre_medicamento.id_for_label }}">Nombre del medicamento:</label>
+                                {{ magicform.nombre_medicamento }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="{{ magicform.concentracion_medicamento.id_for_label }}">Concentraci&oacute;n:</label>
+                                {{ magicform.concentracion_medicamento }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="{{ magicform.cantidad_total_prescrita_medicamento.id_for_label }}">Cantidad total:</label>
+                                {{ magicform.cantidad_total_prescrita_medicamento }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="{{ magicform.forma_farmaceutica_medicamento.id_for_label }}">Forma farmac&eacute;utica:</label>
+                                {{ magicform.forma_farmaceutica_medicamento }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="{{ magicform.via_administracion_medicamento.id_for_label }}">V&iacute;a de administraci&oacute;n:</label>
+                                {{ magicform.via_administracion_medicamento }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="{{ magicform.dosis_medicamento.id_for_label }}">Dosis:</label>
+                                {{ magicform.dosis_medicamento }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="container">
+        <h1 class="page-header text-center">Laboratorio Cl&iacute;nico</h1>
+    </div>
+    <div class="container">
+        {{ laboratorioformset.management_form }}
+        {% for magicform in laboratorioformset %}
+            {{ magicform.id }}
+            <div class="panel panel-info">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                {{ magicform.num_expediente.label_tag }}
+                                {{ magicform.num_expediente }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                {{ magicform.num_doctor.label_tag }}
+                                {{ magicform.num_doctor }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                {{ magicform.tipo_examen }}
+                                <select id="{{ magicform.tipo_examen.id_for_label }}" name="{{ magicform.tipo_examen.html_name }}" class="form-control" maxlength="">
+                                    <option value="">-----</option>
+                                    <option value="hematologia"></option>
+                                    <option value="orina"></option>
+                                    <option value="heces"></option>
+                                    <option value="quimica-sanguinea"></option>
+                                    <option value="inmunologia"></option>
+                                </select>
+                                
+                                
+                                
+                                
+                                
+                                
+                                {{ magicform.tipo_examen.label_tag }}
+                                {{ magicform.tipo_examen.name }}
+                                {{ magicform.tipo_examen.id_for_label }}
+                                <select id="mark" name="mark" class="form-control">
+                                    <option value="">--</option>
+                                    <option value="bmw">BMW</option>
+                                    <option value="audi">Audi</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                {{ magicform.examen_ordenado }}
+                                <select id="{{ magicform.examen_ordenado.id_for_label }}" name="{{ magicform.examen_ordenado.html_name }}" class="form-control">
+                                    <option value="">-----</option>
+                                    <option value="" class="hematologia"></option>
+                                    <option value="" class="hematologia"></option>
+                                    <option value="" class="hematologia"></option>
+                                    <option value="" class="hematologia"></option>
+                                    <option value="" class="hematologia"></option>
+                                    <option value="" class="hematologia"></option>
+                                    <option value="" class="hematologia"></option>
+                                    <option value="" class="hematologia"></option>
+                                    <option value="" class="hematologia"></option>
+                                    <option value="" class="hematologia"></option>
+                                    
+                                    <option value="" class="orina"></option>
+                                    <option value="" class="orina"></option>
+                                    
+                                    <option value="" class="heces"></option>
+                                    
+                                    <option value="" class="quimica-sanguinea"></option>
+                                    <option value="" class="quimica-sanguinea"></option>
+                                    <option value="" class="quimica-sanguinea"></option>
+                                    <option value="" class="quimica-sanguinea"></option>
+                                    <option value="" class="quimica-sanguinea"></option>
+                                    <option value="" class="quimica-sanguinea"></option>
+                                    <option value="" class="quimica-sanguinea"></option>
+                                    <option value="" class="quimica-sanguinea"></option>
+                                    <option value="" class="quimica-sanguinea"></option>
+                                    <option value="" class="quimica-sanguinea"></option>
+                                    <option value="" class="quimica-sanguinea"></option>
+                                    <option value="" class="quimica-sanguinea"></option>
+                                    
+                                    <option value="" class="inmunologia"></option>
+                                    <option value="" class="inmunologia"></option>
+                                    <option value="" class="inmunologia"></option>
+                                    <option value="" class="inmunologia"></option>
+                                    <option value="" class="inmunologia"></option>
+                                </select>
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                <select id="series" name="series" class="form-control">
+                                    <option value="">--</option>
+                                    <option value="series-3" class="bmw">3 series</option>
+                                    <option value="series-5" class="bmw">5 series</option>
+                                    <option value="series-6" class="bmw">6 series</option>
+                                    <option value="a3" class="audi">A3</option>
+                                    <option value="a4" class="audi">A4</option>
+                                    <option value="a5" class="audi">A5</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="container">
+        <h1 class="page-header text-center">Referencia</h1>
+    </div>
+    <div class="container">
+        <div class="panel panel-info">
+            <div class="panel-body">
+                <div class="form-group">
+                    {{ referenciaform.referido_a.label_tag }}
+                    {{ referenciaform.referido_a }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ referenciaform.nombre_paciente.id_for_label }}">Por medio de la presente remitole a:</label>
+                    {{ referenciaform.nombre_paciente }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ referenciaform.tipo_paciente.id_for_label }}">Paciente de este centro de salud universitario:</label>
+                    {{ referenciaform.tipo_paciente }}
+                </div>
+                <div class="form-group">
+                    {{ referenciaform.procedencia_paciente.label_tag }}
+                    {{ referenciaform.procedencia_paciente }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ referenciaform.motivo_referencia.id_for_label }}">Motivo:</label>
+                    {{ referenciaform.motivo_referencia }}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="panel panel-info">
+            <div class="panel-body text-center">
+                <button type="submit" class="btn btn-success">Guardar Consulta</button>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}

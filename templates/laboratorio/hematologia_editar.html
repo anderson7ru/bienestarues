@@ -1,0 +1,301 @@
+<!-- 
+name: hematologia-new y hematologia-update
+Vista para la creacion y modificacion de examen de laboratorio de hematologia
+!-->
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} LABORATORIO CLINICO {% endblock %}
+{% block paneltitle %} EXAMEN DE HEMATOLOGIA {% endblock %}
+
+{% block panelcontent %}
+<form id="hematologia" action="" enctype="multipart/form-data" method="post">{% csrf_token %}
+ <script type="text/javascript"> 
+       
+ </script>
+	<div class="row" >
+		<div class="col-md-3" style="padding-top: 0px;">
+			<div class="form-group">
+				<div class="input-group">
+						<label for="l_eleccion" ><strong>&nbsp&nbspSUBIR ARCHIVO:&nbsp&nbsp</strong></label>
+	    				<input type="checkbox" id="l_eleccion" value="cargarArchivo"  name="eleccion" onclick="hematocrito.disabled=!hematocrito.disabled; neutrofilos.disabled=!neutrofilos.disabled;
+	    				hemoglobina.disabled=!hemoglobina.disabled; linfocitos.disabled=!linfocitos.disabled; eritrosedimentacion.disabled=!eritrosedimentacion.disabled;
+	    				gotaGruesa.disabled=!gotaGruesa.disabled; globulosBlancos.disabled=!globulosBlancos.disabled; globulosRojos.disabled=!globulosRojos.disabled; 
+	    				monocitos.disabled=!monocitos.disabled; eosinofilos.disabled=!eosinofilos.disabled; basofilos.disabled=!basofilos.disabled;
+	    				mcv.disabled=!mcv.disabled; mch.disabled=!mch.disabled; mchc.disabled=!mchc.disabled; plaquetas.disabled=!plaquetas.disabled;
+	    				archivo.disabled=!archivo.disabled; "> <br>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-7" style="padding-top: 0px;">
+				<div class="form-group">
+					<div class="input-group">
+			    		<label for="l_archivo"><strong>SELECCIONAR UN ARCHIVO</strong></label>
+						<span class="ayuda"> (*) </span>
+					</div>
+					<div class="input-group">
+						<span class="btn btn-primary btn-file">
+    			        <strong>CARGAR ARCHIVO</strong><input type="file" name="archivo" disabled>
+			           	</span>
+					</div>
+				</div>
+		</div>
+	</div>
+    <div class="ayuda" style="text-align:right">
+			<p>(*) campos requeridos </p>
+	</div>
+	<div class="panel panel-info">
+        <div class="panel-body" style="padding-left: 20px; padding-top: 0px;">
+        	<br>
+        	<table border="0" cellspacing="0" cellpadding="0" align="right">
+        			<tr>
+			    		<td style="padding-right: 20px; padding-top: 0px;"><strong>N° EXPEDIENTE:</strong></td>
+			    		<td style="padding-right: 20px; padding-top: 0px;"><input type="text" class="form-control" id="id_codigoPaciente" name="codigoPaciente" value="{{ paciente.codigoPaciente }}" READONLY/></td>
+			    	</tr>
+			    	<tr>
+			    		<td style="padding-right: 20px; padding-top: 20px;"><strong>FECHA:</strong></td>
+			    		<td style="padding-right: 20px; padding-top: 20px;"><input class="form-control" id="id_fechaIngreso" name="fechaIngreso" type="text" value="{% now 'SHORT_DATETIME_FORMAT' %}" READONLY/></td>
+			    	</tr>
+			</table>
+			<br>
+            <h3 class="page-header text-left"><strong>DATOS DEL PACIENTE</strong></h3>
+			<div class="row">
+				<table border="0" cellspacing="0" cellpadding="0">
+					<tr>
+			    		<td style="width:110px"><strong>&nbsp&nbsp&nbsp&nbspPACIENTE:</strong></td>
+			    		<td style="width:628px"><input type="text" class="form-control" id="id_paciente" name="paciente" value="{{ paciente.get_full_name }}" required="True" READONLY/></td>
+			    	
+			    		
+			    		<td style="width:134px"><strong>EDAD:</strong></td>
+			    		<td style="width:196px">
+			    			<div class="input-group">
+			    			<input type="number" class="form-control" id="id_edad" name="edad" value="{{ paciente.edad_paciente }}" required="True" READONLY/>
+			    		    <span class="input-group-addon">Años</span>
+			    		    </div>
+			    		</td>
+					</tr>
+				</table>
+            </div>
+        </div>
+	</div>
+	<div class="panel panel-info">
+        <div class="panel-body" style="padding-left: 20px; padding-top: 0px;">
+            <h3 class="page-header text-left"><strong>RESULTADOS DEL EXAMEN</strong></h3>
+            <div class="row">
+					<div class="col-md-3" style="padding-top: 0px;">
+			    		<label for="l_diferencial"><strong></strong></label>
+					</div>
+					<div class="col-md-3" style="padding-top: 0px;">
+			    		<label for="l_diferencial"><strong><u>DIFERENCIAL</u></strong></label>
+					</div>
+			</div>
+            <div class="row">
+					<div class="col-md-3" style="padding-top: 0px;">
+						<div class="form-group">
+							<div class="input-group">
+			    				<label for="l_hematocrito"><strong>HEMATOCRITO:</strong></label>
+						    	<span class="ayuda"> (*) </span>
+						    </div>
+						    <div class="input-group">
+						    	<input type="number" class="form-control" id="id_hematocrito" name="hematocrito" required/>
+			    		    	<span class="input-group-addon">%</span>
+						    </div>
+						</div>
+					</div>
+					<div class="col-md-3" style="padding-top: 0px;">
+						<div class="form-group">
+							<div class="input-group">
+			    				<label for="l_nutrofilos"><strong>NEUTROFILOS:</strong></label>
+						    	<span class="ayuda"> (*) </span>
+						    </div>
+						    <div class="input-group">
+						    	<input type="number" class="form-control" id="id_neutrofilos" name="neutrofilos" required />
+			    		    	<span class="input-group-addon">%</span>
+						    </div>
+						</div>
+					</div>
+					<div class="col-md-5" style="padding-top: 0px;">
+						<div class="form-group">
+							<div class="input-group">
+			    				<label for="l_eritrosedimentacion"><strong>ERITROSEDIMENTACION:</strong></label>
+						    	<span class="ayuda"> (*) </span>
+						    </div>
+						    <div class="input-group">
+						    	<textarea class="form-control" rows="2" cols="60" name="eritrosedimentacion" required ></textarea>
+						    </div>
+						</div>
+					</div>
+				</div>
+			
+			<div class="row">
+					<div class="col-md-3" style="padding-top: 0px;">
+						<div class="form-group">
+							<div class="input-group">
+			    				<label for="l_hemoglobina"><strong>HEMOGLOBINA:</strong></label>
+						    	<span class="ayuda"> (*) </span>
+						    </div>
+						    <div class="input-group">
+			    				<input type="number" step="any" class="form-control" id="id_hemoglobina" name="hemoglobina" required />
+			    		    	<span class="input-group-addon">g/dl</span>
+						    </div>
+						</div>
+					</div>
+					<div class="col-md-3" style="padding-top: 0px;">
+						<div class="form-group">
+							<div class="input-group">
+			    				<label for="l_linfocitos"><strong>LINFOCITOS:</strong></label>
+						    	<span class="ayuda"> (*) </span>
+						    </div>
+						    <div class="input-group">
+						    	<input type="number" class="form-control" id="id_linfocitos" name="linfocitos" required />
+			    		    	<span class="input-group-addon">%</span>
+						    </div>
+						</div>
+					</div>
+					<div class="col-md-5" style="padding-top: 0px;">
+						<div class="form-group">
+							<div class="input-group">
+			    				<label for="l_gotaGruesa"><strong>GOTA GRUESA:</strong></label>
+						    	<span class="ayuda"> (*) </span>
+						    </div>
+						    <div class="input-group">
+						    	<textarea class="form-control" rows="2" cols="60" name="gotaGruesa" required ></textarea>
+						    </div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3" style="padding-top: 0px;">
+						<div class="form-group">
+							<div class="input-group">
+			    				<label for="l_globulosBlancos"><strong>GLOBULOS BLANCOS:</strong></label>
+						    	<span class="ayuda"> (*) </span>
+						    </div>
+						    <div class="input-group">
+			    				<input type="number" class="form-control" id="id_globulosBlancos" name="globulosBlancos" required />
+			    		    	<span class="input-group-addon">xmmc</span>
+						    </div>
+						</div>
+					</div>
+					<div class="col-md-3" style="padding-top: 0px;">
+						<div class="form-group">
+							<div class="input-group">
+			    				<label for="l_monocitos"><strong>MONOCITOS:</strong></label>
+						    	<span class="ayuda"> (*) </span>
+						    </div>
+						    <div class="input-group">
+						    	<input type="number" class="form-control" id="id_monocitos" name="monocitos" required />
+			    		    	<span class="input-group-addon">%</span>
+						    </div>
+						</div>
+					</div>
+				</div>
+							
+			<div class="row">
+					<div class="col-md-3" style="padding-top: 0px;">
+						<div class="form-group">
+							<div class="input-group">
+			    				<label for="l_globulosRojos"><strong>GLOBULOS ROJOS:</strong></label>
+						    	<span class="ayuda"> (*) </span>
+						    </div>
+						    <div class="input-group">
+			    				<input type="number" class="form-control" id="id_globulosRojos" name="globulosRojos" required />
+			    		    	<span class="input-group-addon">xmmc</span>
+						    </div>
+						</div>
+					</div>
+					<div class="col-md-3" style="padding-top: 0px;">
+						<div class="form-group">
+							<div class="input-group">
+			    				<label for="l_eosinofilos"><strong>EOSINOFILOS:</strong></label>
+						    	<span class="ayuda"> (*) </span>
+						    </div>
+						    <div class="input-group">
+						    	<input type="number" class="form-control" id="id_eosinofilos" name="eosinofilos" required />
+			    		    	<span class="input-group-addon">%</span>
+						    </div>
+						</div>
+					</div>
+				</div>
+							
+			<div class="row">
+					<div class="col-md-3" style="padding-top: 0px;">
+						<div class="form-group">
+							<div class="input-group">
+			    				<label for="l_mvc"><strong>MCV:</strong></label>
+						    	<span class="ayuda"> (*) </span>
+						    </div>
+						    <div class="input-group">
+			    				<input type="number" step="any" class="form-control" id="id_mvc" name="mcv" required />
+			    		    	<span class="input-group-addon"></span>
+						    </div>
+						</div>
+					</div>
+					<div class="col-md-3" style="padding-top: 0px;">
+						<div class="form-group">
+							<div class="input-group">
+			    				<label for="l_basofilos"><strong>BASOFILOS:</strong></label>
+						    	<span class="ayuda"> (*) </span>
+						    </div>
+						    <div class="input-group">
+						    	<input type="number" class="form-control" id="id_basofilos" name="basofilos" required />
+			    		    	<span class="input-group-addon">%</span>
+						    </div>
+						</div>
+					</div>
+				</div>
+							
+			<div class="row">
+					<div class="col-md-3" style="padding-top: 0px;">
+						<div class="form-group">
+							<div class="input-group">
+			    				<label for="l_mch"><strong>MCH:</strong></label>
+						    	<span class="ayuda"> (*) </span>
+						    </div>
+						    <div class="input-group">
+			    				<input type="number" step="any" class="form-control" id="id_mch" name="mch" required />
+			    		    	<span class="input-group-addon"></span>
+						    </div>
+						</div>
+					</div>
+			</div>
+			
+			<div class="row">
+					<div class="col-md-3" style="padding-top: 0px;">
+						<div class="form-group">
+							<div class="input-group">
+			    				<label for="l_mchc"><strong>MCHC:</strong></label>
+						    	<span class="ayuda"> (*) </span>
+						    </div>
+						    <div class="input-group">
+			    				<input type="number" step="any" class="form-control" id="id_mchc" name="mchc" required />
+			    		    	<span class="input-group-addon"></span>
+						    </div>
+						</div>
+					</div>
+			</div>
+			
+			<div class="row">
+					<div class="col-md-3" style="padding-top: 0px;">
+						<div class="form-group">
+							<div class="input-group">
+			    				<label for="l_plaquetas"><strong>PLAQUETAS:</strong></label>
+						    	<span class="ayuda"> (*) </span>
+						    </div>
+						    <div class="input-group">
+			    				<input type="number" class="form-control" id="id_plaquetas" name="plaquetas" required />
+			    		    	<span class="input-group-addon"></span>
+						    </div>
+						</div>
+					</div>
+			</div>
+
+		</div>
+	</div>
+    
+    <div class="col-md-offset-2 col-md-10">
+      <button id="save_examenHematologia" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
+      <a href="{% url 'laboratorio-list' %}" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Volver a la lista</a>
+    </div>
+</form>
+{{informacion}}
+{% endblock %}

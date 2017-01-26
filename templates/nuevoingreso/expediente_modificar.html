@@ -1,0 +1,106 @@
+<!-- 
+name: expedienteprovisional-editar
+Esta es la pagina/formulario donde se modifican los datos personales de un paciente de nuevo ingreso
+
+!-->
+
+{% extends "layouts/master.html" %}
+
+{% block pageheader %}
+	Expediente Provisional: Datos del Paciente 
+{%endblock%}
+
+{% block paneltitle %}
+  Modificar Expediente Provisonal
+{% endblock %}
+
+{% block panelcontent%}
+    <form name="expediente" method="POST" action="." class="expediente-form">{% csrf_token %}
+        <div id="separados" style="clear:both; "> 
+		<h3><strong>DATOS PERSONALES</strong></h3>
+		<table id="presentacion" class="table table-responsive" >
+			<tr>
+			    <td style="width:150px"><strong>Primer Nombre</strong></td>
+			    <td style="width:300px"><input type="text" class="form-control" name="primerNombre" value="{{ expediente.primerNombre }}" required="True"/></td>
+				<td style="width:150px"><strong>Segundo Nombre</strong></td>
+				<td style="width:300px"><input type="text" class="form-control" name="segundoNombre" value="{{ expediente.segundoNombre }}"/></td>
+			</tr>
+			<tr>
+				<td><strong>Primer Apellido</strong></td>
+				<td><input type="text" class="form-control" name="primerApellido" value="{{ expediente.primerApellido }}" required="True"/></td>
+				<td><strong>Segundo Apellido</strong></td>
+				<td><input type="text" class="form-control" name="segundoApellido" value="{{ expediente.segundoApellido }}"/></td>
+			</tr>
+			<tr>
+				
+				<td><strong>Fecha de Nacimiento</strong></td>
+				<td><input type="date" id="id_fechaNacimiento" class="form-control" name="fechaNacimiento" value="" required="True"/></td>
+				<td><strong>Facultad</strong></td>
+				<td><select id="id_facultad" name="facultad" class="form-control" required="True">
+					{% for facultad in facultades %}
+                    <option value="{{facultad.nombreFacultad}}" selected="selected">{{facultad.nombreFacultad}}</option>
+                    {% endfor %}
+                    <option value="{{expediente.facultad}}" selected="selected">{{expediente.facultad}}</option>
+                    </select></td>
+			</tr>
+			<tr>
+				<td><strong>Telefono</strong></td>
+				<td><input type="text" class="form-control" name="telefono" value="{{ expediente.telefono }}"/></td>
+				<td><strong>Correo</strong></td>
+				<td><input type="text" class="form-control" name="correo" value="{{ expediente.correo }}"/></td>
+			</tr>
+		</table>
+		</div>
+		<div id="separados" style="clear:left; width:98.2%; height:270px; float:left;"> 
+		<h3><strong>SIGNOS VITALES</strong></h3>
+		<table id="signos" class="table table-responsive" >
+			<tr>
+				<td><strong>Talla</strong></td>
+				<td style="width:150px"><input type="text" class="form-control" name="talla" value="{{ expediente.talla }}" readonly/></td>
+				<td><strong>Temperatura</strong></td>
+				<td style="width:150px"><input id="id_temperatura" name="temperatura" type="text" class="form-control" value="{{ expediente.temperatura }}" readonly/></td>
+				<td><strong>Frecuencia Respiratoria</strong></td>
+				<td style="width:150px"><input type="text" class="form-control" name="frecuenciaRespiratoria" value="{{ expediente.frecuenciaRespiratoria }}" readonly/></td>
+			</tr>
+			<tr>
+				<td><strong>Presion Arterial</strong></td>
+				<td><input type="text" class="form-control" name="presionArterial" value="{{ expediente.presionArterial }}" readonly/></td>
+				<td><strong>Peso</strong></td>
+				<td><input type="text" class="form-control" name="peso" value="{{ expediente.peso }}" readonly/></td>
+				<td><strong>Frecuencia Cardiaca</strong></td>
+				<td><input type="text" class="form-control" name="frecuenciaCardiaca" value="{{ expediente.frecuenciaCardiaca }}" readonly/></td>
+			</tr>
+			
+		</table>
+		<table id="observacion" class="table table-responsive">
+			<tr>
+			    <td style="width:169px"><strong>Observaciones</strong></td>
+				<td style="width:798px"><textarea class="form-control" rows="2" name="Observaciones" readonly>{{ expediente.Observaciones }}</textarea></td>
+				
+			</tr>
+		</table>
+	</div>
+	<div style="clear:both; margin-left:150px; ">
+		<hr/>
+		<div class="row">
+			<table id="bitacora">
+				<tr>
+					<td><strong>Recibio:</strong></td>
+		            <td style="width:300px"><input type="text" class="form-control" name="nombreRecibido" value="{{ expediente.nombreRecibido }}" readonly/></td>
+					<td><strong>Fecha:</strong></td>
+		            <td style="width:300px"><input type="text" class="form-control" name="fechaIngreso" value="{{ expediente.fechaIngreso|date:"SHORT_DATE_FORMAT" }}" readonly/></td>
+				</tr>
+			</table>
+			<br/>
+		</div>
+	</div>
+        <div class="col-md-offset-8 col-md-10">
+        <button id="update_expedienteprovisional" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span></span>Guardar Cambios</button>
+           <a href="{% url 'expedienteprovisonal-list' %}" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span>Volver a la lista</a>
+        </div>
+        <script type="text/javascript"> 
+           document.getElementById("id_fechaNacimiento").setAttribute('value','{{ expediente.fechaNacimiento|date:"Y-m-d" }}');
+        </script>
+    </form>
+    {{informacion}}
+{%endblock%}

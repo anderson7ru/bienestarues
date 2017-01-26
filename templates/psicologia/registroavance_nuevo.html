@@ -1,0 +1,72 @@
+<!-- 
+name: registroavance-new y registroavance-update
+Vista para la creacion y modificacion de Registro de avances Terapeuticos
+!-->
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} Clinica de Psicologia {% endblock %}
+{% block paneltitle %} Registro de Avances Terapeuticos {% endblock %}
+
+{% block panelcontent %}
+<div class="row">
+    <div class="col-md-3">
+	    Paciente:
+	    <span class="subrayado">
+	        <strong>{{paciente.nombrePrimero}} {{paciente.apellidoPrimero}}</strong>
+	    </span>
+	</div>
+    <div class="col-md-3">
+        Psicologo:
+        <span class="subrayado">
+            <strong>Dra. Maria Ejemplo....</strong><!--Se requiere de las sesiones para poner el nombre del doctor q esta llenando esto-->
+        </span>
+    </div>
+    <div class="col-md-3">
+        Codigo Proceso Terapeutico:
+        <span class="subrayado">
+            <strong>{{proceso.codProcesoTerapeutico}}</strong>
+        </span>
+    </div>
+    <div class="col-md-3">
+        Fecha:
+        <span class="subrayado">
+            <strong>{% now 'SHORT_DATETIME_FORMAT' %}</strong>
+        </span>
+    </div>
+</div>
+<br />
+<form id="registroavance_form" method="POST" role="form">{% csrf_token %}
+    <div class="ayuda" style="text-align:right">
+			<p>(*) campos requeridos </p>
+	</div>
+    <div class="panel panel-info">
+        <h3 style="text-align:center;">Comentarios</h3>
+        <div class="panel-body">
+            
+            <div class="row">
+                
+                <div class="col-md-6">
+                    <div class="form-group">
+	                    <label for="paciente">Paciente: </label>
+	                    <span class="ayuda">(*)</span>
+	                    {{ form.paciente }}
+	                </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+	                    <label for="psicologo">Psicologo: </label>
+	                    <span class="ayuda">(*)</span>
+	                    {{ form.psicologo }}
+	                </div>
+                </div>
+                
+            </div>
+            
+        </div>
+    </div>
+    <div class="col-md-offset-4 col-md-4 operaciones">
+      <button id="guardar_registroavances" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
+      <a href="{% url 'psicologia-list' %}" class="btn btn-primary"><span class="glyphicon glyphicon-arrow-left"></span> Volver a la lista</a>
+    </div>
+</form>
+{% endblock %}

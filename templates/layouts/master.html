@@ -1,0 +1,194 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Bienestar Universitario</title>
+    <script src="/static/js/jquery.min.js"></script>
+	  <script src="/static/smart-selects/admin/js/chainedfk.js"></script>
+	
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- <link href="{% static 'css/mastertweaks.css' %}" rel="stylesheet"> ESTE DA PROBLEMA AL FOOTER, DEBE MODIFICAR EL CONTENIDO, PARA QUIEN LO USE -->
+    <link href="{% static 'css/formValidation.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap-datetimepicker.css' %}" rel="stylesheet">
+	  <link href="{% static 'css/estilopersonalizado.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap-select.min.css' %}" rel="stylesheet">
+    
+  </head>
+  
+  <body>
+    <nav class="navbar navbar-inverse navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Expedientes <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li role="separator" class="divider"></li>
+                <li class="dropdown-header">Expediente Clinico</li>
+                <li><a href="{% url 'datospersonales-new' %}">Crear Expediente</a></li>
+                <li><a href="{% url 'datospersonales-list' %}">Consultar Expediente</a></li>
+                <li class="dropdown-header">Crear Cola Enfermeria</li>
+                <li><a href="{% url 'cola_consulta-list' %}">Cola Consulta</a></li>
+              </ul>
+            </li>
+            
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Citas <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li role="separator" class="divider"></li>
+                <li class="dropdown-header">Nav header</li>
+                <li><a href="#">Separated link</a></li>
+              </ul>
+            </li>
+            
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Laboratorio cl&iacute;nico <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li role="separator" class="divider"></li>
+                <li class="dropdown-header">Gestionar Examenes de Laboratorio</li>
+                <li><a href="{% url 'laboratorio-list' %}">Seleccionar Paciente y Tipo de Examen</a></li>
+                <li role="separator" class="divider"></li>
+                <li class="dropdown-header">Listado de Examenes de Laboratorio</li>
+                <li><a href="{% url 'hematologia-list' %}">Examenes de Hematologia</a></li>
+                <li><a href="{% url 'examen_heces-list' %}">Examenes de Heces</a></li>
+                <li><a href="{% url 'examen_orina-list' %}">Examenes de Orina</a></li>
+                <li><a href="{% url 'examen_general-list' %}">Examenes de Resultados Generales de Nuevo Ingreso</a></li>
+                <li><a href="{% url 'examen_quimica-list' %}">Examenes de Quimica Sanguinea</a></li>
+                <li><a href="{% url 'examen_especiales-list' %}">Examenes Especiales</a></li>
+              </ul>
+            </li>
+            
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Enfermer&iacute;a <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li role="separator" class="divider"></li>
+                <li role="separator" class="divider"></li>
+                <li class="dropdown-header">Expediente Provisional</li>
+                <li><a href="{% url 'expedienteprovisonal-new' %}">Crear Expediente Provisional</a></li>
+                <li><a href="{% url 'expedienteprovisonal-list' %}">Consultar Expediente Provisional</a></li>
+                <li role="separator" class="divider"></li>
+                <li class="dropdown-header">Actividades de Enfermeria</li>
+                <li><a href="{% url 'actividad-new' %}">Crear Nueva Actividad</a></li>
+                <li><a href="{% url 'actividades-list' %}">Ver Listado de Actividades</a></li>
+                <li role="separator" class="divider"></li>
+                <li class="dropdown-header">Censo de Labores Diarias Enfermeria</li>
+                <li><a href="{% url 'censo-new' %}">Registrar Censo</a></li>
+                <li><a href="{% url 'censo-list' %}">Ver Consolidado de LAbores Diarias</a></li>
+              </ul>
+            </li>
+            
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Consulta General <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li role="separator" class="divider"></li>
+                <li class="dropdown-header">Consulta General</li>
+                <li><a href="">Consulta</a></li>
+              </ul>
+            </li>
+            
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Psicologia <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li role="separator" class="divider"></li>
+                <li class="dropdown-header">Clinica de Psicologia</li>
+                <li><a href="{% url 'psicologia-list' %}">Consultar Expedientes</a></li>
+              </ul>
+            </li>
+            
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Datos y Estad&iacute;sticas <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li role="separator" class="divider"></li>
+                <li class="dropdown-header">Reportes de Enfermeria</li>
+                <li><a href="{% url 'censo-reporte' %}">Censo de Actividades</a></li>
+                <li><a href="{% url 'morbilidad-reporte' %}">Morbilidad</a></li>
+                <li><a href="{% url 'pacientes_por_medico-reporte' %}">Pacientes Atendidos Por Medico</a></li>
+                <li><a href="{% url 'consulta_especialidad-reporte' %}">Consultas Por Especialidad</a></li>
+                <li><a href="{% url 'referencias-reporte' %}">Referencias</a></li>
+                <li><a href="{% url 'tipo_consulta-reporte' %}">Primera y Consulta Subsecuente</a></li>
+                <li><a href="{% url 'visto_bueno-reporte' %}">Visto Bueno</a></li>
+                <li role="separator" class="divider"></li>
+                <li class="dropdown-header">Reportes de Archivo</li>
+                <li><a href="{% url 'consulta-general-procedencia-reporte' %}">Consulta General Segun Procedencia</a></li>
+                <li><a href="{% url 'consulta-general-genero-reporte' %}">Consulta General Segun Genero</a></li>
+                <li><a href="{% url 'consulta-general-paciente-reporte' %}">Consulta General Segun Tipo Paciente</a></li>
+
+              </ul>
+            </li>
+            <li><a href="{% url 'index' %}">Inicio</a></li>
+            <li><a href=""><b>Bienvenid@ </b>{% firstof user.get_short_name user.get_username %}</a></li> 
+			      <li><a href="">Ayuda</a> </li> 
+			      <li><a href="{% url 'logouts' %}">Cerrar Sesi&oacute;n</a> </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    
+    <div class="container">
+      <div class="page-header text-center"><h1>{% block pageheader %}Example page header{% endblock %}</h1></div>
+      {% if messages %}
+	    <div class='row'>
+		    <div class='col-xs-12'>
+		    {% for message in messages %}
+      		{% if message.tags == "success" %} <p class="alert alert-success"><span class="glyphicon glyphicon-ok-sign"></span> {{ message }}</p>{% endif %}
+      		{% if message.tags == "info" %} <p class="alert alert-info"><span class="glyphicon glyphicon-info-sign"></span> {{ message }}</p>{% endif %}
+      		{% if message.tags == "warning" %} <p class="alert alert-warning"><span class="glyphicon glyphicon-warning-sign"></span> {{ message }}</p>{% endif %}
+      		{% if message.tags == "error" %} <p class="alert alert-danger"><span class="glyphicon glyphicon-remove-sign"></span> {{ message }}</p>{% endif %}
+		    {% endfor %}
+		    </div>
+	    </div>
+	    {% endif %}
+      <div class="panel panel-info">
+        <div class="panel-heading text-center">{% block paneltitle %}Panel title{% endblock %}</div>
+        <div class="panel-body">{% block panelcontent %}Panel content{% endblock %}</div>
+      </div>
+    </div>
+    
+    <footer class="footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 col-xs-4">
+					<h6>Final 25 Av. Norte</h6>
+					<h6>Ciudad Universitaria</h6>
+					<h6>BIENESTAR UNIVERSITARIO</h6>
+				</div>
+				<div class="col-md-4 col-xs-4">
+					<h6>Todos los derechos reservados</h6>
+					<h6>UNIVERSIDAD DE EL SALVADOR</h6>
+					<h6>EL SALVADOR</h6>
+				</div>
+				<div class="col-md-4 col-xs-4">
+					<img src='{% static "images/newminerva.png" %}' alt="UES" style="width:30px; height:40px;">
+					<h6><em>"Hacia la libertad por la cultura"</em></h6>
+				</div>
+			</div>
+		</div>
+	  </footer>
+    
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/formValidation.min.js' %}"></script>
+    <script src="{% static 'js/framework/bootstrap.min.js' %}"></script>
+	  <script src="{% static 'js/validacionesPersonales.js' %}"></script>
+	  <script src="{% static 'js/moment-with-locales.js' %}"></script>
+	  <script src="{% static 'js/bootstrap-datetimepicker.js' %}"></script>
+    <script src="{% static 'js/datepickerPersonal.js' %}"></script>
+	  <script src="{% static 'js/jquery.maskedinput.js' %}"></script>
+	  <script src="{% static 'js/mascarasPersonalizadas.js' %}"></script>
+    <script src="{% static 'js/validator.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap-select.min.js' %}"></script>
+  </body>
+</html>

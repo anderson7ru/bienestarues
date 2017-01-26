@@ -1,0 +1,227 @@
+{% extends "layouts/beta.html" %}
+
+{% block content %}
+
+<div class="container">
+    <div class="page-header">
+        <h1 class="text-center">Crear Referencia Interna</h1>
+    </div>
+</div>
+
+<!-- debug: visualizamos los errores del formulario -->
+{% if form.non_field_errors %}
+<div class="container">
+    <div class="alert alert-danger" role="alert">
+        {{ form.non_field_errors }}
+    </div>
+</div>
+{% endif %}
+
+{% if form.errors %}
+<div class="container">
+    <div class="alert alert-danger" role="alert">
+        {{ form.errors }}
+    </div>
+</div>
+{% endif %}
+<!-- fin debug -->
+
+<div class="container">
+    <p class="text-right required-mark">(*) Campos Requeridos</p>
+</div>
+
+<form action="" method="post" role="form" data-toggle="validator">
+    {% csrf_token %}
+    <div class="container">
+        <div class="panel panel-info">
+            <div class="panel-body">
+                <!-- campos de control -->
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            {{ form.cod_expediente.label_tag }}
+                            <span class="required-mark">(*)</span> {{ form.cod_expediente }}
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            {{ form.cod_doctor.label_tag }}
+                            <span class="required-mark">(*)</span> {{ form.cod_doctor }}
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            {{ form.cod_consulta.label_tag }}
+                            <span class="required-mark">(*)</span> {{ form.cod_consulta }}
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- fin campos de control -->
+                
+                <div class="form-group">
+                    {{ form.referido_a.label_tag }}
+                    <span class="required-mark">(*)</span> {{ form.referido_a }}
+                    <div class="help-block with-errors"></div>
+                </div>
+                <div class="form-group">
+                    {{ form.nombre_paciente.label_tag }}
+                    <span class="required-mark">(*)</span> {{ form.nombre_paciente }}
+                    <div class="help-block with-errors"></div>
+                </div>
+                <div class="form-group">
+                    {{ form.tipo_paciente.label_tag }}
+                    <span class="required-mark">(*)</span> {{ form.tipo_paciente }}
+                    <div class="help-block with-errors"></div>
+                </div>
+                <div class="form-group">
+                    {{ form.procedencia_paciente.label_tag }}
+                    <span class="required-mark">(*)</span> {{ form.procedencia_paciente }}
+                    <div class="help-block with-errors"></div>
+                </div>
+                <div class="form-group">
+                    {{ form.motivo_referencia.label_tag }}
+                    <span class="required-mark">(*)</span> {{ form.motivo_referencia }}
+                    <div class="help-block with-errors"></div>
+                </div>
+                <div class="form-group">
+                    {{ form.observaciones.label_tag }} {{ form.observaciones }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="panel panel-info">
+            <div class="panel-body text-center">
+                <a href="{% url 'consulta-inicio' nkey=request.session.pacientenit dkey=request.session.doctorpk %}" class="btn btn-primary" role="button" aria-label="Back">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Volver
+                </a>
+                <button type="submit" class="btn btn-success" aria-label="Floppy">
+                    <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Guardar Referencia
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!-- recuperamos las referencias del paciente vinculadas a la consulta -->
+<div class="container">
+    <div class="page-header">
+        <h1 class="text-center">Listado de Referencias</h1>
+    </div>
+</div>
+
+{% if internas_list %}
+<div class="container">
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        {% for ref in internas_list %}
+        <div class="panel panel-info">
+            <div class="panel-heading" role="tab" id="heading_{{ref.id}}">
+                <h4 class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse_{{ref.id}}" aria-expanded="false" aria-controls="collapse_{{ref.id}}">
+                        {{ ref.fecha|date:"l d F Y" }} {{ ref.fecha|time:"H:i a" }}
+                    </a>
+                    <span class="pull-right">{{ ref.referido_a }}</span>
+                </h4>
+            </div>
+
+            <div id="collapse_{{ref.id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_{{ref.id}}">
+                <div class="panel-body">
+                    <label for="id_referido_a_{{ref.id}}">Referido a:</label>
+                    <div class="well well-sm">
+                        {{ ref.referido_a }}
+                    </div>
+
+                    <label for="id_nombre_paciente_{{ref.id}}">Nombre:</label>
+                    <div class="well well-sm">
+                        {{ ref.nombre_paciente }}
+                    </div>
+
+                    <label for="id_tipo_paciente_{{ref.id}}">Tipo:</label>
+                    <div class="well well-sm">
+                        {{ ref.tipo_paciente }}
+                    </div>
+
+                    <label for="id_procedencia_paciente_{{ref.id}}">Procedencia:</label>
+                    <div class="well well-sm">
+                        {{ ref.procedencia_paciente }}
+                    </div>
+
+                    <label for="id_motivo_referencia_{{ref.id}}">Motivo:</label>
+                    <div class="well well-sm">
+                        {{ ref.motivo_referencia }}
+                    </div>
+
+                    <label for="id_observaciones_{{ref.id}}">Observaciones:</label>
+                    <div class="well well-sm">
+                        {{ ref.observaciones }}
+                    </div>
+
+                    <span class="pull-right">
+                        <a id="modalpdfbtn" href="{% url 'interna-pdf' rpk=ref.id %}" class="btn btn-warning" role="button">Referencia PDF</a>
+                        {% if ref.fecha > start_date and ref.fecha < end_date %}
+                            <button id="{{ref.id}}" type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">Eliminar Referencia</button>
+                        {% else %}
+                            <button disabled="disabled" id="{{ref.id}}" type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">Eliminar Referencia</button>
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- modal que captura la confirmación en la eliminación de una referencia -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">¿Eliminar Referencia?</h4>
+            </div>
+
+            <div class="modal-body">¿Est&aacute; seguro de que desea eliminar esta referencia?</div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <a id="modaldelbtn" href="#" class="btn btn-danger" role="button">Eliminar Referencia</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="container">
+    <div class="alert alert-warning text-center" role="alert">
+        <span class="glyphicon glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Message:</span> No se han encontrado referencias para el paciente !
+    </div>
+</div>
+{% endif %}
+
+<div class="container">
+    <div class="page-header"></div>
+</div>
+
+<!-- script que se encarga de construir la url para eliminar una referencia -->
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("button").click(function(event) {
+            var str = "eliminar/";
+            console.info(str);
+
+            var str2 = event.target.id;
+            console.info(str2);
+
+            var res = str.concat(str2);
+            console.info(res);
+
+            $("#modaldelbtn").attr("href", res)
+        });
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,237 @@
+{% extends "layouts/master.html" %}
+
+{% block pageheader %}
+	EXAMEN DE RESULTADOS GENERALES DE NUEVO INGRESO 
+{%endblock%}
+{% block paneltitle %}
+  Resultados del Examen General
+{% endblock %}
+{% block panelcontent %}
+    <div class="panel panel-info">
+    	<div class="panel-body">
+    		  	<div class="row">
+				 	<div class="col-md-2"><strong>Paciente:</strong></div>
+				 	<div class="col-md-4">{{ examen_general.paciente.get_full_name}}</div>
+				</div>
+				<div class="row">
+					<div class="col-md-2"><strong>Edad:</strong></div>
+					<div class="col-md-4">{{ examen_general.edad}} Años</div>
+					<br>
+					<br>
+				</div>
+    	<h4><strong>RESULTADOS REGISTRADOS DE LA MUESTRA DE HECES</strong></h4>
+		{% if examen_general.colorHeces or examen_general.hematiesHeces or examen_general.consistencia or examen_general.leucocitosHeces or examen_general.mucus or examen_general.protoActivos or examen_general.macro or examen_general.protoQuistes or examen_general.micro or examen_general.metazoarios %}
+			{% if examen_general.colorHeces or examen_general.hematiesHeces %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Color:</strong></div>
+				  <div class="col-md-2">{{ examen_general.colorHeces }} </div>
+				  <div class="col-md-2"><strong>Hematies:</strong></div>
+				  <div class="col-md-2">{{ examen_general.hematiesHeces }} /c</div>
+				</div>	
+			{% endif %}
+			{% if examen_general.consitencia or examen_general.leucocitosHeces %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Consistencia:</strong></div>
+				  <div class="col-md-2">{{ examen_general.consistencia }} </div>
+				  <div class="col-md-2"><strong>Leucocitos:</strong></div>
+				  <div class="col-md-2">{{ examen_general.leucocitosHeces }} /c</div>
+				</div>
+			{% endif %}
+			{% if examen_general.mucus %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Mucus:</strong></div>
+				  <div class="col-md-2">{{ examen_general.mucus }} </div>
+				</div>
+			{% endif %}
+				<div class="row">
+					<br>
+					<div class="col-md-1"></div>
+					<div class="col-md-1"></div>
+					<div class="col-md-2"><strong><u>PROTOZOARIOS</u></strong></div>
+					<div class="col-md-2"></div>
+					<div class="col-md-3"><strong><u>RESTOS ALIMENTICIOS</u></strong></div>
+				</div>
+			{% if examen_general.protoActivos or examen_general.macro %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Activos:</strong></div>
+				  <div class="col-md-2">{{ examen_general.protoActivos }} </div>
+				  <div class="col-md-2"><strong>Macro:</strong></div>
+				  <div class="col-md-2">{{ examen_general.macro }} </div>
+				</div>
+			{% endif %}
+			{% if examen_general.protoQuistes or examen_general.micro %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Quistes:</strong></div>
+				  <div class="col-md-2">{{ examen_general.protoQuistes }}</div>
+				  <div class="col-md-2"><strong>Micro:</strong></div>
+				  <div class="col-md-2">{{ examen_general.micro }} </div>
+				</div>
+			{% endif %}
+			{% if examen_general.metazoarios %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Metazoarios:</strong></div>
+				  <div class="col-md-2">{{ examen_general.metazoarios }}</div>
+				</div>
+			{% endif %}
+		{% else %}
+			<p>No se registraron resultados para este examen</p>
+		{% endif %}
+		</div>
+	</div>
+   <div class="panel panel-info">
+    	<div class="panel-body">
+    	<h4><strong>RESULTADOS REGISTRADOS DE LA MUESTRA DE ORINA</strong></h4>
+				<div class="row">
+					<br>
+					<div class="col-md-1"></div>
+					<div class="col-md-1"></div>
+					<div class="col-md-3"><strong><u>EXAMEN FÍSICO QUÍMICO</u></strong></div>
+					<div class="col-md-4"><strong><u>EXAMEN MICROSCÓPICO DEL SEDIMENTO</u></strong></div>
+				</div>
+				<br>
+		{% if examen_general.colorOrina or examen_general.leucocitosOrina or examen_general.aspecto or examen_general.hematiesOrina or examen_general.ph or examen_general.epiteliales or examen_general.densidad or examen_general.cristales or examen_general.nitritos or examen_general.cilindros or examen_general.proteinas or examen_general.bacterias or examen_general.cetonicos or examen_general.otros or examen_general.glucosa or examen_general.bilirrubina or examen_general.urobilinigeno or examen_general.sangre or examen_general.esterasaLeucocitaria %}
+			{% if examen_general.colorOrina or examen_general.leucocitosOrina %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Color:</strong></div>
+				  <div class="col-md-2">{{ examen_general.colorOrina }} </div>
+				  <div class="col-md-2"><strong>Leucocitos:</strong></div>
+				  <div class="col-md-2">{{ examen_general.leucocitosOrina }} /c</div>
+				</div>
+			{% endif %}
+			{% if examen_general.aspecto or examen_general.hematiesOrina %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Aspecto:</strong></div>
+				  <div class="col-md-2">{{ examen_general.aspecto }} </div>
+				  <div class="col-md-2"><strong>Hematies:</strong></div>
+				  <div class="col-md-2">{{ examen_general.hematiesOrina }} /c</div>
+				</div>
+			{% endif %}
+			{% if examen_general.ph or examen_general.epiteliales %}
+				<div class="row">
+				  <div class="col-md-2"><strong>PH:</strong></div>
+				  <div class="col-md-2">{{ examen_general.ph }} </div>
+				  <div class="col-md-2"><strong>Células Epiteliales:</strong></div>
+				  <div class="col-md-2">{{ examen_general.epiteliales }} </div>
+				</div>
+			{% endif %}
+			{% if examen_general.densidad or examen_general.cristales %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Densidad:</strong></div>
+				  <div class="col-md-2">{{ examen_general.densidad }} </div>
+				  <div class="col-md-2"><strong>Cristales:</strong></div>
+				  <div class="col-md-2">{{ examen_general.cristales }} </div>
+				</div>
+			{% endif %}
+			{% if examen_general.nitritos or examen_general.cilindros %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Nitritos:</strong></div>
+				  <div class="col-md-2">{{ examen_general.nitritos }}</div>
+				  <div class="col-md-2"><strong>Cilindros:</strong></div>
+				  <div class="col-md-2">{{ examen_general.cilindros }} </div>
+				</div>
+			{% endif %}
+			{% if examen_general.proteinas or examen_general.bacterias %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Proteínas:</strong></div>
+				  <div class="col-md-2">{{ examen_general.proteinas }} mg/dl</div>
+				  <div class="col-md-2"><strong>Bacterias:</strong></div>
+				  <div class="col-md-2">{{ examen_general.bacterias }}</div>
+				</div>
+			{% endif %}
+			{% if examen_general.cetonicos or examen_general.levaduras %}
+				<div class="row">
+				  <div class="col-md-2"><strong>C. Cetónicos:</strong></div>
+				  <div class="col-md-2">{{ examen_general.cetonicos }} mg/dl</div>
+				  <div class="col-md-2"><strong>Levaduras:</strong></div>
+				  <div class="col-md-6">{{ examen_general.levaduras }}</div>
+				</div>
+			{% endif %}
+			{% if examen_general.glucosa or examen_general.otros %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Glucosa:</strong></div>
+				  <div class="col-md-2">{{ examen_general.glucosa }} mg/dl</div>
+				  <div class="col-md-2"><strong>Otros:</strong></div>
+				  <div class="col-md-6">{{ examen_general.otros }}</div>
+				</div>
+			{% endif %}
+			{% if examen_general.bilirrubina %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Bilirrubina:</strong></div>
+				  <div class="col-md-2">{{ examen_general.bilirrubina }} mg/dl</div>
+				</div>
+			{% endif %}
+			{% if examen_general.urobilinigeno %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Urobilinigeno:</strong></div>
+				  <div class="col-md-2">{{ examen_general.urobilinigeno }} mg/dl</div>
+				</div>
+			{% endif %}
+			{% if examen_general.sangre %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Sangre:</strong></div>
+				  <div class="col-md-2">{{ examen_general.sangre }} ery/ul</div>
+				</div>
+			{% endif %}
+			{% if examen_general.esterasaLeucocitaria %}
+				<div class="row">
+				  <div class="col-md-2"><strong>Esterasa Leucocitaria:</strong></div>
+				  <div class="col-md-2">{{ examen_general.esterasaLeucocitaria }} Leuc/ul</div>
+				</div>
+			{% endif %}
+		{% else %}
+			<p>No se registraron resultados para este examen</p>
+		{% endif %}
+		</div>
+	</div>
+	<div class="panel panel-info">
+		<div class="panel-body" > 
+		<h4><strong>RESULTADOS REGISTRADOS DE LA MUESTRA DE SANGRE</strong></h4>
+		{% if examen_general.hematocrito or examen_general.hemoglobina or examen_general.serologia %}
+			{% if examen_general.hematocrito or examen_general.hemoglobina %}
+				<div class="row">
+				 	<div class="col-md-2"><strong>Hematocrito:</strong></div>
+				 	<div class="col-md-2">{{ examen_general.hematocrito }} %</div>
+				 	<div class="col-md-2"><strong>Hemoglobina:</strong></div>
+				 	<div class="col-md-2">{{ examen_general.hemoglobina }} mg/dl</div>
+				</div>
+				
+			{% endif %}
+			{% if examen_general.serologia %}
+				<div class="row">
+				 	<div class="col-md-2"><strong>Serologia:</strong></div>
+				 	<div class="col-md-6">{{ examen_general.serologia }} </div>
+				</div>
+				
+			{% endif %}
+		{% else %}
+			<p>No se escaneo archivo para este examen</p>
+		{% endif %}
+		</div>
+	</div>
+	<div class="panel panel-info">
+		<div class="panel-body" > 
+		<h4><strong>RESULTADOS ESCANEADOS</strong></h4>
+		{% if examen_general.archivo %}
+			{% if examen_general.archivo %}
+				<div class="row">
+				 	<div class="col-md-2"><strong>Archivo Escaneado:</strong></div>
+				 	<div class="col-md-8">{{ examen_general.archivo }} <a href="{% url 'laboratorioapp.views.abrir_archivo_general' pk=examen_general.codExamen_General %}" class="btn btn-info btn-md "><span class="glyphicon glyphicon-download-alt"></span>&nbspDescargar</a></div>
+				</div>
+				
+			{% endif %}
+		{% else %}
+			<p>No se escaneo archivo para este examen</p>
+		{% endif %}
+		</div>
+	</div>
+	<div style="clear:both; margin-left:10px; ">
+		<hr/>
+		<div class="row">
+		  <div class="col-md-7"><strong>Información Ingresada Por:</strong> {{ examen_general.nombreRecibido }}</div>
+		  <div class="col-md-5"><strong>Fecha:</strong> {{ examen_general.fechaIngreso|date:"SHORT_DATE_FORMAT" }}</div>
+		</div>
+	</div>
+	<div class="col-md-offset-10 col-md-10">
+        <a href="{% url 'laboratorioapp.views.examen_general_list' %}" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span>&nbspVolver a la lista</a>
+    </div>
+{%endblock%}

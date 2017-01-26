@@ -1,0 +1,96 @@
+<!-- 
+name: citamedica-new 
+Vista para la creacion de citas medicas
+!-->
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} Citas Medicas {% endblock %}
+{% block paneltitle %} Edici&oacute;n de Citas medicas {% endblock %}
+
+{% block panelcontent %}
+<form id="cma_citamedicaEditarForm" action="" method="post">{% csrf_token %}
+    <div class="ayuda" style="text-align:right">
+			<p>(*) campos requeridos </p>
+	</div>
+	<div class="panel panel-info" style="margin-top: 20px;">
+        <div class="panel-body"  style="padding-left: 50px; padding-top: 0px;">
+            <h3 class="page-header text-left">Datos Generales del Doctor</h3>
+			<div class="row">
+				<div class="col-md-4" >
+					Nombre:
+					<span class="subrayado">
+						<strong>{{datos.nombrePrimero}} {{datos.nombreSegundo}} {{datos.apellidoPrimero}} {{datos.apellidoSegundo}}</strong>
+					</span>
+				</div>
+				<div class="col-md-3" >
+					Especialidad:
+					<span class="subrayado">
+						<strong>{{especialidad.especialidad}}</strong>
+					</span>
+				</div>
+				<div class="col-md-3" >
+					Fecha de la consulta:
+					<span class="subrayado">
+						<strong>{{fecha}}</strong>
+					</span>
+				</div>
+			</div>
+			<h4 style="padding-top: 17px; padding-left: 200px;">Horarios de Atencion</h4>
+			<div class="row">
+				<div class="col-md-2" >
+					Paciente por consulta:
+					<span class="subrayado">
+						<strong>{{hora.pacienteConsulta}}</strong>
+					</span>
+				</div>
+				<div class="col-md-6">
+					<table class="table table-hover">
+						<tr class="success">
+							<th>Hora</th>
+							<th>Cupo</th>
+							<th>Disponibilidad</th>
+						</tr>
+						{% for hora, cupo, dispo in horas.items %}
+						<tr>
+							<td>{{ hora }}:00</td>
+							<td>{{ cupo.0 }} pacientes</td>
+							<td>{{ cupo.1 }} pacientes</td>
+						</tr>
+						{% endfor %}
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="panel panel-info">
+        <div class="panel-body" style="padding-left: 35px; padding-top: 0px;">
+            <h3 class="page-header text-left">Cita Medica</h3>
+			<div class="row">
+				<div class="col-md-1" style="padding-top: 7px; padding-right: 0px; padding-left: 0px;">
+					{{ form.paciente.label_tag }} 
+					<span class="ayuda"> {{ form.paciente.help_text }} </span>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.paciente }} 
+					</div>
+				</div>
+				<div class="col-md-2" style="padding-top: 7px; padding-right: 7px;">
+					{{ form.horaConsulta.label_tag }}
+					<span class="ayuda"> {{ form.horaConsulta.help_text }} </span>
+				</div>
+				<div class="col-md-2" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.horaConsulta }}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="col-md-offset-2 col-md-10">
+      <button id="save_cita" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
+	  <a href="{% url 'doctor-list' %}" class="btn btn-primary" style="float: right"><span class="glyphicon glyphicon-list-alt"></span> Ver Lista de Doctores en Citas Medicas</a>
+    </div>
+</form>
+{% endblock %}

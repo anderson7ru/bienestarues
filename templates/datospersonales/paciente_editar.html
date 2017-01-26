@@ -1,0 +1,230 @@
+<!-- 
+name: datospersonales-new y datospersonales-update
+Vista para la creacion y modificacion de pacientes permanentes
+!-->
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} Expediente Permanente: Editar Paciente {% endblock %}
+{% block paneltitle %} Ficha de identificaci&oacute;n del expediente cl&iacute;nico {% endblock %}
+
+{% block panelcontent %}
+<form id="dpa_pacienteEditarForm" action="" method="post">{% csrf_token %}
+    <div class="ayuda" style="text-align:right">
+			<p>(*) campos requeridos </p>
+	</div>
+	<div class="panel panel-info">
+        <div class="panel-body" style="padding-left: 20px; padding-top: 0px;">
+            <h3 class="page-header text-left">A) DEL PACIENTE</h3>
+            <div class="row">
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.nombrePrimero.label_tag }} 
+						<span class="ayuda"> {{ form.nombrePrimero.help_text }} </span>
+						{{ form.nombrePrimero }}
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.nombreSegundo.label_tag }}
+						<span class="ayuda"> {{ form.nombreSegundo.help_text }} </span>
+						{{ form.nombreSegundo }}
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.apellidoPrimero.label_tag }} 
+						<span class="ayuda"> {{ form.apellidoPrimero.help_text }} </span>
+						{{ form.apellidoPrimero }} 
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.apellidoSegundo.label_tag }}
+						<span class="ayuda"> {{ form.apellidoSegundo.help_text }} </span>
+						{{ form.apellidoSegundo }}
+					</div>
+				</div>
+            </div>
+			<div class="row">
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.sexo.label_tag }} 
+						<span class="ayuda"> {{ form.sexo.help_text }} </span>
+						{{ form.sexo }} 
+					</div>
+				</div>
+				<div class="col-md-1"></div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.fechaNacimiento.label_tag }}
+						<span class="ayuda"> {{ form.fechaNacimiento.help_text }} </span>
+						{{ form.fechaNacimiento }}
+					</div>
+				</div>
+				<div class="col-md-1"></div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.estadoCivil.label_tag }}
+						<span class="ayuda"> {{ form.estadoCivil.help_text }} </span>
+						{{ form.estadoCivil }}
+					</div>
+				</div>
+            </div>
+            <div class="row">
+				<div class="col-md-10" style="padding-top: 7px;">
+					<span class="ayuda"> (*) Por lo menos un documento de identificaci&oacute;n: </span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.nit.label_tag }} 
+						<span class="ayuda"> {{ form.nit.help_text }} </span>
+						{{ form.nit }} 
+					</div>
+				</div>
+				<div class="col-md-1"></div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.dui.label_tag }}
+						<span class="ayuda"> {{ form.dui.help_text }} </span>
+						{{ form.dui }}
+					</div>
+				</div>
+				<div class="col-md-1"></div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.due.label_tag }} 
+						<span class="ayuda"> {{ form.due.help_text }} </span>
+						{{ form.due }} 
+					</div>
+				</div>
+            </div>
+			<div class="row">
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.estadoUes.label_tag }} 
+						<span class="ayuda"> {{ form.estadoUes.help_text }} </span>
+						{{ form.estadoUes }} 
+					</div>
+				</div>
+				<div class="col-md-2"></div>
+				<div class="col-md-4" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.facultadE.label_tag }}
+						<span class="ayuda"> {{ form.facultadE.help_text }} </span>
+						{{ form.facultadE }}
+					</div>
+				</div>
+            </div>
+			<div class="row">
+				<div class="col-md-2" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.direccion.label_tag }}
+						<span class="ayuda"> {{ form.direccion.help_text }} </span>
+					</div>
+				</div>
+				<div class="col-md-4" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.direccion }}
+					</div>
+				</div>
+            </div>
+			<div class="row">
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.codDepartamento.label_tag }} 
+						<span class="ayuda"> {{ form.codDepartamento.help_text }} </span>
+						{{ form.codDepartamento }} 
+					</div>
+				</div>
+				<div class="col-md-2"></div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						<strong>Municipio</strong><!-- {{ form.codMunicipio.label_tag }} !-->
+						<span class="ayuda">(*) {{ form.codMunicipio.help_text }} </span>
+						{{ form.codMunicipio }}
+					</div>
+				</div>
+            </div>
+			<div class="row">
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.telefono.label_tag }} 
+						<span class="ayuda"> {{ form.telefono.help_text }} </span>
+						{{ form.telefono }} 
+					</div>
+				</div>
+				<div class="col-md-2"></div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.correo.label_tag }}
+						<span class="ayuda"> {{ form.correo.help_text }} </span>
+						{{ form.correo }}
+					</div>
+				</div>
+            </div>
+		</div>
+	</div>
+	<div class="panel panel-info">
+        <div class="panel-body" style="padding-left: 20px; padding-top: 0px;">
+            <h3 class="page-header text-left">B) DE LA FAMILIA</h3>
+			<div class="row">
+				<div class="col-md-3" style="padding-top: 7px;">
+					{{ form.nombrePadre.label_tag }} 
+					<span class="ayuda"> {{ form.nombrePadre.help_text }} </span>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.nombrePadre }} 
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-3" style="padding-top: 7px;">
+					{{ form.nombreMadre.label_tag }}
+					<span class="ayuda"> {{ form.nombreMadre.help_text }} </span>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.nombreMadre }}
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-3" style="padding-top: 7px;">
+					{{ form.nombrePareja.label_tag }} 
+					<span class="ayuda"> {{ form.nombrePareja.help_text }} </span>
+				</div>
+				<div class="col-md-3" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.nombrePareja }} 
+					</div>
+				</div>
+            </div>
+			<div class="row">
+				<div class="col-md-4" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.emergencia.label_tag }} 
+						<span class="ayuda"> {{ form.emergencia.help_text }} </span>
+						{{ form.emergencia }} 
+					</div>
+				</div>
+				<div class="col-md-2"></div>
+				<div class="col-md-4" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.telefonoEmergencia.label_tag }}
+						<span class="ayuda"> {{ form.telefonoEmergencia.help_text }} </span>
+						{{ form.telefonoEmergencia }}
+					</div>
+				</div>
+            </div>			
+		</div>
+	</div>
+    
+    <div class="col-md-offset-2 col-md-10">
+      <button id="save_personalpaciente" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar</button>
+      <a href="{% url 'datospersonales-list' %}" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span> Volver a la lista</a>
+    </div>
+</form>
+{% endblock %}

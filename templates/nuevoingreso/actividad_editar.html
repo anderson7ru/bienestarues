@@ -1,0 +1,38 @@
+<!-- 
+name: actividad_enfermeria-new
+Este es la pagina/formulario donde se ingresan las activiades de enfermeria
+
+!-->
+
+{% extends "layouts/master.html" %}
+
+{% block pageheader %} Actividades de Enfermeria {% endblock %}
+{% block paneltitle %} Ingreso de Actividades de Enfermeria {% endblock %}
+
+{% block panelcontent %}
+<form id="actividad_Form" action="" method="post">{% csrf_token %}
+    <div class="ayuda" style="text-align:right">
+			<p>(*) campos requeridos </p>
+	</div>
+	<div class="panel panel-info">
+        <div class="panel-body" style="padding-left: 20px; padding-top: 0px;">
+            <h3 class="page-header text-left">INGRESE EL NOMBRE DE LA ACTIVIDAD</h3>
+			<div class="row">
+				<div class="col-md-3" style="padding-top: 7px;">
+					{{ form.nombreActividad.label_tag }} 
+					<span class="ayuda"> {{ form.nombreActividad.help_text }} </span>
+				</div>
+				<div class="col-md-8" style="padding-top: 7px;">
+					<div class="form-group">
+						{{ form.nombreActividad }} 
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>    
+    <div class="col-md-offset-9 col-md-10">
+        <button id="save_actividad" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span>Guardar</button>
+           <a href="{% url 'actividades-list' %}" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span>Volver a la lista</a>
+    </div>
+</form>
+{% endblock %}
